@@ -1,0 +1,17 @@
+Copyright (c) 2026 Josué Silva
+
+Este repositório usa duas licenças, conforme o tipo de arquivo. Ambas permitem uso, cópia e
+adaptação, e proíbem o uso comercial.
+
+1. CÓDIGO — PolyForm Noncommercial License 1.0.0
+   Arquivos .py, .sh, .css e os moldes .tpl.html.
+   Texto integral: LICENSE-CODIGO.md
+   https://polyformproject.org/licenses/noncommercial/1.0.0
+
+2. DOCUMENTOS — Creative Commons Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional
+   (CC BY-NC-SA 4.0)
+   Todos os demais arquivos: textos (.md, .json), a aula (.md, .html, .pdf) e as imagens.
+   Texto integral: LICENSE-DOCUMENTOS.txt
+   https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+Required Notice: Copyright (c) 2026 Josué Silva (https://github.com/JsuSilva/consultor-adem)

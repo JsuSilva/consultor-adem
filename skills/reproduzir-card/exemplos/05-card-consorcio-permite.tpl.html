@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Card — Consórcio de imóvel permite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{card.fonte_titulo_url}}:wght@400;500;600;700;800;900&display=swap">
+<style>
+:root{--ink:#0F1419;--g3:{{cor.acento}};--g4:{{cor.acento_escuro}};--g5:{{cor.acento_profundo}};
+  --ouro:linear-gradient(180deg,{{cor.acento_brilho}} 0%,{{cor.acento}} 45%,{{cor.acento_escuro}} 100%);
+  --ouro-escuro:linear-gradient(180deg,{{cor.acento_medio}} 0%,{{cor.acento_escuro}} 45%,{{cor.acento_profundo}} 100%)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1536px;overflow:hidden}
+body{font-family:'{{identidade_visual.fonte_titulo}}',system-ui,sans-serif;color:var(--ink);position:relative;
+  background:linear-gradient(180deg,#FFFFFF 0%,#F4F4F5 35%,#ECEDEE 70%,#E9EAEC 100%)}
+.abs{position:absolute}
+/* curvas de luz */
+.curva{right:-40px;top:380px;width:260px;height:980px}
+/* marca */
+.marca{right:74px;top:52px;width:250px;text-align:center}
+.marca .js{font-size:96px;font-weight:900;line-height:.95;letter-spacing:-.02em;
+  background:var(--ouro-escuro);-webkit-background-clip:text;background-clip:text;color:transparent}
+.marca .nome{display:inline-block;font-size:30px;font-weight:800;line-height:1.1;margin-top:2px}
+.marca .cargo{font-size:16px;font-weight:500;color:#4B5563}
+/* título */
+.t1{left:108px;top:104px;font-size:58px;font-weight:800;line-height:1}
+.t2{left:104px;top:138px;padding-top:30px;font-size:100px;font-weight:900;line-height:1;z-index:2;letter-spacing:-.02em;
+  background:var(--ouro-escuro);-webkit-background-clip:text;background-clip:text;color:transparent}
+.t3{left:106px;top:266px;font-size:92px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.t3-casa{left:596px;top:282px;width:68px;height:68px}
+.pilula{left:92px;top:370px;width:664px;height:58px;transform:skewX(-10deg);border-radius:10px;
+  background:var(--ouro);box-shadow:0 8px 20px rgba({{cor.acento_profundo_rgb}},.28)}
+.pilula-t{left:92px;top:370px;width:664px;height:58px;display:flex;align-items:center;justify-content:center;
+  font-size:30px;font-weight:800;letter-spacing:-.005em}
+/* permite */
+.permite{right:544px;top:520px;line-height:1.06;text-align:right}
+.permite .p1{font-size:38px;font-weight:800}
+.permite .p2{font-size:52px;font-weight:900;letter-spacing:-.01em;
+  background:var(--ouro-escuro);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* foto */
+.foto{left:0;top:588px;width:600px;height:772px;background:url(__FOTO:[[caminho da foto do card]]__) center/cover;
+  -webkit-mask-image:linear-gradient(90deg,#000 62%,transparent 98%),linear-gradient(180deg,transparent 4%,#000 34%);
+  -webkit-mask-composite:source-in;mask-composite:intersect}
+/* lista */
+.item{left:580px;width:430px;height:80px;border-radius:14px 40px 40px 14px;background:#FFFFFF;
+  box-shadow:0 6px 16px rgba(15,20,25,.10);display:flex;align-items:center;
+  border-right:4px solid var(--g4)}
+.ico{width:84px;height:80px;border-radius:14px;background:var(--ouro);display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 -3px 0 rgba({{cor.acento_faixa_rgb}},.25)}
+.ico svg{width:44px;height:44px}
+.tx{margin-left:26px;font-size:23px;font-weight:800;line-height:1.08;letter-spacing:.005em}
+.selo-preco{left:72px;top:670px;width:268px;height:268px;border-radius:50%;background:#0F1419;
+  border:5px solid {{cor.acento}};box-shadow:0 0 0 7px rgba({{cor.acento_rgb}},.28),0 14px 30px rgba(15,20,25,.30);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-8deg);z-index:3}
+.selo-preco .a{font-size:17px;font-weight:700;line-height:1.1;color:#fff;letter-spacing:.04em}
+.selo-preco .v{font-size:58px;font-weight:900;line-height:1;margin-top:4px;letter-spacing:-.02em;
+  background:linear-gradient(180deg,{{cor.acento_claro}} 0%,{{cor.acento_brilho}} 35%,{{cor.acento}} 65%,{{cor.acento_escuro}} 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-top:6px}
+.selo-preco .v small{font-size:.42em;vertical-align:.95em;margin-right:3px}
+.selo-preco .v .ast{font-size:.30em;vertical-align:.95em;margin-left:3px;color:{{cor.acento_brilho}}}
+.selo-preco .m{font-size:22px;font-weight:700;color:#fff;margin-top:-2px}
+.selo-preco .ate{font-size:14px;font-weight:800;letter-spacing:.05em;color:{{cor.acento}};margin-top:3px}
+.selo-preco .r{width:110px;height:1px;background:rgba({{cor.acento_rgb}},.7);margin:7px 0 6px}
+.selo-preco .c{font-size:13px;font-weight:600;line-height:1.25;color:#E5E7EB;letter-spacing:.03em}
+/* rodapé */
+.faixa{left:0;top:1316px;width:1080px;height:220px;background:linear-gradient(180deg,{{cor.acento_brilho}} 0%,{{cor.acento}} 40%,{{cor.acento_escuro}} 100%)}
+.faixa-sombra{left:0;top:1316px;width:1080px;height:14px;background:linear-gradient(180deg,rgba({{cor.acento_faixa_rgb}},.35),transparent)}
+.selo{left:80px;top:1372px;width:100px;height:100px;border-radius:18px;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.selo svg{width:60px;height:60px}
+.slogan{left:206px;top:1374px}
+.slogan .s1{font-size:36px;font-weight:900;line-height:1.02}
+.slogan .s2{font-size:19px;font-weight:600;margin-top:6px}
+.sep{left:640px;top:1370px;width:2px;height:104px;background:rgba(15,20,25,.35)}
+.assin{left:664px;top:1384px;display:flex;align-items:center;gap:16px}
+.assin .js{font-size:66px;font-weight:900;line-height:1;color:var(--ink)}
+.assin .w1 svg{width:34px;height:34px;flex:none}
+.assin .w1{font-size:29px;font-weight:800;line-height:1;letter-spacing:-.01em;display:flex;align-items:center;gap:11px;white-space:nowrap}
+.assin .w2{font-size:22px;font-weight:500;line-height:1.1}
+.condicoes{left:0;top:1494px;width:1080px;text-align:center;font-size:17px;font-weight:600;
+  letter-spacing:.02em;color:rgba(15,20,25,.72)}
+</style></head>
+<body>
+<svg class="abs curva" viewBox="0 0 260 980" fill="none"><path d="M250 0 C120 180 110 420 170 620 C210 760 240 880 250 980" stroke="{{cor.acento}}" stroke-width="5" opacity=".55"/><path d="M250 60 C160 240 150 460 200 640 C230 760 250 860 256 960" stroke="{{cor.acento_escuro}}" stroke-width="2" opacity=".35"/></svg>
+
+<div class="abs marca"><div class="js">{{card.iniciais}}</div><div class="nome">{{card.nome_caixa_alta}}</div><br><div class="cargo">{{consultor.assinatura}}</div></div>
+
+<div class="abs t1">POR QUE O</div>
+<div class="abs t2">CONSÓRCIO</div>
+<div class="abs t3">DE IMÓVEL</div>
+<div class="abs t3-casa"><svg viewBox="0 0 64 64" fill="none" stroke="{{cor.acento_escuro}}" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30L32 8l26 22"/><path d="M12 25v31h40V25"/><path d="M26 56V40h12v16"/></svg></div>
+<div class="abs pilula"></div>
+<div class="abs pilula-t">É UM CANHÃO DE OPORTUNIDADES?</div>
+
+<div class="abs permite"><div class="p1">UM CONSÓRCIO<br>DE IMÓVEL</div><div class="p2">PERMITE:</div></div>
+
+<div class="abs foto"></div>
+<div class="abs selo-preco"><div class="a">PLANOS A<br>PARTIR DE</div><div class="v"><small>R$</small>[[parcela]]<sup class="ast">*</sup></div><div class="m">/mês</div><div class="ate">ATÉ A CONTEMPLAÇÃO</div><div class="r"></div><div class="c">CRÉDITO DE R$ [[crédito]]<br>EM [[prazo]] MESES</div></div>
+
+<div class="abs item" style="top:452px"><div class="ico"><svg viewBox="0 0 64 64" fill="none" stroke="#0F1419" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30L32 8l26 22"/><path d="M12 25v31h40V25"/><path d="M26 56V40h12v16"/></svg></div><div class="tx">COMPRA DE<br>IMÓVEIS</div></div>
+<div class="abs item" style="top:544px"><div class="ico"><svg viewBox="0 0 64 64" fill="none" stroke="#0F1419" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M32 40s14-12 14-23a14 14 0 0 0-28 0c0 11 14 23 14 23z"/><circle cx="32" cy="17" r="5"/><path d="M14 40l-8 16h52l-8-16"/><path d="M20 48h24"/></svg></div><div class="tx">COMPRA DE<br>TERRENO</div></div>
+<div class="abs item" style="top:636px"><div class="ico"><svg viewBox="0 0 64 64" fill="none" stroke="#0F1419" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M44 8a12 12 0 0 0-11 16L10 47a5 5 0 0 0 7 7l23-23a12 12 0 0 0 16-11l-7 4-6-2-2-6z"/><path d="M40 40l14 14M36 44l4-4M46 38l-6-6 4-4 6 6"/><path d="M12 12l10 10M8 16l8-8"/></svg></div><div class="tx">REFORMA &<br>AMPLIAÇÃO</div></div>
+<div class="abs item" style="top:728px"><div class="ico"><svg viewBox="0 0 64 64" fill="none" stroke="#0F1419" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 46h52v6H6z"/><path d="M13 46c0-14 8.5-24 19-24s19 10 19 24"/><path d="M27 22v-6h10v6"/><path d="M23 25l-3 21M41 25l3 21"/></svg></div><div class="tx">CONSTRUÇÃO<br>DE PATRIMÔNIO</div></div>
+<div class="abs item" style="top:820px"><div class="ico"><svg viewBox="0 0 64 64" fill="none" stroke="#0F1419" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="24"/><path d="M32 16v32M39 22c-1.8-2-4.3-3-7-3-4.3 0-7 2.2-7 5.3 0 3.4 3 4.6 7 5.4s7.4 2.2 7.4 5.8c0 3.3-3 5.5-7.4 5.5-3.2 0-5.9-1.2-7.6-3.4"/></svg></div><div class="tx">QUITAR<br>FINANCIAMENTO</div></div>
+<div class="abs item" style="top:912px"><div class="ico"><svg viewBox="0 0 64 64" fill="none" stroke="#0F1419" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M32 6l22 8v16c0 14-9 24-22 28C19 54 10 44 10 30V14z"/><path d="M22 32l7 7 13-14"/></svg></div><div class="tx">PREVIDÊNCIA<br>IMOBILIÁRIA</div></div>
+<div class="abs item" style="top:1004px"><div class="ico"><svg viewBox="0 0 64 64" fill="none" stroke="#0F1419" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 56h52"/><rect x="10" y="40" width="8" height="16"/><rect x="24" y="32" width="8" height="24"/><rect x="38" y="24" width="8" height="32"/><path d="M8 30L26 16l10 7 20-15"/><path d="M48 8h8v8"/></svg></div><div class="tx">INVESTIMENTO<br>NA PLANTA</div></div>
+<div class="abs item" style="top:1096px"><div class="ico"><svg viewBox="0 0 64 64" fill="none" stroke="#0F1419" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 58h52"/><rect x="10" y="22" width="20" height="36"/><rect x="34" y="8" width="20" height="50"/><path d="M15 30h4M21 30h4M15 38h4M21 38h4M15 46h4M21 46h4M39 16h4M45 16h4M39 24h4M45 24h4M39 32h4M45 32h4M39 40h4M45 40h4"/></svg></div><div class="tx">ALUGUEL<br>COMERCIAL</div></div>
+<div class="abs item" style="top:1188px"><div class="ico"><svg viewBox="0 0 64 64" fill="none" stroke="#0F1419" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 54h34"/><rect x="10" y="38" width="7" height="16"/><rect x="22" y="30" width="7" height="24"/><path d="M12 26l12-10 8 6 14-12"/><path d="M40 10h6v6"/><circle cx="48" cy="42" r="11"/><path d="M48 35v14M52 38c-1-1.5-2.5-2-4-2-2.5 0-4 1.2-4 3s1.5 2.5 4 3 4 1.2 4 3-1.5 3-4 3c-1.8 0-3.2-.6-4-2"/></svg></div><div class="tx">POUPANÇA<br>COMPROMISSO</div></div>
+
+<div class="abs faixa"></div><div class="abs faixa-sombra"></div>
+<div class="abs selo"><svg viewBox="0 0 64 64" fill="none" stroke="{{cor.acento}}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30L32 8l26 22"/><path d="M12 25v31h40V25"/><path d="M26 56V40h12v16"/></svg></div>
+<div class="abs slogan"><div class="s1">CONSTRUA SEU<br>PATRIMÔNIO</div><div class="s2">COM PLANEJAMENTO.</div></div>
+<div class="abs sep"></div>
+<div class="abs assin"><div class="js">{{card.iniciais}}</div><div><div class="w1"><svg viewBox="0 0 64 64"><circle cx="32" cy="31" r="25" fill="none" stroke="#0F1419" stroke-width="5"/><path d="M12 56l4-13" stroke="#0F1419" stroke-width="5" stroke-linecap="round"/><path fill="#0F1419" d="M24.5 19.5c1-.9 2.6-.8 3.3.3l2.6 4.3c.5.9.3 2-.4 2.7l-1.6 1.5c1.4 3.2 3.9 5.8 7.3 7.3l1.5-1.6c.7-.8 1.8-.9 2.7-.4l4.3 2.6c1.1.7 1.3 2.3.3 3.3l-2 2c-1.6 1.6-4 2.1-6.1 1.2-6.6-2.7-11.8-7.9-14.5-14.5-.9-2.1-.4-4.5 1.2-6.1z"/></svg>{{consultor.telefone}}</div><div class="w2">{{consultor.site}}</div></div></div>
+<script>
+document.fonts.ready.then(()=>{
+  const nome=document.querySelector('.marca .nome'), cargo=document.querySelector('.marca .cargo');
+  cargo.style.display='inline-block'; cargo.style.whiteSpace='nowrap';
+  const n=cargo.textContent.length, falta=nome.getBoundingClientRect().width-cargo.getBoundingClientRect().width;
+  const ls=falta/n; cargo.style.letterSpacing=ls+'px'; cargo.style.marginRight=(-ls)+'px';
+});
+</script>
+<div class="abs condicoes">*Parcela e crédito do grupo [[número do grupo]] · sujeitos a reajuste anual</div>
+</body></html>

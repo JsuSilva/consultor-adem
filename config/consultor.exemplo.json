@@ -1,0 +1,75 @@
+{
+  "_comentario": "Modelo. A skill `configuracao` copia para config/consultor.json (fora do Git) e preenche com você. Campo null = ainda não informado; script que depender dele para com aviso, nunca inventa.",
+
+  "consultor": {
+    "nome": null,
+    "nome_curto": null,
+    "telefone": null,
+    "email": null,
+    "cidade": null,
+    "uf": null,
+    "site": null,
+    "instagram": null,
+    "credenciais": [],
+    "assinatura": null,
+    "foto": null
+  },
+
+  "administradora": {
+    "nome": null,
+    "unidade": null,
+    "crm": {
+      "usa_apollo": false,
+      "url_unidade": null
+    }
+  },
+
+  "identidade_visual": {
+    "acento": null,
+    "acento_brilho": null,
+    "fundo_padrao": "escuro",
+    "fonte_titulo": null,
+    "fonte_texto": null,
+    "logo": null
+  },
+
+  "produto": {
+    "_fonte": "documento e data de onde cada valor saiu — sem fonte, o número não entra",
+    "linhas": {
+      "imovel":   {"taxa_administracao": null, "fundo_reserva": null, "prazo_meses": null, "indice_reajuste": null, "credito_min": null, "credito_max": null},
+      "auto":     {"taxa_administracao": null, "fundo_reserva": null, "prazo_meses": null, "indice_reajuste": null, "credito_min": null, "credito_max": null},
+      "pesados":  {"taxa_administracao": null, "fundo_reserva": null, "prazo_meses": null, "indice_reajuste": null, "credito_min": null, "credito_max": null},
+      "moto":     {"taxa_administracao": null, "fundo_reserva": null, "prazo_meses": null, "indice_reajuste": null, "credito_min": null, "credito_max": null},
+      "servicos": {"taxa_administracao": null, "fundo_reserva": null, "prazo_meses": null, "indice_reajuste": null, "credito_min": null, "credito_max": null}
+    },
+    "seguro_mensal": null,
+    "taxa_adesao": null,
+    "lance": {
+      "modalidades": [],
+      "embutido_maximo": null
+    }
+  },
+
+  "comissao": {
+    "_fonte": null,
+    "faixas": [
+      {"nome": null, "percentual": null, "condicao": null}
+    ],
+    "parcelas": null
+  },
+
+  "mercado": {
+    "_fonte": "taxa e data de consulta de cada valor",
+    "juros_imobiliario_am": null,
+    "juros_cdc_veiculo_am": null,
+    "juros_cdc_pesados_am": null,
+    "juros_finame_am": null
+  },
+
+  "operacao": {
+    "placar": {
+      "grupo": null,
+      "horario": null
+    }
+  }
+}

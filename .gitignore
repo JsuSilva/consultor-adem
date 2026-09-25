@@ -1,0 +1,39 @@
+# Configuração pessoal — cada consultor tem a sua, nunca sobe para o repositório compartilhado
+config/consultor.json
+config/*.local.*
+config/foto.*
+config/logo.*
+
+# Dados de cliente e lead — NUNCA commitar (LGPD)
+dados/*
+!dados/.gitkeep
+
+# Peças geradas — levam nome, telefone e números de cada um
+saida/*
+!saida/.gitkeep
+
+# Segredos e credenciais
+.env
+.env.*
+*.pem
+*.key
+credentials*.json
+
+# Documentos brutos (defesa em profundidade)
+*.pdf
+*.xlsx
+*.xls
+*.docx
+*.csv
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+__pycache__/
+node_modules/
+*.tmp
+*.bak
+
+# A aula vai como documento pronto
+!apresentacao/**/*.pdf

@@ -1,0 +1,215 @@
+/* @theme latao */
+/* @size a4 794px 1123px */
+/* Gerado por scripts/gerar-tema-aula.py a partir de scripts/design.py — não editar à mão. */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+section {
+  width: 1280px;
+  height: 720px;
+  padding: 56px 80px;
+  background: #000;
+  color: #F9FAFB;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 40px;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h1, h2, h3 { font-family: Poppins, system-ui, sans-serif; margin: 0 0 .35em; line-height: 1.15; }
+h1 { font-size: 80px; font-weight: 700; color: #D9A441; }
+h2 { font-size: 54px; font-weight: 600; color: #F9FAFB; }
+h3 { font-size: 38px; font-weight: 500; color: #9CA3AF; }
+p { margin: 0 0 .5em; }
+strong { color: #D9A441; font-weight: 600; }
+em { color: #9CA3AF; font-style: normal; }
+del { color: #6B7280; }
+ul, ol { margin: 0; padding-left: 1.1em; }
+li { margin: .2em 0; }
+li::marker { color: #B4832B; }
+
+/* o pedido ao gênio: bloco de prompt */
+pre {
+  background: #0F1419;
+  border: 1px solid #1F2937;
+  border-left: 4px solid #B4832B;
+  border-radius: 8px;
+  padding: 20px 26px;
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 25px;
+  line-height: 1.38;
+}
+pre code {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  display: block;
+  font-size: 25px;
+  line-height: 1.38;
+  color: #E5E7EB;
+  background: none;
+}
+code { font-family: 'IBM Plex Mono', ui-monospace, monospace; color: #D9A441; }
+
+blockquote {
+  margin: 0;
+  padding: 18px 26px;
+  border-left: 4px solid #6B7280;
+  background: #0F1419;
+  border-radius: 8px;
+  color: #E5E7EB;
+  font-size: 32px;
+}
+
+img { background: transparent; }
+
+section::after {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 16px;
+  color: #6B7280;
+}
+
+/* colunas lado a lado: <div class="colunas"><div>…</div><div>…</div></div> */
+.colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.rotulo {
+  font-family: Poppins, system-ui, sans-serif;
+  font-size: 24px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: #9CA3AF; margin-bottom: 12px;
+}
+.rotulo.sabio { color: #D9A441; }
+.pequeno { font-size: 30px; color: #9CA3AF; }
+.problema { color: #D9A441; text-decoration: underline wavy #B4832B; text-underline-offset: 6px; }
+
+/* capa */
+section.capa { justify-content: flex-end; }
+section.capa h1 {
+  font-size: 104px; font-weight: 800;
+  background: linear-gradient(180deg, #F2DCA8 0%, #D9A441 55%, #B4832B 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+section.capa::after { display: none; }
+
+/* pergunta grande, centralizada */
+section.pergunta { align-items: center; text-align: center; }
+section.pergunta h1 { font-size: 112px; font-weight: 800; }
+
+/* frase-mote */
+section.mote { align-items: center; text-align: center; background: radial-gradient(ellipse at center, #2B1E09 0%, #000 70%); }
+section.mote p { font-family: Poppins, system-ui, sans-serif; font-size: 60px; font-weight: 600; line-height: 1.28; max-width: 1100px; }
+section.mote strong { color: #D9A441; }
+
+/* transição entre as duas peças */
+section.ponte { align-items: center; text-align: center; border-top: 6px solid #B4832B; }
+
+/* slide com ilustração grande */
+section.imagem { padding: 40px 72px; }
+section.imagem img { display: block; margin: 0 auto; }
+section.imagem h2 { text-align: center; font-size: 48px; margin: 16px 0 0; }
+
+/* ── folha impressa A4, clara ────────────────────────────────── */
+section.folha {
+  width: 794px; height: 1123px;
+  padding: 16mm 17mm;
+  background: #fff;
+  color: #0F1419;
+  font-size: 10.5pt;
+  line-height: 1.45;
+  justify-content: flex-start;
+}
+section.folha h1 { font-size: 22pt; color: #8F661F; margin-bottom: 2mm; }
+section.folha h2 { font-size: 13pt; color: #0F1419; margin: 5mm 0 1.5mm; }
+section.folha h3 { font-size: 10.5pt; color: #4B5563; margin: 0 0 3mm; font-weight: 500; }
+section.folha strong { color: #8F661F; }
+section.folha code { color: #8F661F; }
+section.folha em { color: #4B5563; }
+section.folha li::marker { color: #8F661F; }
+section.folha pre { font-size: 8.8pt; line-height: 1.45; background: #F3F4F6; border: 1px solid #E5E7EB; border-left: 3px solid #B4832B; padding: 3mm 4mm; border-radius: 4px; }
+section.folha pre code { font-size: 8.8pt; color: #0F1419; line-height: 1.45; }
+section.folha blockquote { background: #F3F4F6; color: #0F1419; font-size: 10.5pt; border-left-color: #B4832B; padding: 3mm 5mm; }
+section.folha::after { display: none; }
+section.folha .semana { border-top: 1px solid #E5E7EB; padding-top: 3mm; margin-top: 4mm; }
+section.folha .semana ul { list-style: none; padding-left: 0; }
+section.folha .duas-colunas pre code { column-count: 2; column-gap: 8mm; column-rule: 1px solid #E5E7EB; font-size: 8pt; line-height: 1.35; }
+section.folha .caixa { display: inline-block; width: 4mm; height: 4mm; border: 1px solid #4B5563; margin-right: 2mm; vertical-align: -0.5mm; }
+/* ── deck visual: ícone e foto no lugar do texto ─────────────── */
+section.centro { align-items: center; text-align: center; }
+.gigante { font-family: Poppins, system-ui, sans-serif; font-size: 200px; font-weight: 800; color: #D9A441; line-height: 1; letter-spacing: -.02em; }
+.icones { display: flex; justify-content: center; align-items: flex-start; gap: 56px; width: 100%; }
+.icone { display: flex; flex-direction: column; align-items: center; gap: 18px; font-family: Poppins, system-ui, sans-serif; font-size: 34px; font-weight: 600; color: #F9FAFB; line-height: 1.1; text-align: center; }
+.icone img { width: 180px; height: 180px; }
+.icone.grande img { width: 250px; height: 250px; }
+.icone small { font-size: 26px; font-weight: 500; color: #9CA3AF; }
+.seta { font-family: Poppins, system-ui, sans-serif; font-size: 72px; color: #6B7280; align-self: center; }
+.selo { display: inline-block; font-family: Poppins, system-ui, sans-serif; font-size: 30px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #D9A441; border: 2px solid #B4832B; border-radius: 999px; padding: 8px 28px; }
+.dia { display: flex; gap: 14px; justify-content: center; margin-top: 40px; }
+.dia span { width: 150px; padding: 14px 0; border-radius: 10px; background: linear-gradient(180deg, #D9A441, #B4832B); color: #0F1419; font-family: Poppins, system-ui, sans-serif; font-size: 28px; font-weight: 700; text-align: center; }
+.lado { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; width: 100%; }
+.lado > div { display: flex; flex-direction: column; gap: 22px; }
+.cartao { background: #0F1419; border: 1px solid #1F2937; border-radius: 14px; padding: 22px 26px; font-size: 28px; line-height: 1.35; color: #E5E7EB; }
+.cartao.ruim { border-left: 6px solid #6B7280; }
+.cartao.bom { border-left: 6px solid #D9A441; }
+.tags { display: flex; flex-wrap: wrap; gap: 10px; }
+.tags span { font-family: Poppins, system-ui, sans-serif; font-size: 22px; font-weight: 600; color: #0F1419; background: #D9A441; border-radius: 999px; padding: 6px 16px; }
+.tempo { display: grid; grid-template-columns: 90px 70px 1fr; align-items: center; gap: 10px 18px; font-family: Poppins, system-ui, sans-serif; font-size: 30px; font-weight: 600; }
+.tempo b { color: #D9A441; font-size: 30px; }
+.tempo img { width: 60px; height: 60px; }
+section.foto h1, section.foto .gigante { text-shadow: 0 4px 40px rgba(0,0,0,.8); }
+.riscado { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 38px; color: #9CA3AF; text-decoration: line-through; text-decoration-color: #D9A441; text-decoration-thickness: 5px; }
+/* ── imagem gerada de fundo com frase ─────────────────────────── */
+section.cena { justify-content: flex-end; padding: 56px 72px; }
+section.cena.centro { justify-content: center; align-items: center; text-align: center; }
+/* véu escuro atrás da frase: <div class="veu"></div> como primeiro elemento do slide.
+   Pseudo-elemento não serve: com imagem de fundo o Marp desenha ::before por cima do texto. */
+.veu { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,.5) 45%, rgba(0,0,0,0) 72%); }
+section.cena.baixo .veu { background: linear-gradient(0deg, rgba(0,0,0,.92) 0%, rgba(0,0,0,.6) 38%, rgba(0,0,0,0) 68%); }
+section.cena > *:not(.veu) { position: relative; z-index: 1; }
+section.cena .selo, section.cena .gigante { align-self: flex-start; }
+.frase { font-family: Poppins, system-ui, sans-serif; font-size: 66px; font-weight: 700; line-height: 1.12; color: #F9FAFB; max-width: 720px; text-shadow: 0 4px 30px rgba(0,0,0,.7); }
+.frase.larga { max-width: 1120px; }
+.frase strong { color: #D9A441; }
+.sub { font-family: Poppins, system-ui, sans-serif; font-size: 32px; font-weight: 500; color: #E5E7EB; margin-top: 14px; max-width: 1000px; text-shadow: 0 2px 20px rgba(0,0,0,.8); }
+.faixa-icones { display: flex; gap: 34px; margin-top: 30px; }
+.faixa-icones .icone { font-size: 24px; gap: 8px; }
+.faixa-icones .icone img { width: 84px; height: 84px; }
+
+/* cartões com imagem (personalização, skill, agente) */
+.tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; width: 100%; }
+.tres figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.tres img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 16px; border: 1px solid #1F2937; }
+.tres figcaption { font-family: Poppins, system-ui, sans-serif; font-size: 40px; font-weight: 700; color: #D9A441; line-height: 1; }
+.tres figcaption small { display: block; margin-top: 8px; font-size: 26px; font-weight: 500; color: #9CA3AF; text-align: center; }
+
+/* glossário */
+.glossario { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 22px; width: 100%; }
+.termo { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 4px 16px; background: #0F1419; border: 1px solid #1F2937; border-radius: 14px; padding: 16px 18px; }
+.termo img { grid-row: span 2; width: 64px; height: 64px; }
+.termo b { font-family: Poppins, system-ui, sans-serif; font-size: 27px; font-weight: 700; color: #D9A441; line-height: 1.05; }
+.termo span { font-size: 21px; color: #E5E7EB; line-height: 1.2; }
+
+/* passo a passo */
+.passos { display: flex; flex-direction: column; gap: 26px; width: 100%; }
+.passo { display: grid; grid-template-columns: 72px 96px 1fr; align-items: center; gap: 22px; }
+.passo .n { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(180deg, #D9A441, #B4832B); color: #0F1419; font-family: Poppins, system-ui, sans-serif; font-size: 38px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.passo img { width: 96px; height: 96px; }
+.passo div { font-family: Poppins, system-ui, sans-serif; font-size: 36px; font-weight: 600; color: #F9FAFB; line-height: 1.15; }
+.passo div code { font-size: 32px; }
+.passo div small { display: block; font-family: Inter, system-ui, sans-serif; font-size: 24px; font-weight: 400; color: #9CA3AF; margin-top: 4px; }
+.cabeca { display: flex; align-items: baseline; gap: 24px; margin-bottom: 30px; }
+.cabeca .selo { font-size: 24px; white-space: nowrap; }
+/* caso calculadora × calculista */
+.prompt-medio pre code { font-size: 21px; line-height: 1.3; }
+.lista-curta { margin-top: 18px; padding-left: 1em; font-size: 28px; color: #E5E7EB; }
+.lista-curta li { margin: 8px 0; }
+.tabela-curta table { width: 100%; border-collapse: collapse; font-size: 24px; }
+.tabela-curta th, .tabela-curta td { text-align: left; padding: 12px 16px; border-bottom: 1px solid #1F2937; vertical-align: top; }
+.tabela-curta th { font-family: Poppins, system-ui, sans-serif; font-weight: 600; color: #9CA3AF; background: transparent; }
+.tabela-curta td:first-child { color: #9CA3AF; font-size: 20px; text-transform: uppercase; letter-spacing: .08em; width: 20%; }
+.tabela-curta tr { background: transparent !important; }
+.tabela-curta code { font-size: 17px; }
+/* prompt longo, entregue pronto: duas colunas e letra menor para caber no slide */
+section.denso { padding: 26px 48px; justify-content: flex-start; }
+section.denso .cabeca { margin-bottom: 14px; }
+section.denso h2 { font-size: 40px; }
+.prompt-denso pre { font-size: 15px; padding: 12px 20px; }
+.prompt-denso pre code { font-size: 15px; line-height: 1.25; column-count: 2; column-gap: 44px; column-rule: 1px solid #1F2937; }
