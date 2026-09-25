@@ -13,10 +13,10 @@ Molde: `../exemplos/05-card-consorcio-permite.tpl.html` (campanha, fundo claro, 
 | Item 3 | REFORMA & / AMPLIAÇÃO |
 | Item 4 | CONSTRUÇÃO / DE PATRIMÔNIO |
 | Item 5 | QUITAR / FINANCIAMENTO |
-| Item 6 | PREVIDÊNCIA / IMOBILIÁRIA |
-| Item 7 | INVESTIMENTO / NA PLANTA |
+| Item 6 | SEGUNDO / IMÓVEL |
+| Item 7 | IMÓVEL / NA PLANTA |
 | Item 8 | ALUGUEL / COMERCIAL |
-| Item 9 | POUPANÇA / COMPROMISSO |
+| Item 9 | COMPRA / PLANEJADA |
 | Selo | PLANOS A / PARTIR DE / R$ `{parcela}` / /mês / ATÉ A CONTEMPLAÇÃO / CRÉDITO DE R$ `{crédito}` / EM `{prazo}` MESES — redondo, escuro, borda no acento, sobre a foto |
 | Condições | *Parcela e crédito do grupo `{número do grupo}` · sujeitos a reajuste anual |
 | Rodapé | CONSTRUA SEU / PATRIMÔNIO — COM PLANEJAMENTO. |

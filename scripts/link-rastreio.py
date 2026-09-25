@@ -11,8 +11,8 @@ andamento.
 Por que existe: analytics conta visita, não pessoa. Quando o consultor já está falando com
 alguém no WhatsApp e manda uma página como retomada, o que interessa é saber se **aquela**
 pessoa abriu. O código vai no link (`<site>/l/<código>`); o site grava a abertura e
-redireciona. ⚠️ Essa rota `/l/<código>` e a lista de aberturas moram no site do consultor e
-não fazem parte deste repositório — por isso o script entrega o código, não o link pronto.
+redireciona. A rota `/l/<código>` e a lista de aberturas moram no site do consultor e não
+fazem parte deste repositório — o script entrega o código, não o link pronto.
 
 **O código é derivado do telefone, e não volta a ser telefone.** É um hash curto com um
 segredo local: mesmo telefone dá sempre o mesmo código, e quem vir o código não descobre o

@@ -16,8 +16,8 @@ description: Configura do zero e opera anúncios na Meta (Facebook e Instagram) 
 1. **Nada que gasta verba ou mexe em gente real sem o "sim" do consultor naquela rodada.** Ativar
    anúncio, mudar orçamento, impulsionar post e subir público com dado pessoal — cada um pede o seu
    "sim". "Sim" de rodada anterior, de outra campanha ou deste documento não vale.
-2. **Teto diário é trava dura.** `anuncios.teto_diario_brl` vazio = nenhuma ativação. Pedido acima
-   do teto = recusa; o agente não sobe o teto, só o consultor, editando a configuração.
+2. **Teto diário é trava dura.** `anuncios.teto_diario_brl` vazio = nenhuma ativação. O teto vale
+   para a **soma** de todo o orçamento ativo da conta mais o pedido; soma acima do teto = recusa; o agente não sobe o teto, só o consultor, editando a configuração.
 3. **Toda peça passa pela régua** de `conhecimento/regras-e-compliance/02-compliance-e-limites-do-discurso.md`
    antes de subir: consórcio não é investimento, nenhuma promessa de contemplação, data ou chance.
 4. **Não decide pelo consultor** (Regra nº 1 do `AGENTS.md`): objetivo da campanha, público, verba,
@@ -200,9 +200,12 @@ Vale para ativar campanha, conjunto ou anúncio, mudar orçamento e impulsionar 
 
 1. **Ler o teto** em `config/consultor.json` → `anuncios.teto_diario_brl`.
    Vazio → parar: "sem teto definido, não ativo nada; defina o teto pela skill `configuracao`".
-2. **Somar a verba diária** que ficará ativa na conta depois da ação: o que já está rodando
-   (ler com `ads_get_ad_entities`) **mais** o orçamento pedido. ⚠️ Orçamento vitalício: convenção
-   proposta, a confirmar com o consultor — total ÷ dias do período. Mostrar a conta.
+2. **Somar a verba diária** que ficará ativa na conta depois da ação: **todo** o orçamento já ativo
+   na conta (ler com `ads_get_ad_entities`) **mais** o orçamento pedido. É essa soma — nunca o
+   pedido sozinho — que se compara com o teto. **Orçamento vitalício** entra na soma como
+   total ÷ número de dias da veiculação. Mostrar a conta e avisar o consultor: dentro do vitalício,
+   a Meta pode gastar mais num dia e menos em outro, então o gasto de um dia pode passar do valor
+   médio que entrou na soma.
 3. **Mostrar ao consultor, lado a lado:**
    ```
    Teto diário:           R$ <teto>

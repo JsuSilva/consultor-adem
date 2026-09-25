@@ -97,6 +97,10 @@ ULTIMO_GANHO = max((m for m, v in enumerate(VP, 1) if v > 0), default=0)
 ULTIMO_5MIL = max((m for m, v in enumerate(VP, 1) if v > 5000), default=0)
 EQUILIBRIO = next((m + v / (v - VP[m]) for m, v in enumerate(VP, 1)
                    if m < N_MESES and v > 0 >= VP[m]), float(ULTIMO_GANHO))
+# o desembolso nominal: negativo em todos os meses, em alguns, ou em nenhum
+NOM_NEGATIVOS = sum(1 for v in NOM if v < 0)
+# a sugestão sai da conta: o ganho a valor presente precisa alcançar a maturação declarada
+TROCA_CABE = ULTIMO_GANHO >= MATURACAO
 
 def esc(s): return html.escape(str(s), quote=True)
 
@@ -154,8 +158,13 @@ def grafico(larg=1000, alt=340):
     p.append(f'<text x="{X(EQUILIBRIO)+12:.1f}" y="{mt+H-12}" class="lb">A PARTIR DO MÊS {ULTIMO_GANHO + 1}, PERDE</text>')
     p.append(f'<text x="{X(1)+12:.1f}" y="{Y(VP[0])-12:.1f}" class="lb on">'
              f'VALOR PRESENTE · {brl(VP[0])} NO MÊS 1</text>')
-    p.append(f'<text x="{X(12):.1f}" y="{Y(NOM[11])+26:.1f}" class="lb dim">'
-             f'DESEMBOLSO · NEGATIVO EM QUALQUER MÊS</text>')
+    if NOM_NEGATIVOS == N_MESES:
+        rot_nom = "DESEMBOLSO · NEGATIVO EM QUALQUER MÊS"
+    elif NOM_NEGATIVOS == 0:
+        rot_nom = "DESEMBOLSO · POSITIVO EM QUALQUER MÊS"
+    else:
+        rot_nom = f"DESEMBOLSO · NEGATIVO EM {NOM_NEGATIVOS} DE {N_MESES} MESES"
+    p.append(f'<text x="{X(12):.1f}" y="{Y(NOM[11])+26:.1f}" class="lb dim">{rot_nom}</text>')
 
     return (f'<svg class="g" viewBox="0 0 {larg} {alt}" width="{larg}" height="{alt}" role="img" '
             f'aria-label="Ganho da troca pelo consórcio por mês de contemplação">{"".join(p)}</svg>')
@@ -172,7 +181,8 @@ LINHAS = [
     ("Custo sobre os R$ 79 mil",   "R$ 2.172 · 2,75%",        "R$ 29.000 · 36,71%",       "c"),
     ("Saldo para quitar hoje · 2 parcelas pagas", "R$ 74.408",               "R$ 78.049",                ""),
     ("Juros que a quitação evita · nominal / valor presente", "R$ 0 / −R$ 8.570", "R$ 23.951 / R$ 6.796", "c"),
-    ("Troca pelo consórcio",       "não vale",                f"só com contemplação até o mês {ULTIMO_GANHO}", "f"),
+    ("Troca pelo consórcio",       "não vale",
+     f"só com contemplação até o mês {ULTIMO_GANHO}" if ULTIMO_GANHO else "não vale", "f"),
 ]
 
 CONS = [
@@ -187,7 +197,47 @@ CONS = [
 ]
 
 
+def faixa():
+    """Título e texto da sugestão, derivados da série — se a conta mudar, o texto muda."""
+    if ULTIMO_GANHO == 0:
+        ganho = "Em 36 meses <b>a troca não ganha em nenhum mês de contemplação</b>, nem trazendo os valores a hoje."
+    else:
+        ganho = (f"Em 36 meses <b>o ganho só existe se a contemplação sair até o mês {ULTIMO_GANHO}</b>"
+                 + (f" — bem antes da maturação do grupo, estimada em {MATURACAO} meses. O horizonte do "
+                    f"ganho não cabe no prazo de maturação do grupo." if not TROCA_CABE else
+                    f" — horizonte que alcança a maturação do grupo, estimada em {MATURACAO} meses, "
+                    f"premissa sem medição estatística; o consórcio não tem data de contemplação."))
+    if NOM_NEGATIVOS == N_MESES:
+        nominal = (f" Em dinheiro que sai do bolso, com o reajuste, <b>a troca custa mais em qualquer "
+                   f"mês</b>: ela troca {RESTAM_FIN} meses de dívida por um plano de {PRAZO} meses.")
+    elif NOM_NEGATIVOS:
+        nominal = (f" Em dinheiro que sai do bolso, com o reajuste, a troca custa mais em "
+                   f"{NOM_NEGATIVOS} dos {N_MESES} meses de contemplação: ela troca {RESTAM_FIN} meses "
+                   f"de dívida por um plano de {PRAZO} meses.")
+    else:
+        nominal = ""
+    if TROCA_CABE:
+        titulo = "Sugestão: a troca pode valer — com uma condição."
+    else:
+        titulo = "Sugestão: não trocar pelo consórcio."
+    return titulo, "Em 24 meses não há o que ganhar. " + ganho + nominal
+
+
+def destaque_36():
+    """Destaque do cenário de 36 meses — sem "mês 0" quando a troca não ganha em mês nenhum."""
+    if ULTIMO_GANHO == 0:
+        return ("Não vale", "em 36 meses: a troca não ganha em nenhum mês de contemplação, trazendo os "
+                "valores a hoje pelo CDI e com reajuste")
+    acima = (f"Ganho acima de R$ 5 mil só até o mês {ULTIMO_5MIL}" if ULTIMO_5MIL
+             else "O ganho não passa de R$ 5 mil em nenhum mês")
+    return (f"Até o mês {ULTIMO_GANHO}",
+            "em 36 meses: último mês de contemplação em que a troca ainda ganha, trazendo os valores "
+            f"a hoje pelo CDI e com reajuste. {acima}")
+
+
 def main():
+    faixa_q, faixa_p = faixa()
+    d36_v, d36_r = destaque_36()
     linhas = "".join(f'<tr class="{c}"><td class="k">{esc(r)}</td><td class="v a">{esc(a)}</td>'
                      f'<td class="v b">{esc(b)}</td></tr>' for r, a, b, c in LINHAS)
     cons = "".join(f"<li><b>{esc(t)}</b>{esc(d)}</li>" for t, d in CONS)
@@ -212,9 +262,8 @@ def main():
   <div class="kpi"><span class="v">Não vale</span>
     <span class="r">em 24 meses: juros zero, nada a economizar — nem trazendo os valores a hoje, em
     nenhum mês de contemplação. A troca acrescentaria os {pct(K)} do consórcio</span></div>
-  <div class="kpi on"><span class="v">Até o mês {ULTIMO_GANHO}</span>
-    <span class="r">em 36 meses: último mês de contemplação em que a troca ainda ganha, trazendo os
-    valores a hoje pelo CDI e com reajuste. Ganho acima de R$ 5 mil só até o mês {ULTIMO_5MIL}</span></div>
+  <div class="kpi on"><span class="v">{d36_v}</span>
+    <span class="r">{d36_r}</span></div>
   <div class="kpi"><span class="v">{brl(ESPERA)}</span>
     <span class="r">por mês enquanto não contempla: parcela do carro mais a reduzida do consórcio.
     Cada mês de espera reduz o ganho</span></div>
@@ -242,11 +291,8 @@ def main():
 </div>
 
 <div class="faixa">
-  <p class="q">Sugestão: não trocar pelo consórcio.</p>
-  <p>Em 24 meses não há o que ganhar. Em 36 meses <b>o ganho só existe se a contemplação sair até o
-  mês {ULTIMO_GANHO}</b> — bem antes da maturação do grupo, estimada em {MATURACAO} meses. O horizonte do ganho não
-  cabe no prazo de maturação do grupo. Em dinheiro que sai do bolso, com o reajuste, <b>a troca custa
-  mais em qualquer mês</b>: ela troca {RESTAM_FIN} meses de dívida por um plano de {PRAZO} meses.</p>
+  <p class="q">{faixa_q}</p>
+  <p>{faixa_p}</p>
 </div>
 
 <div class="ficha">

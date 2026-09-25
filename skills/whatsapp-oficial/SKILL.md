@@ -76,7 +76,7 @@ Faltando qualquer um: parar, dizer qual falta e o link; não seguir.
    número pessoal da prospecção** sem o consultor confirmar isso na documentação; perder o número
    do dia a dia seria pior que não ter o canal oficial.
 6. **Token de usuário do sistema**, se o consultor quiser um para scripts: a ferramenta gera; o
-   consultor cola em `.env` (⚠️ nome da variável a definir, fora do Git). O agente não repete o token no
+   consultor cola em `.env` (fora do Git), na variável `WHATSAPP_TOKEN`. O agente não repete o token no
    chat nem o grava em outro lugar.
 
 ## O que faz
@@ -98,8 +98,11 @@ Faltando qualquer um: parar, dizer qual falta e o link; não seguir.
 3. Mostrar ao consultor: template (ou texto), variáveis preenchidas, destinatário(s), quantidade.
 4. Esperar o **"sim"** daquela rodada. Sem ele, nada sai.
 5. Enviar e ler de volta o status de cada mensagem; relatar falhas sem reenviar por conta própria.
-6. ⚠️ Proposta, a confirmar com o consultor: registrar em `dados/ativacoes.csv` como a skill `whatsapp-web` faz (mesmas colunas e mesma
-   regra de `status`), para o placar do dia e o `--pular` da próxima fila enxergarem o contato.
+6. **Registrar cada envio em `dados/ativacoes.csv`**, no mesmo formato da skill `whatsapp-web`
+   (mesmas colunas — `data_hora, telefone, nome, segmento, abordagem, status`, mais a `obs` — e
+   mesma regra de `status`), com o canal indicado na `obs`: `canal: whatsapp-oficial`. É o que faz
+   o placar do dia e o `--pular` da próxima fila enxergarem o contato. Envio sem linha some do
+   histórico.
 
 ## WhatsApp Web × Cloud API oficial — quando usar cada uma
 
@@ -113,8 +116,8 @@ Faltando qualquer um: parar, dizer qual falta e o link; não seguir.
 | Cadência | doc de cadência | o mesmo doc de cadência |
 | Uso indicado | prospecção ativa e conversa do dia a dia | montar e testar o canal oficial: templates, webhooks, número da empresa |
 
-- ⚠️ Proposta, a confirmar com o consultor — **uma pessoa, um canal por vez.** O mesmo lead não recebe mensagem pelos dois lados na mesma
-  cadência — o toque conta uma vez só e a pessoa não deve ver dois remetentes.
+- **Uma pessoa, um canal por vez.** O mesmo lead não recebe mensagem pelos dois WhatsApps (Web e
+  oficial) na mesma cadência — o toque conta uma vez só e a pessoa não deve ver dois remetentes.
 - Migrar a prospecção para a Cloud API é **decisão do consultor**; hoje o aviso da Meta exclui envio
   em escala.
 

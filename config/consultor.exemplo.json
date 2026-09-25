@@ -3,6 +3,8 @@
   "consultor": {
     "nome": null,
     "nome_curto": null,
+    "cargo": null,
+    "vinculo": null,
     "telefone": null,
     "email": null,
     "cidade": null,
@@ -96,12 +98,16 @@
     "juros_imobiliario_am": null,
     "juros_cdc_veiculo_am": null,
     "juros_cdc_pesados_am": null,
-    "juros_finame_am": null
+    "juros_finame_am": null,
+    "incc_12m": null
   },
   "operacao": {
     "placar": {
       "grupo": null,
-      "horario": null
+      "horario": null,
+      "minimo_contatos": null,
+      "minimo_agendadas": null,
+      "formato": null
     }
   },
   "anuncios": {

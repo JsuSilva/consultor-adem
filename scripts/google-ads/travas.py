@@ -4,8 +4,12 @@ Travas de gasto — o que separa o agente de um anúncio no ar.
 1. Teto: `anuncios.teto_diario_brl` em config/consultor.json. Sem teto, nada que envolva
    orçamento roda. Orçamento acima do teto é recusado, sem exceção nem flag para pular.
 2. Moeda: o teto é em reais; conta em outra moeda é recusada.
-3. Confirmação por rodada: ativar e mudar orçamento exigem terminal interativo e o NOME EXATO da
-   campanha digitado pelo consultor. Entrada vinda de pipe (echo ... |) é recusada.
+3. Teto somado: ativar e mudar orçamento somam o orçamento diário de TODAS as campanhas ativas
+   (ENABLED) da conta — orçamento compartilhado conta uma vez só — com o orçamento pedido, e
+   recusam se a soma passar do teto.
+4. Confirmação por rodada: ativar e mudar orçamento exigem terminal interativo e o NOME EXATO da
+   campanha digitado pelo consultor. Entrada vinda de pipe (echo ... |) é recusada. Pausar reduz
+   gasto: pede só um s/N, também em terminal interativo.
 """
 import sys
 
@@ -45,6 +49,27 @@ def dentro_do_teto(valor_brl, teto, rotulo="orçamento diário"):
                  "(anuncios.teto_diario_brl). Mudar o teto é decisão do consultor, na config.")
 
 
+def soma_dentro_do_teto(quadro, teto):
+    """Recusa se a soma resultante das campanhas ativas passar do teto. `quadro` já formatado."""
+    if quadro["resultante"] > teto:
+        sys.exit("RECUSADO: a soma dos orçamentos diários das campanhas ativas passaria do teto "
+                 "(anuncios.teto_diario_brl). Nada foi alterado.\n" + texto_quadro(quadro, teto)
+                 + "\nMudar o teto é decisão do consultor, na config.")
+
+
+def texto_quadro(quadro, teto):
+    linhas = [f"  teto (config):            {brl(teto)} por dia",
+              f"  soma atual das ativas:    {brl(quadro['atual'])} por dia "
+              f"({quadro['n_ativas']} campanha(s) ativa(s))",
+              f"  orçamento pedido:         {brl(quadro['pedido'])} por dia"]
+    if quadro.get("descontado"):
+        linhas.append(f"  sai da soma (é trocado):  {brl(quadro['descontado'])} por dia")
+    linhas.append(f"  soma resultante:          {brl(quadro['resultante'])} por dia")
+    if quadro.get("nota"):
+        linhas.append(f"  ({quadro['nota']})")
+    return "\n".join(linhas)
+
+
 def exigir_brl(moeda):
     if moeda != "BRL":
         sys.exit(f"RECUSADO: a conta está em {moeda}, e o teto é em reais. Nada foi alterado.")
@@ -63,6 +88,23 @@ def confirmar_por_nome(nome_campanha, resumo):
         digitado = ""
     if digitado != nome_campanha:
         sys.exit("Nome não confere. Nada foi alterado.")
+
+
+def confirmar_simples(resumo):
+    """Mostra o resumo e pede s/N no terminal. Para operação que só reduz gasto (pausar).
+
+    Fora de terminal interativo (agente, pipe, script), segue SEM pedir s/N: pausar só reduz
+    gasto, e o agente precisa conseguir pausar numa emergência."""
+    print(resumo)
+    if not sys.stdin.isatty():
+        print("\nFora de terminal interativo: pausando sem pedir s/N (pausar só reduz gasto).")
+        return
+    try:
+        resp = input("\nConfirmar? [s/N] ").strip().lower()
+    except EOFError:
+        resp = ""
+    if resp not in ("s", "sim"):
+        sys.exit("Não confirmado. Nada foi alterado.")
 
 
 def brl(v):

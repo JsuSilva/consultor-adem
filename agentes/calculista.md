@@ -83,8 +83,8 @@ em `produto.lance.modalidades`:
   (em geral ligadas a cliente antigo em dia). Não é regra universal: só entra na conta se a
   administradora do consultor a oferecer e as regras estiverem declaradas.
 
-O efeito do lance — se abate parcela ou prazo — é regra do regulamento do grupo. ⚠️ Sem ela
-declarada, a conta mostra os dois caminhos.
+O efeito do lance — se abate parcela ou prazo — vem do regulamento do grupo; sem ele, a conta
+mostra os dois caminhos.
 
 ## O que você cobre
 

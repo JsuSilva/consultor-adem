@@ -9,7 +9,7 @@ foto com véu no acento). A versão de veículos muda só o tipo e a foto.
 | Título | Atenção |
 | Pílula | O Vencimento do Boleto do / Consórcio de `{Imóveis|Veículos}` é **HOJE** |
 | Aviso | **Não fique fora do Sorteio,** / em necessidade de uma segunda / via do boleto entre em contato |
-| Marca | iniciais / nome do consultor |
+| Marca | iniciais (ou logo) / nome do consultor |
 | Etiqueta | assinatura do consultor, em letra cursiva, na caixa branca |
 | Trevo | quatro folhas no acento, canto inferior direito |
 

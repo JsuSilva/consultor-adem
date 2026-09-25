@@ -24,8 +24,9 @@ Da raiz do repositório: `python3 scripts/google-ads/gads.py <subcomando> --help
 | `relatorio [--periodo 7d \| --de AAAA-MM-DD --ate AAAA-MM-DD]` | leitura | desempenho por campanha: impressões, cliques, CTR, CPC, custo, conversões |
 | `criar-campanha <json> [--aplicar]` | escrita, sem gasto | Pesquisa, **sempre PAUSADA**; padrão é simular (`validate_only`) |
 | `criar-conversao --nome --tipo formulario\|whatsapp\|site [--aplicar] [--gravar-principal]` | escrita, sem gasto | ação de conversão de site; `--gravar-principal` grava o id na config, só a pedido do consultor |
-| `ativar --campanha-id` | **gasto** | pausada → ativa |
-| `orcamento --campanha-id --novo-brl` | **gasto** | muda o orçamento diário |
+| `pausar --campanha-id \| --nome [--aplicar]` | reduz gasto | ativa → pausada; padrão é simular; `--aplicar` pede s/N em terminal interativo e, fora dele, pausa sem perguntar; sem checar teto |
+| `ativar --campanha-id` | **gasto** | pausada → ativa, se a soma das ativas couber no teto |
+| `orcamento --campanha-id --novo-brl` | **gasto** | muda o orçamento diário, se a soma das ativas couber no teto |
 
 ## Travas
 
@@ -33,10 +34,29 @@ Da raiz do repositório: `python3 scripts/google-ads/gads.py <subcomando> --help
    `contas`). Sem MCC: `login_customer_id` só entra se o consultor passar em `autenticar`.
 2. Orçamento nunca passa de `anuncios.teto_diario_brl`. Sem teto na config, `criar-campanha`,
    `ativar` e `orcamento` recusam. Conta fora de BRL é recusada.
-3. `ativar` e `orcamento` mostram teto, orçamento atual e novo, e exigem o **nome exato da
-   campanha digitado num terminal interativo** — entrada por pipe é recusada. Quem roda é o
-   consultor, no terminal dele.
-4. Credenciais nunca no repositório nem em `config/consultor.json`.
+3. **Teto somado.** `ativar` e `orcamento` somam o orçamento diário de todas as campanhas ATIVAS
+   (ENABLED) da conta com o orçamento pedido e recusam se a soma passar do teto. Orçamento
+   compartilhado conta uma vez só: ativar campanha cujo orçamento já é usado por outra ativa não
+   soma de novo; mudar orçamento que já está na soma troca o valor atual pelo novo.
+   `criar-campanha` mostra a mesma conta como aviso (criar pausada não gasta; quem recusa é o
+   `ativar`).
+4. `ativar` e `orcamento` mostram teto, soma atual das ativas, orçamento pedido e soma resultante,
+   e exigem o **nome exato da campanha digitado num terminal interativo** — entrada por pipe é
+   recusada. Quem roda é o consultor, no terminal dele.
+5. `pausar` reduz gasto: simula por padrão; com `--aplicar`, pede s/N num terminal interativo e,
+   fora dele (agente, pipe), pausa sem perguntar — o agente precisa conseguir pausar numa
+   emergência.
+6. Credenciais nunca no repositório nem em `config/consultor.json`. O `.gitignore` já bloqueia
+   `client_secret*.json`; o aviso de `autenticar` para JSON dentro do repositório é a segunda
+   camada.
+
+## Padrões (regra)
+
+- Conversões medidas pela tag no site, contagem **uma por clique**. Tipos: `site` = visita a
+  página (PAGE_VIEW), `whatsapp` = CONTACT, `formulario` = SUBMIT_LEAD_FORM.
+- Parceiros de pesquisa **desligados**, salvo `"parceiros_de_pesquisa": true` no JSON.
+- Grupo e anúncio nascem **ativos** sob a campanha **PAUSADA** — quem segura o gasto é a
+  campanha.
 
 ## Arquivo da campanha (`dados/campanha-<nome>.json`)
 

@@ -12,8 +12,13 @@ Duas regras:
 2. **O conteúdo vem da conta do `calculista`**: o lado do consórcio sai dos parâmetros da linha
    imóvel em config/consultor.json (taxa de administração, fundo de reserva, prazo e índice de
    reajuste, via scripts/config.py — campo vazio para o script com aviso); o lado do
-   financiamento sai dos parâmetros públicos da Caixa, congelados no bloco CASO abaixo com fonte
-   e data. Mudou a conta, muda aqui — nesta ordem, nunca ao contrário.
+   financiamento sai da taxa de juros `mercado.juros_imobiliario_am` (com a fonte em
+   `mercado._fonte`) e dos parâmetros públicos da Caixa — TR, tarifa mensal, vistoria —,
+   congelados no bloco CASO abaixo com fonte e data. A curva de custo é recalculada a cada
+   execução (ver `_financiamento`). Mudou a conta, muda aqui — nesta ordem, nunca ao contrário.
+
+Os textos que dependem do resultado (quem sai mais barato na conclusão, renda exigida) são
+condicionais: a peça nunca afirma o que a conta não sustenta.
 
 O bloco CASO é o exemplo que acompanha o modelo (obra de 12 meses, crédito de R$ 250 mil, quitação
 na venda). Para outro caso, troque o bloco e os textos do corpo.
@@ -40,15 +45,15 @@ DESTINO = os.path.join(RAIZ, "saida", "comparativo-construcao.html")
 CREDITO_V = 250_000.00
 CREDITO = "R$ 250.000"
 
-TAXA_AA_FIN = 11.19                               # menor da faixa SBPE, + TR
+OBRA_MESES = 12          # cronograma presumido: uma medição por mês, liberações iguais
+PRAZO_FIN = 360          # meses de amortização (SAC) depois da obra
+JANELA = 20              # meses de negociação após a obra mostrados no gráfico
+MARCOS = (0, 3, 6, 12)   # meses marcados na curva
 
-# custo do crédito no financiamento, por mês de negociação após a conclusão da obra (SAC)
-CURVA = [(0, 27619.85), (3, 36043.21), (6, 44439.20), (12, 61148.53)]
-CUSTO_MES = 2800          # ≈ derivado dos âncoras acima: (61.148,53 − 44.439,20) ÷ 6
-PARCELA_FIN_1A = 3086.00  # 1ª parcela de amortização, SAC
-
-# variação em 12 meses do índice de reajuste da linha, na data da conta (dado público, com fonte)
-INDICE_12M = ("6,46%", "FGV via Banco Central")
+# parâmetros públicos da Caixa e do Banco Central (fonte e data no rodapé)
+TR_AM = 0.00169          # TR de 01/09/2026 — BCB, SGS 226
+TARIFA_MES = 25.00       # tarifa de administração mensal do contrato — tabela de tarifas Caixa, 03/07/2026
+VISTORIA = 750.00        # vistoria por medição na fase de obra — mesma tabela
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CONSÓRCIO — linha imóvel, lida de config/consultor.json. Parcela e renda são DERIVADAS aqui,
@@ -58,12 +63,47 @@ INDICE_12M = ("6,46%", "FGV via Banco Central")
 def pct(v): return f"{v:.2f}".replace(".", ",")
 
 
+def _financiamento(i):
+    """Custo do crédito no financiamento (SAC), acumulado até cada mês de negociação após a obra.
+
+    Fase de obra: o crédito é liberado em OBRA_MESES parcelas iguais, no início de cada mês; a TR
+    corrige o saldo (AM = SD × TR) e os juros incidem sobre o saldo corrigido ((SD + AM) × i),
+    como na cartilha da Caixa; cada mês paga tarifa e uma vistoria.
+    Depois da obra: amortização SAC sobre o saldo corrigido em PRAZO_FIN meses; o custo de cada
+    mês é juros + TR + tarifa. A amortização não entra no custo: volta como saldo menor na
+    quitação. MIP e DFI ficam de fora (sem tabela pública) — o custo é piso.
+
+    Devolve (custo acumulado por mês 0..JANELA, 1º encargo da obra, 1ª parcela de amortização,
+    TR acumulada em obra + 12 meses)."""
+    sd = tr_total = custo = 0.0
+    encargo_1 = None
+    for _ in range(OBRA_MESES):
+        sd += CREDITO_V / OBRA_MESES
+        am = sd * TR_AM
+        juros = (sd + am) * i
+        sd += am
+        tr_total += am
+        custo += am + juros + TARIFA_MES + VISTORIA
+        if encargo_1 is None:
+            encargo_1 = juros + TARIFA_MES + VISTORIA
+    amort = sd / PRAZO_FIN
+    curva, parcela_1 = [custo], None
+    for k in range(1, JANELA + 1):
+        am = sd * TR_AM
+        juros = (sd + am) * i
+        sd += am
+        if k <= 12:
+            tr_total += am
+        if parcela_1 is None:
+            parcela_1 = amort + juros + TARIFA_MES
+        custo += am + juros + TARIFA_MES
+        sd -= amort
+        curva.append(custo)
+    return curva, encargo_1, parcela_1, tr_total
+
+
 def _pontos_curva():
-    """Âncoras da conta, prolongadas pelo custo mensal até o mês 20."""
-    pts = [(m, v) for m, v in CURVA]
-    for m in range(13, 21):
-        pts.append((m, CURVA[-1][1] + (m - 12) * CUSTO_MES))
-    return pts
+    return list(enumerate(CURVA_TODA))
 
 
 def _cruzamento(piso):
@@ -75,14 +115,20 @@ def _cruzamento(piso):
     for (m0, v0), (m1, v1) in zip(pts, pts[1:]):
         if v0 <= piso <= v1:
             return m0 + (piso - v0) / (v1 - v0) * (m1 - m0)
-    sys.exit("ERRO: o custo do consórcio fica acima da curva do financiamento em toda a janela de "
-             "20 meses do gráfico — refaça o bloco CASO antes de gerar este card.")
+    sys.exit(f"ERRO: o custo do consórcio fica acima da curva do financiamento em toda a janela de "
+             f"{JANELA} meses do gráfico — refaça o bloco CASO antes de gerar este card.")
 
 
 def _conta():
     global TAXA_ADM, FUNDO, K, PRAZO_CONS, INDICE, CATEGORIA, PARCELA_CONS, RENDA_CONS
     global TAXA_AA_CONS, CONSORCIO_PISO, CRUZA_PISO, LINHAS, CONSULTOR, ASSINATURA
+    global JUROS_AM, JUROS_FONTE, CURVA_TODA, CURVA, CUSTO_MES, ENCARGO_OBRA_1, PARCELA_FIN_1A
+    global RENDA_FIN, TR_24M, TRAVAS, JUROS_AA, INCC_12M
     cfg = carregar()
+    JUROS_AM = exigir(cfg, "mercado.juros_imobiliario_am")
+    JUROS_FONTE = exigir(cfg, "mercado._fonte")
+    INCC_12M = exigir(cfg, "mercado.incc_12m")   # fração; fonte em mercado._fonte
+    JUROS_AA = (1 + JUROS_AM) ** 12 - 1          # equivalente anual composto da taxa mensal
     TAXA_ADM = exigir(cfg, "produto.linhas.imovel.taxa_administracao")
     FUNDO = exigir(cfg, "produto.linhas.imovel.fundo_reserva")      # 0 quando a linha não tem
     PRAZO_CONS = exigir(cfg, "produto.linhas.imovel.prazo_meses")
@@ -95,30 +141,35 @@ def _conta():
     RENDA_CONS = PARCELA_CONS / 0.30        # mesma régua dos 30% aplicada ao financiamento
     TAXA_AA_CONS = K * 100 / PRAZO_CONS * 12   # custo do plano diluído no prazo — não é juro
     CONSORCIO_PISO = CATEGORIA - CREDITO_V
+
+    CURVA_TODA, ENCARGO_OBRA_1, PARCELA_FIN_1A, TR_24M = _financiamento(JUROS_AM)
+    CURVA = [(m, CURVA_TODA[m]) for m in MARCOS]
+    CUSTO_MES = (CURVA_TODA[12] - CURVA_TODA[6]) / 6   # custo médio de um mês a mais, meses 7 a 12
+    RENDA_FIN = PARCELA_FIN_1A / 0.30
     CRUZA_PISO = _cruzamento(CONSORCIO_PISO)  # meses de negociação até o financiamento alcançar o consórcio
 
     # rótulo, consórcio, financiamento, destaque
     LINHAS = [
         ("Crédito",                    CREDITO,                    CREDITO,                     ""),
-        ("Prazo",                      f"{PRAZO_CONS} meses",      "12 de obra + 360",          ""),
+        ("Prazo",                      f"{PRAZO_CONS} meses",      f"{OBRA_MESES} de obra + {PRAZO_FIN}", ""),
         ("Recursos próprios exigidos", "não há",                   "R$ 100.000 + giro da obra", "c"),
         ("Custo do crédito",           f"{pct(TAXA_AA_CONS)}% a.a. + {INDICE} *",
-                                                                   f"{pct(TAXA_AA_FIN)}% a.a. + TR *", ""),
+                                                                   f"{pct(JUROS_AM*100)}% a.m. · {pct(JUROS_AA*100)}% a.a. + TR *", ""),
         ("Parcela",                    f"R$ {PARCELA_CONS:,.0f}".replace(",", "."),
-                                                                   "R$ 775 → R$ 3.086",         ""),
-        ("Renda comprovada",           f"R$ {RENDA_CONS:,.0f}".replace(",", "."), "R$ 10.285",  "c"),
+                                                                   f"{brl(ENCARGO_OBRA_1)} → {brl(PARCELA_FIN_1A)}", ""),
+        ("Renda comprovada",           f"R$ {RENDA_CONS:,.0f}".replace(",", "."), brl(RENDA_FIN),  "c"),
         ("Quando o dinheiro sai",      "após a contemplação",      "por medição, data contratada", "f"),
         ("Se a obra encarecer",        "crédito acompanha o índice", "valor fixo, sem complemento", "c"),
     ]
 
-# as travas do financiamento — tudo publicado pela própria Caixa
-TRAVAS = [
-    ("Moradia própria",   "a linha veda construção de empreendimento para comercialização"),
-    ("Reembolso",         "você banca a etapa, a vistoria libera depois — R$ 750 por vistoria"),
-    ("Últimos 5%",        "só saem com habite-se e averbação na matrícula"),
-    ("TR fora da taxa",   "corrige o saldo todo mês — ~R$ 8.337 em 24 meses"),
-    ("MIP e DFI",         "obrigatórios, sem tabela pública — todo custo aqui é piso"),
-]
+    # as travas do financiamento — tudo publicado pela própria Caixa
+    TRAVAS = [
+        ("Moradia própria",   "a linha veda construção de empreendimento para comercialização"),
+        ("Reembolso",         f"você banca a etapa, a vistoria libera depois — {brl(VISTORIA)} por vistoria"),
+        ("Últimos 5%",        "só saem com habite-se e averbação na matrícula"),
+        ("TR fora da taxa",   f"corrige o saldo todo mês — ~{brl(TR_24M)} em {OBRA_MESES + 12} meses"),
+        ("MIP e DFI",         "obrigatórios, sem tabela pública — todo custo aqui é piso"),
+    ]
 
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -132,19 +183,21 @@ def grafico(larg=1000, alt=340):
     SVG inline, sem biblioteca, cores só por token do design.py."""
     ml, mr, mt, mb = 74, 26, 26, 52
     W, H = larg - ml - mr, alt - mt - mb
-    x1, y1 = 20.0, 90000.0                      # meses de negociação, custo
+    topo = max(max(CURVA_TODA), CONSORCIO_PISO) * 1.08
+    x1, y1 = float(JANELA), float(-(-topo // 10000) * 10000)   # meses de negociação, custo
 
     def X(m): return ml + W * (m / x1)
     def Y(v): return mt + H * (1 - v / y1)
 
     p = []
     # grade horizontal
-    for v in (0, 20000, 40000, 60000, 80000):
+    passo = 20000 if y1 <= 120000 else 40000
+    for v in range(0, int(y1), passo):
         p.append(f'<line x1="{ml}" y1="{Y(v):.1f}" x2="{ml+W}" y2="{Y(v):.1f}" '
                  f'stroke="var(--rule)" stroke-width="1"/>')
         p.append(f'<text x="{ml-10}" y="{Y(v)+4:.1f}" text-anchor="end" class="ax">{brl(v)}</text>')
     # eixo dos meses
-    for m in (0, 3, 6, 9, 12, 15, 18):
+    for m in range(0, JANELA, 3):
         p.append(f'<text x="{X(m):.1f}" y="{mt+H+20}" text-anchor="middle" class="ax">{m}</text>')
     p.append(f'<text x="{ml+W/2:.1f}" y="{mt+H+42}" text-anchor="middle" class="ax">'
              f'MESES DE NEGOCIAÇÃO APÓS A CONCLUSÃO DA OBRA</text>')
@@ -261,6 +314,29 @@ def main():
 
     travas = "".join(f"<li><b>{esc(t)}</b>{esc(d)}</li>" for t, d in TRAVAS)
 
+    # Textos que dependem do resultado da conta — nunca afirmar o que ela não sustenta.
+    fin_mais_barato = CURVA_TODA[0] < CONSORCIO_PISO
+    n = round(CRUZA_PISO)
+    if not fin_mais_barato:
+        folga_v, folga_r = "Nenhum mês", ("de folga: vendendo na conclusão da obra, o custo do "
+                                          "financiamento já passa o custo fixo do consórcio")
+    else:
+        folga_v = "menos de 1 mês" if n < 1 else f"~{n} {'mês' if n == 1 else 'meses'}"
+        folga_r = "de venda após a obra antes de o financiamento alcançar o custo do consórcio"
+    renda = (f", com renda comprovada de {brl(RENDA_CONS)} contra {brl(RENDA_FIN)} do financiamento"
+             if RENDA_CONS < RENDA_FIN else "")
+    if fin_mais_barato:
+        faixa = (f"""Vendeu rápido, <b>o financiamento é o crédito certo desta obra</b>. O consórcio
+  não disputa melhor cenário que o financiamento da Caixa: ele vale como <b>plano B que pode rodar
+  em paralelo se a parcela couber no orçamento</b> — sem entrada, sem projeto, sem vistoria{renda} —
+  e que o caixa desta venda pode acionar como lance, antes de a próxima obra chegar.""")
+    else:
+        faixa = (f"""Nesta conta, <b>o financiamento custa mais que o consórcio mesmo com a venda na
+  conclusão da obra</b>. Ainda assim, o crédito do consórcio só é liberado após a contemplação, sem
+  data: ele não paga esta obra. Vale como <b>plano B que pode rodar em paralelo se a parcela couber
+  no orçamento</b> — sem entrada, sem projeto, sem vistoria{renda} — e que o caixa desta venda pode
+  acionar como lance, antes de a próxima obra chegar.""")
+
     pagina = f"""<!doctype html>
 <html lang="pt-BR" data-theme="dark"><head>
 <meta charset="utf-8">
@@ -280,9 +356,8 @@ def main():
 </header>
 
 <div class="hero">
-  <div class="kpi on"><span class="v">~{round(CRUZA_PISO)} meses</span>
-    <span class="r">de venda após a obra antes de o financiamento alcançar o custo do
-    consórcio</span></div>
+  <div class="kpi on"><span class="v">{folga_v}</span>
+    <span class="r">{folga_r}</span></div>
   <div class="kpi"><span class="v">{brl(CUSTO_MES)}</span>
     <span class="r">o que cada mês a mais até a venda acrescenta ao custo do crédito, depois que a
     obra termina: juros, tarifa e correção do saldo pela TR. A parcela desembolsada é de
@@ -316,11 +391,7 @@ def main():
 
 <div class="faixa">
   <p class="q">Em quanto tempo essa casa vende?</p>
-  <p>Vendeu rápido, <b>o financiamento é o crédito certo desta obra</b>. O consórcio não disputa
-  melhor cenário que o financiamento da Caixa: ele vale como <b>plano B que pode rodar em paralelo
-  se a parcela couber no orçamento</b> — sem entrada, sem projeto, sem vistoria, com metade
-  da renda exigida — e que o caixa desta venda pode acionar como lance, antes
-  de a próxima obra chegar.</p>
+  <p>{faixa}</p>
 </div>
 
 <div class="ficha">
@@ -338,7 +409,8 @@ def main():
   <p class="obs"><b>* As duas taxas estão em regimes diferentes e não se comparam como número.</b>
   No consórcio, {pct(TAXA_AA_CONS)}% a.a. é o custo do plano — {pct(K*100)}% sobre o
   crédito, cobrado uma vez — diluído pelos {PRAZO_CONS} meses; ele não incide sobre saldo e não
-  cresce se o plano durar mais. No financiamento, {pct(TAXA_AA_FIN)}% a.a. são juros que incidem
+  cresce se o plano durar mais. No financiamento, {pct(JUROS_AM*100)}% a.m. ({pct(JUROS_AA*100)}% a.a.,
+  equivalente composto) são juros que incidem
   <b>todo mês sobre o saldo devedor</b>, e por isso o custo aumenta enquanto a dívida existir.
   {esc(INDICE)} e TR corrigem os valores de cada lado e não estão dentro desses percentuais.</p>
   <p class="obs"><b>Diferença estrutural entre as operações:</b> o consórcio é rateio de custo
@@ -353,13 +425,14 @@ def main():
 <footer>
   <p><b>{esc(CONSULTOR)} · {esc(ASSINATURA)}.</b> Não é material oficial da
   administradora nem parecer da Caixa.</p>
-  <p>Números de 02/09/2026, para as premissas combinadas com o cliente em 01/09/2026: obra de 12
-  meses, quitação na venda, terreno próprio em garantia, cronograma de 12 medições presumido.
-  Projeções marcadas como tais — mudou a premissa, muda a conta. Taxa de 11,19% a.a. + TR: fonte
-  secundária, condicionada a relacionamento; a média praticada pela Caixa na modalidade é 12,12%
-  a.a. (Banco Central, jul/2026). Regras de enquadramento, tarifas e liberação por medição:
-  caixa.gov.br e Cartilha Habitação PF v.12 (dez/2025). Reajuste do consórcio projetado pelo índice
-  contratual corrente ({INDICE_12M[0]} em 12 meses, {INDICE_12M[1]}).</p>
+  <p>Premissas do caso: obra de {OBRA_MESES} meses, quitação na venda, terreno próprio em
+  garantia, cronograma de {OBRA_MESES} medições presumido. Projeções marcadas como tais — mudou a
+  premissa, muda a conta. Juros do financiamento de {pct(JUROS_AM*100)}% a.m. + TR:
+  {esc(JUROS_FONTE)}. TR de {f"{TR_AM*100:.3f}".replace(".", ",")}% a.m. (Banco Central, SGS 226, 01/09/2026); tarifa
+  mensal de {brl(TARIFA_MES)} e vistoria de {brl(VISTORIA)} por medição (tabela de tarifas Caixa,
+  03/07/2026). Regras de enquadramento, tarifas e liberação por medição: caixa.gov.br e Cartilha
+  Habitação PF v.12 (dez/2025). Reajuste do consórcio projetado pelo índice contratual corrente
+  (INCC de {pct(INCC_12M*100)}% em 12 meses: {esc(JUROS_FONTE)}).</p>
 </footer>
 
 </div>

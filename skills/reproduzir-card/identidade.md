@@ -3,22 +3,23 @@
 Referência dos passos 2 e 3 de `SKILL.md`. Nenhum valor mora aqui: todos vêm de
 `config/consultor.json`, que a skill `configuracao` preenche. Nos moldes, cada campo aparece como
 marcação `{{...}}` e o `montar-card.py` a troca pelo valor da config; campo vazio para o script com
-aviso.
+aviso. Exceção: cores e fontes de `identidade_visual` vazias caem no tema neutro de
+`scripts/design.py` (os mesmos valores, importados de lá), e o script avisa que usou o neutro.
 
 ## Campos lidos da config
 
 | Campo da config | Marcação no molde | Onde aparece no card |
 | --- | --- | --- |
-| `consultor.nome` | `{{card.nome_caixa_alta}}` · `{{card.iniciais}}` | nome no bloco de marca e no rodapé; o monograma usa a inicial do primeiro e do último nome |
-| `consultor.assinatura` | `{{consultor.assinatura}}` · `{{card.assinatura_caixa_alta}}` | a linha sob o nome ("cargo"), em caixa baixa no bloco de marca e em caixa alta no rodapé |
+| `consultor.nome` | `{{card.nome_caixa_alta}}` · `{{card.monograma}}` | nome no bloco de marca e no rodapé; sem logo, o monograma usa a inicial do primeiro e do último nome |
+| `consultor.cargo` | `{{consultor.cargo}}` · `{{card.cargo_caixa_alta}}` | a linha sob o nome, como está na config no bloco de marca e em caixa alta no rodapé |
+| `consultor.assinatura` | `{{consultor.assinatura}}` | a etiqueta em letra cursiva dos cards 06 e 07 |
 | `consultor.telefone` | `{{consultor.telefone}}` | contato com o ícone do WhatsApp, no formato em que estiver na config |
 | `consultor.site` | `{{consultor.site}}` · `{{card.site_caixa_alta}}` · `{{card.site_nome_caixa_alta}}` + `{{card.site_sufixo}}` | assinatura do rodapé; no card 03, o segundo logo (nome do site em cima, domínio embaixo) |
-| `consultor.cidade` | `{{consultor.cidade}}` | rodapé do card 04 |
-| `identidade_visual.acento` | `{{cor.acento}}` e os tons escuros derivados | destaque sólido, ícones, faixas, degradês |
-| `identidade_visual.acento_brilho` | `{{cor.acento_brilho}}` · `{{cor.acento_claro}}` | ponto de luz dos degradês |
-| `identidade_visual.fonte_titulo` | `'{{identidade_visual.fonte_titulo}}'` e o link do Google Fonts | títulos e, nos cards de campanha, o texto todo |
-| `identidade_visual.fonte_texto` | `'{{identidade_visual.fonte_texto}}'` e o link do Google Fonts | texto corrido do registro do site (card 04) |
-| `identidade_visual.logo` | — | não entra nos moldes; ver a linha "Logo da marca" abaixo |
+| `identidade_visual.acento` | `{{cor.acento}}` e os tons escuros derivados | destaque sólido, ícones, faixas, degradês; vazio, o neutro de `scripts/design.py` |
+| `identidade_visual.acento_brilho` | `{{cor.acento_brilho}}` · `{{cor.acento_claro}}` | ponto de luz dos degradês; vazio, derivado do acento (ou o neutro, sem acento), como em `scripts/design.py` |
+| `identidade_visual.fonte_titulo` | `'{{identidade_visual.fonte_titulo}}'` e o link do Google Fonts | títulos e, nos cards de campanha, o texto todo; vazia, a do neutro |
+| `identidade_visual.fonte_texto` | `'{{identidade_visual.fonte_texto}}'` e o link do Google Fonts | texto corrido do registro do site; vazia, a do neutro |
+| `identidade_visual.logo` | `{{card.monograma}}` | caminho do arquivo do logo (png, jpg, webp ou svg); preenchido, entra embutido no lugar do monograma, na altura da letra dele e com largura de até 1,5 vez essa altura (a do monograma de duas letras) |
 | `consultor.foto` | — | não entra nos moldes; ver a linha "Foto" abaixo |
 
 ## Os tons do acento
@@ -41,19 +42,19 @@ Cada tom tem também a versão `_rgb` (`{{cor.acento_rgb}}`), para uso em `rgba(
 
 | Na referência | No card do consultor |
 | --- | --- |
-| Logo da marca | Bloco de marca: iniciais na fonte de título 900 com gradiente 160deg `acento_brilho → acento → acento_escuro`; abaixo o nome em caixa alta, fonte de título 800, branco; abaixo a assinatura, fonte de título 500 `#E5E7EB`, com espaçamento entre letras calculado para ocupar a mesma largura do nome (script no molde 05). Se o consultor tiver logo próprio em `identidade_visual.logo`, o uso dele no lugar do monograma é pergunta ao consultor |
+| Logo da marca | Bloco de marca: iniciais na fonte de título 900 com gradiente 160deg `acento_brilho → acento → acento_escuro`; abaixo o nome em caixa alta, fonte de título 800, branco; abaixo o cargo, fonte de título 500 `#E5E7EB`, com espaçamento entre letras calculado para ocupar a mesma largura do nome (script no molde 05). Com logo próprio em `identidade_visual.logo`, o logo entra no lugar do monograma |
 | Cor principal da marca (o vermelho no card 01) | Acento: gradiente 180deg `acento_claro 0% · acento_brilho 30% · acento 58% · acento_escuro 100%`; destaque sólido `acento` |
 | Faixa ou selo escuro na cor da marca | `linear-gradient(90deg, acento_sombra, acento_faixa 55%, acento_noite)` com borda `acento_brilho` a 70% |
 | Texto branco sobre a cor principal | Tinta `#0F1419` sobre o acento |
 | Texto na cor da marca sobre fundo claro | Degradê escuro 180deg `acento_medio → acento_escuro → acento_profundo`; o tom claro some no branco — card 05 |
 | Prata, branco e preto de fundo | Ficam; prata = gradiente 180deg `#FFF · #F3F4F6 40% · #9CA3AF 52% · #E5E7EB 70% · #FFF` |
 | Riscos de luz coloridos | Mesmos riscos em `acento` a 75% |
-| Nome e cargo do vendedor | `consultor.nome` e `consultor.assinatura`, em caixa alta |
+| Nome e cargo do vendedor | `consultor.nome` e `consultor.cargo`, em caixa alta |
 | Telefone | `consultor.telefone` |
-| Contato, em todo card | **Obrigatório**: ícone do WhatsApp e o número legíveis na imagem, porque o card circula por print. Entra na linha que o card já tem — dentro da chamada (03), no botão ao lado (04), na assinatura do rodapé (05) ou sob o nome (06, 07) — sem criar bloco novo. O site acompanha quando couber |
+| Contato, em todo card | **Obrigatório**: ícone do WhatsApp e o número legíveis na imagem, porque o card circula por print. Entra na linha que o card já tem — dentro da chamada (03), na assinatura do rodapé (05) ou sob o nome (06, 07) — sem criar bloco novo. O site acompanha quando couber |
 | Slogan ou assinatura da marca | nome em caixa alta `|` site em caixa alta, com o site em `acento` |
 | Frases genéricas ("Fale com quem entende!", "Seu sonho mais perto") | Ficam; a palavra em destaque vai para `acento` |
-| Segundo logo da marca no rodapé, ao lado do nome do vendedor | iniciais + nome do site em fonte de título 800 sobre o domínio em fonte de título 400 — card 03 |
+| Segundo logo da marca no rodapé, ao lado do nome do vendedor | iniciais (ou logo) + nome do site em fonte de título 800 sobre o domínio em fonte de título 400 — card 03 |
 | Ícones | SVG inline, traço `acento` |
 | Fontes | `fonte_titulo` em tudo (400–900, itálico 700/800); letra cursiva em Dancing Script 700 |
 | Foto | Não sai da referência. Primeiro, uma imagem do acervo do consultor que sirva ao tema (card 01: cidade à noite). Sem uma que sirva, **gerar** uma imagem descrevendo a cena da referência sem copiar a foto, fechando o prompt com `Sem texto, sem logotipo, sem pessoas. Arquitetura genérica, não reproduzir nenhum edifício existente identificável.`; grava em `saida/cards/NN-foto-<slug>.png` (card 03: chaves com chaveiro de casa) |

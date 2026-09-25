@@ -28,14 +28,15 @@ Regras, as mesmas dos outros geradores:
    crédito por linha, lida de config/consultor.json (`produto.linhas.*.credito_min/max`, com
    a fonte em `produto._fonte`).
 3. **Identidade e produto vêm de config/consultor.json** via scripts/config.py: nome e site do
-   consultor (`consultor.*`), faixas e índice de reajuste por linha (`produto.linhas.*`). Campo
+   consultor (`consultor.*`, com o vínculo em `consultor.vinculo`), faixas e índice de reajuste
+   por linha (`produto.linhas.*`, nos rótulos da divisão da config). Campo
    vazio para o script com aviso — nunca vira estimativa.
 4. **Compliance** (conhecimento/regras-e-compliance/02-compliance-e-limites-do-discurso.md): sem
    data, prazo ou probabilidade de contemplação, inclusive por implicatura (2.1); lance como
    dedução do próprio crédito (2.4) e redutor de parcela, nunca de prazo (2.5); contemplação
    não é carta liberada (2.6); nunca "recebe tudo de volta" (6.1); sem prazo de devolução ao
-   excluído (§6, pendência); identificação como representante autônomo PJ (8.1) e nenhuma
-   marca em posição institucional (8.2).
+   excluído (§6, pendência); identificação do consultor com o vínculo declarado em
+   `consultor.vinculo` (8.1) e nenhuma marca em posição institucional (8.2).
 5. **O que a peça não afirma, por falta de fonte:** prazo mínimo e máximo por linha, percentual
    máximo de lance embutido e histórico de contemplação (checklist de bolso B-2/B-3, em
    conhecimento/regras-e-compliance/04-checklist-de-bolso.md). Onde o dado falta, o slide manda
@@ -59,14 +60,18 @@ from config import carregar, exigir, valor
 # ─────────────────────────────────────────────────────────────────────────────
 CFG = carregar()
 NOME = exigir(CFG, "consultor.nome")
+VINCULO = exigir(CFG, "consultor.vinculo")
 SITE = valor(CFG, "consultor.site")
-LINHAS = [  # (chave em produto.linhas, rótulo, o que entra)
-    ("imovel", "Imóveis", "aquisição, construção, terreno ou reforma, conforme o regulamento"),
-    ("auto", "Veículos", "automóveis, caminhões e máquinas agrícolas"),
-    ("pesados", "Bens móveis", "máquinas, equipamentos, embarcações e aeronaves"),
-    ("moto", "Motos", "linha própria, de crédito menor"),
-    ("servicos", "Serviços", "crédito para serviço contratado"),
+# (chave em produto.linhas, rótulo, o que entra) — os rótulos seguem a divisão da config; o que
+# cada grupo aceita comprar é do regulamento, por isso o texto de cada linha não detalha o bem.
+LINHAS = [
+    ("imovel", "Imóveis", "imóvel, nas finalidades que o regulamento do grupo prevê"),
+    ("auto", "Automóveis", "veículo leve, nas condições que o regulamento do grupo prevê"),
+    ("pesados", "Pesados", "veículo pesado, nas condições que o regulamento do grupo prevê"),
+    ("moto", "Motos", "motocicleta, nas condições que o regulamento do grupo prevê"),
+    ("servicos", "Serviços", "serviço contratado, nas condições que o regulamento do grupo prevê"),
 ]
+ROTULO = {k: r for k, r, _oq in LINHAS}
 FAIXAS = [(rotulo, oq, float(exigir(CFG, f"produto.linhas.{k}.credito_min")),
            float(exigir(CFG, f"produto.linhas.{k}.credito_max"))) for k, rotulo, oq in LINHAS]
 FAIXAS_FONTE = exigir(CFG, "produto._fonte")
@@ -85,7 +90,7 @@ DESTINO_COMPLETO = os.path.join(RAIZ, "saida", "consorcio-completo-deck.html")
 def assinatura():
     """Identificação do consultor, na capa e no fechamento (Regra 8.1)."""
     site = f", {esc(SITE)}" if SITE else ""
-    return f"<b>{esc(NOME)}</b> · representante comercial autônomo (PJ){site}"
+    return f"<b>{esc(NOME)}</b> · {esc(VINCULO)}{site}"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1. MONTAGEM DO SLIDE — foto e painel por nome, não por índice: as duas versões
@@ -400,21 +405,18 @@ existe para você é o do grupo em que a sua cota entrar.</p>
 apresentação</b>: vêm na proposta, com a tabela de custos aberta.</p>""", grad="g3",
         foto="modalidades.jpg")
 
+    itens = "".join(
+        f'<li{anim(n + 2)}><div><b>{esc(rotulo)}</b>{esc(oq)}.</div></li>'
+        for n, (_k, rotulo, oq) in enumerate(LINHAS))
+    fim = len(LINHAS) + 2
     return slide(f"""
 {cab("camadas", "Modalidades", 0)}
-<h2{anim(1)}>As linhas: <b class="hi">imóveis, veículos e serviços</b> — mais motos e bens móveis</h2>
+<h2{anim(1)}>Cinco linhas, cada uma com <b class="hi">regulamento próprio</b></h2>
 <ul class="lista">
-  <li{anim(2)}><div><b>Imóveis</b>a linha de maior crédito e maior prazo. O que cada grupo aceita comprar —
-  pronto, em construção, terreno, reforma — está no regulamento.</div></li>
-  <li{anim(3)}><div><b>Veículos</b>automóveis, caminhões e máquinas agrícolas entram na mesma linha
-  comercial.</div></li>
-  <li{anim(4)}><div><b>Motos</b>linha própria, de crédito menor.</div></li>
-  <li{anim(5)}><div><b>Serviços</b>crédito para serviço contratado — a linha de menor ticket.</div></li>
-  <li{anim(6)}><div><b>Bens móveis</b>máquinas, equipamentos, embarcações e aeronaves.</div></li>
+  {itens}
 </ul>
-<p class="nota"{anim(7)}>Nomenclatura comercial da administradora. No Banco Central a divisão é por
-<b>segmento</b> — imóveis; pesados e agro; veículos leves; motos; serviços — e é por segmento que os
-dados públicos de carteira saem.</p>""", grad="g2", foto="modalidades.jpg")
+<p class="nota"{anim(fim)}>O que cada grupo aceita comprar — e em que condição — está no
+<b>regulamento do grupo</b>: confira o do seu antes de assinar.</p>""", grad="g2", foto="modalidades.jpg")
 
 
 def s_faixas():
@@ -479,8 +481,8 @@ pode trazer condição adicional sobre a forma de quitação — confira o do se
 def indices():
     """Índice de reajuste por linha, da config. Linhas com o mesmo índice saem juntas."""
     grupos = {}
-    for k, rotulo in (("imovel", "imóveis"), ("auto", "veículos"), ("servicos", "serviços")):
-        grupos.setdefault(INDICE[k], []).append(rotulo)
+    for k in ("imovel", "auto", "servicos"):
+        grupos.setdefault(INDICE[k], []).append(esc(ROTULO[k].lower()))
     return "; ".join(f"{' e '.join(r)} pelo {esc(i)}" for i, r in grupos.items())
 
 

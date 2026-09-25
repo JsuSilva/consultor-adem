@@ -101,8 +101,9 @@ terceiro.
         orçamento, frequência) — vira proposta; mudança de orçamento sempre abaixo do teto e com
         "sim".
    4.2. **Texto ou criativo** — a sugestão passa pelo checklist do §9 da régua. Choque com a régua
-        (promessa de prazo, urgência de contemplação, "investimento", "sem juros" sozinho, número
-        sem a Regra 3.1) → **descartada**, com a regra citada.
+        (promessa de prazo, urgência de contemplação, "investimento", "sem juros" sozinho, qualquer
+        número em anúncio curto — número só na página de destino, com a tabela completa) →
+        **descartada**, com a regra citada.
    4.3. **Segmentação** — idade 18+ e público com dado pessoal conferidos no §5 da régua; público
         com lista exige base legal e aval.
    4.4. **Anúncio já no ar que fere a régua** — sai como **alerta no topo** da ficha, com a regra

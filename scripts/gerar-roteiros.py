@@ -18,7 +18,7 @@ Na semente, nome e credencial do consultor vêm de config/consultor.json (consul
 consultor.nome_curto, consultor.credenciais) — ver roteiros_seed.dados. A administradora citada
 no rodapé é administradora.nome, quando preenchida.
 """
-import io, json, os, sys
+import html, io, json, os, sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(RAIZ, "scripts"))
@@ -193,7 +193,7 @@ CORPO = """
 
 <div class="alerta">
   <p><b>Onde isto diverge do material de treinamento.</b> Os scripts do material abrem com “estou
-  trabalhando com consórcio”. Correto para um vendedor sem credencial — e desperdiça a sua. Aqui a abertura é a
+  trabalhando com consórcio”.__CRED_FRASE__ Aqui a abertura é a
   conta do interlocutor — com número, não com teoria — e o fechamento é dizer <b>onde o consórcio
   perde</b>. E o corte tributário <b>não</b> abre conversa com contador: para ele é trivial. Uma
   ressalva: “não tem juros” dito sozinho fica incompleto — existe taxa de administração, e para um
@@ -409,6 +409,11 @@ def main():
     cfg = carregar()
     dados, origem = dados_vigentes(cfg)
     corpo = CORPO.replace("__ADM__", valor(cfg, "administradora.nome") or "administradora")
+    # sem credencial declarada, a frase sai inteira; com ela, entra o valor — nunca marcador
+    creds = valor(cfg, "consultor.credenciais") or []
+    cred_frase = (f" Correto para um vendedor sem credencial — e desperdiça o fato de você ser "
+                  f"{html.escape(str(creds[0]))}." if creds else "")
+    corpo = corpo.replace("__CRED_FRASE__", cred_frase)
     pagina = (
         '<meta charset="utf-8">\n<title>Roteiros por Temperatura</title>\n'
         + design.FONTES + "\n<style>" + design.TOKENS + CSS + "</style>\n"

@@ -36,7 +36,7 @@ rendimento — é uma **inferência estrutural**, não um dispositivo literal. S
 compliance quiser afirmar "consórcio não é investimento" como frase pronta, essa frase exige uma
 fonte própria (ex.: material educativo do BCB/CVM que use essa formulação) — não encontrei essa
 frase, com essas palavras, em nenhuma fonte primária do BCB durante esta pesquisa. **Pergunta em
-aberto** (ver §6).
+aberto** (ver §7).
 
 **Art. 3º, §2º.** "O interesse do grupo de consórcio prevalece sobre o interesse individual do
 consorciado." — reforça a natureza coletiva/associativa, distinta de produto financeiro
@@ -137,7 +137,7 @@ art. 10, §3º) e a competência do BCB para "baixar normas disciplinando as ope
 mas publicidade/marketing não está nomeada nesse inciso. Regra de publicidade comercial de
 consórcio, se existir de forma expressa, está em normativo do BCB (não localizado nesta pesquisa
 — ver `03-normativos-bcb-consorcio-resolucao-285-2023.md` §5) ou no Código de Defesa do
-Consumidor (fora do escopo desta rodada). **Pergunta em aberto** (§6).
+Consumidor (fora do escopo desta rodada). **Pergunta em aberto** (§7).
 
 **Art. 10, §3º.** "A proposta de participação é o instrumento pelo qual o interessado formaliza
 seu pedido de participação no grupo de consórcio, que se converterá no contrato... se aprovada
@@ -168,8 +168,8 @@ nesta rodada (fora do escopo pedido).
    inferência do art. 2º (autofinanciamento) e da ausência de promessa de rendimento. **Pergunta:**
    existe material primário do BCB ou da CVM que declare isso explicitamente, para servir de
    fonte citável a essa frase específica no documento de compliance? (não encontrado nesta
-   pesquisa — ver também §5 do arquivo 04 sobre a diferença consórcio × produto financeiro
-   regulado pela CVM, que também não foi objeto desta rodada).
+   pesquisa — ver também §1 deste arquivo, arts. 2º e 3º, §2º, sobre a natureza do consórcio
+   distinta de produto financeiro; a regulação da CVM não foi objeto desta rodada).
 2. **Publicidade/oferta** — a lei não regula isso diretamente. **Pergunta:** o normativo do BCB
    (Resolução 285/2023, arquivada em `03-...md`) também não tem capítulo de publicidade — a
    regra de propaganda de consórcio vem do CDC (Lei 8.078/1990) e/ou de autorregulação (CONAR)?

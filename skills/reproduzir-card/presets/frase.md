@@ -8,9 +8,9 @@ Molde: `../exemplos/08-card-frase.tpl.html` (registro do site, 9:16).
 
 | Bloco | Conteúdo |
 | --- | --- |
-| Marca, no alto | iniciais · nome · assinatura |
+| Marca, no alto | iniciais (ou logo) · nome · cargo |
 | Frase | duas partes: a primeira em branco leve, a segunda em degradê do acento; o fio no acento nasce logo abaixo da última linha |
-| Rodapé | nome · assinatura — WhatsApp do consultor e site |
+| Rodapé | nome · cargo — WhatsApp do consultor e site |
 
 ## As nove frases, com a foto de cada uma
 

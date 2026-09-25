@@ -23,7 +23,7 @@ identificação do consultor.
 
 | Onde | O que a skill busca ou grava lá |
 | --- | --- |
-| `config/consultor.json` | a identidade: nome, assinatura, telefone, site, cidade, cores, fontes, logo |
+| `config/consultor.json` | a identidade: nome, cargo, assinatura, telefone, site, cores, fontes, logo |
 | `saida/cards/` | destino dos cards (`NN-card-<slug>.png` e `.html`) e das fotos geradas |
 | `conhecimento/regras-e-compliance/02-compliance-e-limites-do-discurso.md` | régua de compliance |
 | `AGENTS.md` | regras de trabalho |
@@ -43,9 +43,9 @@ Sem `magick`, a conferência em recorte não roda.
 
 O apelo visual muda com o que a peça vende, e as duas famílias se dividem assim.
 
-| | **Campanha** (consórcio) | **Site** (serviço) |
+| | **Campanha** (consórcio) | **Site** |
 | --- | --- | --- |
-| Quando | Produto com preço, grupo, prazo — cards 01 a 03 | Serviço que vende critério — card 04 |
+| Quando | Produto com preço, grupo, prazo — cards 01 a 03 | Post sem oferta — card 08 |
 | Título | fonte de título 800, caixa alta | fonte de título 300, caixa baixa, uma palavra em degradê do acento |
 | Letra cursiva, itálico pesado, pincel | Sim | Não |
 | Faixa e pílula | Inclinadas, com chanfro | Nenhuma: a frase vira uma linha de texto |
@@ -55,8 +55,8 @@ O apelo visual muda com o que a peça vende, e as duas famílias se dividem assi
 | Foto | Máscara em diagonal | Véu preto por cima |
 | Texto corrido | fonte de título | fonte de texto 300 |
 
-**O que não muda nos dois:** o monograma com as iniciais, a paleta do consultor, a fonte de título nos títulos e o rodapé
-com nome e assinatura. É o que mantém as duas famílias como a mesma pessoa.
+**O que não muda nos dois:** o monograma com as iniciais (ou o logo), a paleta do consultor, a fonte de título nos títulos e o rodapé
+com nome e cargo. É o que mantém as duas famílias como a mesma pessoa.
 
 ## Presets de grupo
 
@@ -68,14 +68,13 @@ o molde — só entram número, selo e créditos:
 - `presets/consorcio-imovel-permite.md` — lista de usos do consórcio de imóvel (card 05).
 - `presets/consorcio-veiculos-permite.md` — a mesma lista para a linha de veículos (card 17).
 - `presets/vencimento-boleto.md` — aviso de vencimento, nas versões imóveis e veículos (cards 06 e 07).
-- `presets/consultoria.md` — card de serviço no registro do site (card 04).
 - `presets/frase.md` — post de presença, só uma frase, sem oferta (card 08).
 
 ## As marcações do molde
 
 - `{{consultor.*}}` e `{{identidade_visual.*}}` — lidos da config pelo `montar-card.py`.
 - `{{card.*}}` e `{{cor.*}}` — derivados da config pelo `montar-card.py` (nome em caixa alta,
-  iniciais, site, tons do acento). Não se editam no molde.
+  monograma ou logo, cargo, site, tons do acento). Não se editam no molde.
 - `[[descrição]]` — valor do card: número do grupo, crédito, parcela, prazo, caminho da foto.
   Preenchido numa cópia do molde; o script **para** se sobrar algum.
 
@@ -91,9 +90,8 @@ o molde — só entram número, selo e créditos:
    `exemplos/01-card-grupo-em-andamento.tpl.html` (campanha, 4:5, tabela de ofertas),
    `exemplos/03-card-parabens-cliente.tpl.html` (campanha, 9:16, texto e chamada),
    `exemplos/05-card-consorcio-permite.tpl.html` (campanha, fundo claro, lista de itens) ou
-   `exemplos/06-card-vencimento-imoveis.tpl.html` (campanha, quadrado, painel claro sobre foto),
-   `exemplos/08-card-frase.tpl.html` (site, 9:16, frase sem oferta) ou
-   `exemplos/04-card-consultoria.tpl.html` (site, 9:16, serviço):
+   `exemplos/06-card-vencimento-imoveis.tpl.html` (campanha, quadrado, painel claro sobre foto)
+   ou `exemplos/08-card-frase.tpl.html` (site, 9:16, frase sem oferta):
    mesmos tokens, gradientes, fontes e posicionamento absoluto; foto como `__FOTO:caminho__`.
    Preencher na cópia cada `[[...]]` com o valor da referência.
 4. **Render.**
@@ -101,7 +99,9 @@ o molde — só entram número, selo e créditos:
    python3 skills/reproduzir-card/montar-card.py <molde> saida/cards/NN-card-<slug> [LxA]
    ```
    `NN` é o próximo número livre em `saida/cards/`. Campo de identidade vazio na config para o
-   script com aviso — é pergunta ao consultor, não valor a inventar.
+   script com aviso — é pergunta ao consultor, não valor a inventar. A exceção são cores e fontes
+   de `identidade_visual`: vazias, o card sai no tema neutro de `scripts/design.py` e o script
+   avisa — repassar o aviso ao consultor na entrega.
 5. **Conferência visual, em loop.** Read no PNG inteiro e depois em recortes de cada faixa densa
    (`sips --cropToHeightWidth`). Passar a lista de armadilhas de `identidade.md`, corrigir no molde,
    renderizar de novo. Pronto quando nenhum recorte mostra texto sobreposto, cortado ou quebrado

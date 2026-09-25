@@ -4,14 +4,14 @@
 > congeladas em `conhecimento/fontes-publicas/`. Vale como régua até o consultor revisá-la; o
 > aprimoramento vem conforme a necessidade for surgindo.
 >
-> As 11 lacunas da tabela final **continuam abertas**: onde uma regra está marcada "⚠️ sem fonte
+> As lacunas 1 a 10 da tabela final **continuam abertas** (a 11 foi resolvida): onde uma regra está marcada "⚠️ sem fonte
 > normativa — premissa do repo", ela vale como régua de trabalho, não como citação de dispositivo.
 
 ## O que este documento é, e o que não é
 
 É a **régua** do que pode e não pode ser dito numa peça de venda de consórcio — roteiro, simulação,
-post, WhatsApp, slide, parecer. Não julga peça nenhuma: quem aplica a régua a uma peça concreta não
-deve ser o mesmo que a escreveu, para não ser autor e juiz da mesma norma.
+post, WhatsApp, slide, parecer. Não julga peça nenhuma: quem aplica a régua a uma peça concreta é a
+revisão de compliance, e **quem julga não é quem escreveu** — para não ser autor e juiz da mesma norma.
 
 **Cada regra abaixo cita a fonte congelada em `conhecimento/fontes-publicas/` que a sustenta.** Onde
 não achei base normativa direta, a regra vem marcada **⚠️ sem fonte normativa — premissa do repo, a
@@ -251,7 +251,7 @@ erro. Fonte: **art. 37, caput, §1º e §3º**, CDC.
 > - mecanismo de contemplação: sorteio ou lance, condicionado à existência de recursos no grupo —
 >   não automático, não garantido;
 > - inexistência de juros no sentido de financiamento bancário, mas existência de correção do
->   saldo/crédito por índice contratual;
+>   saldo/crédito por índice contratual — **item fechado** pela Regra 7.8;
 > - necessidade de análise de crédito e garantias para liberar a carta após a contemplação (Regra
 >   2.6);
 > - prazo de duração do plano;
@@ -265,24 +265,29 @@ erro. Fonte: **art. 37, caput, §1º e §3º**, CDC.
 divulgou que tem de provar que era verdadeira — não o cliente que tem de provar que era falsa.
 Fonte: **art. 38**, CDC.
 
-> ⚠️ **Sem decisão do repo — vedar comparação agressiva com concorrente.** O Código de Conduta da
-> ABAC (fonte **secundária**, autorregulação setorial, sem força de lei — `05-cdc...md` §3) tem um
-> inciso sobre "lealdade e respeito" aos concorrentes que o CDC arts. 30–38 não cobre. Registro como
-> candidato a regra adicional, não como regra vigente — decisão do consultor.
+**Regra 7.7 — comparação com concorrente.** Comparação agressiva com concorrente é **vedada**.
+Fonte: inciso de "lealdade e respeito" aos concorrentes do Código de Conduta da ABAC (fonte
+**secundária**, autorregulação setorial, sem força de lei — `05-cdc...md` §3), que o CDC arts.
+30–38 não cobre. Mesma regra de `conhecimento/anuncios/regras-de-anuncio-consorcio.md` §2.
+
+**Regra 7.8 — "sem juros".** "Sem juros" só pode aparecer acompanhado, **no mesmo texto**, da
+**taxa de administração** e do **reajuste** (correção do crédito por índice). Sem os dois no mesmo
+texto, "sem juros" não sai. Fonte: **art. 37, §1º e §3º**, CDC (enganosidade por omissão —
+`05-cdc...md` §1). Mesma regra de `conhecimento/anuncios/regras-de-anuncio-consorcio.md` §2.
 
 ---
 
 ## 8. Quem fala e em nome de quem
 
 **O que se sabe:** o vendedor de consórcio costuma atuar como **representante comercial autônomo,
-vínculo PJ** — não funcionário da administradora. ⚠️ Isso **não é fonte normativa externa**: o
-vínculo real de cada consultor está no contrato de representação dele, e é lá que se confirma.
+vínculo PJ** — não funcionário da administradora. O vínculo real de cada consultor está no contrato
+de representação dele e é declarado pelo consultor em `consultor.vinculo` (`config/consultor.json`).
 Base de transparência sobre quem trata o dado: **art. 6º, VI**, LGPD (garantia de informações
 claras sobre os agentes de tratamento) — `06-lgpd-dado-publico-e-abordagem-como-fornecedor.md` §4.
 
-**Regra 8.1.** Identificar-se sempre pelo vínculo real — no caso comum, representante comercial
-autônomo (PJ) —, nunca como "funcionário", "consultor da [administradora]" ou formulação que sugira
-vínculo empregatício ou institucional direto.
+**Regra 8.1.** Identificar-se sempre pelo vínculo real declarado em `consultor.vinculo` — no caso
+comum, representante comercial autônomo (PJ) —, nunca como "funcionário", "consultor da
+[administradora]" ou formulação que sugira vínculo empregatício ou institucional direto.
 
 > ⚠️ **Sem fonte — depende do contrato de representação.** Uso da marca da administradora, logotipo,
 > e quais materiais são "aprovados" para uso em peça (E-5 de `04-checklist-de-bolso.md`) **dependem
@@ -370,7 +375,7 @@ Ordem de revisão — cada item aponta a regra que o sustenta:
   aval)
 
 **G — Identidade de quem fala**
-- [ ] Identificação pelo vínculo real (no caso comum, representante autônomo PJ), não funcionário
+- [ ] Identificação pelo vínculo real declarado em `consultor.vinculo`, não funcionário
   (Regra 8.1)
 - [ ] Nenhum uso de marca/logo em posição institucional (§8, pendente de contrato)
 
@@ -385,7 +390,7 @@ Ordem de revisão — cada item aponta a regra que o sustenta:
 | # | O que falta | Onde se fecha |
 |---|---|---|
 | 1 | Fonte primária com a frase "consórcio não é investimento" (ou equivalente), do BCB ou da CVM | Nova rodada de pesquisa, se o consultor quiser essa frase pronta em vez da inferência do art. 2º |
-| 2 | Lista final de "dado essencial" (§7) — hoje é proposta | Decisão do consultor |
+| 2 | Lista final de "dado essencial" (§7) — hoje é proposta; o item de juros/reajuste já fechado (Regra 7.8) | Decisão do consultor |
 | 3 | Texto literal dos arts. 32–33 da Res. BCB 285/2023 (prazo/forma de devolução ao excluído) | Nova rodada de pesquisa normativa |
 | 4 | Texto integral da Res. BCB 362/2023 e das alterações posteriores (368/2024, 552/2026) sobre o art. 5º da Res. 155/2021 | Nova rodada de pesquisa normativa |
 | 5 | Uso de marca, logotipo e material aprovado (E-5) | Contrato de representação — devida diligência, não pesquisa web |
@@ -394,4 +399,4 @@ Ordem de revisão — cada item aponta a regra que o sustenta:
 | 8 | Comissionamento (tabela oficial, regras de estorno) e histórico de contemplação | Contrato e visita à administradora — não está na web, por design |
 | 9 | "Promessa por implicatura" (Regra 2.1) como critério de julgamento automático | Confirmação do consultor antes de aplicar isso mecanicamente |
 | 10 | Vigência atual dos normativos citados (checagem pontual antes de qualquer julgamento real) | Checagem de vigência, a cada uso relevante — normativos podem mudar entre 2026 e a data de uso |
-| 11 | Vedação de comparação agressiva com concorrente (ABAC, fonte secundária) | Decisão do consultor sobre incluir ou não |
+| 11 | ~~Vedação de comparação agressiva com concorrente (ABAC, fonte secundária)~~ | **Resolvida** — vedada (Regra 7.7) |

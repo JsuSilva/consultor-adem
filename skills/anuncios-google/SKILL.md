@@ -17,17 +17,19 @@ description: Configura do zero e opera anúncios no Google Ads — conta em modo
 1. **Nada que gasta verba sem o "sim" do consultor naquela rodada.** Ativar campanha e mudar
    orçamento pedem, cada um, o seu "sim". "Sim" de rodada anterior, de outra campanha ou deste
    documento não vale.
-2. **Teto diário é trava dura.** `anuncios.teto_diario_brl` vazio = nada com orçamento roda
-   (`gads.py` recusa). Orçamento acima do teto = recusa; o agente não sobe o teto, só o consultor,
-   editando a configuração.
+2. **Teto diário é trava dura, e vale para a soma.** `anuncios.teto_diario_brl` vazio = nada com
+   orçamento roda (`gads.py` recusa). A soma dos orçamentos diários das campanhas ativas com o
+   orçamento pedido acima do teto = recusa; o agente não sobe o teto, só o consultor, editando a
+   configuração.
 3. **Toda peça passa pela régua** de `conhecimento/regras-e-compliance/02-compliance-e-limites-do-discurso.md`
    antes de virar arquivo de campanha: consórcio não é investimento, nenhuma promessa de
    contemplação, data ou chance.
 4. **Não decide pelo consultor** (Regra nº 1 do `AGENTS.md`): palavra-chave, local, lance, verba,
    peça, conversão principal e categoria na verificação financeira são dele. A skill apresenta
    opções e espera.
-5. **Credencial nunca em arquivo versionado** — nem o JSON do cliente OAuth (o `.gitignore` não
-   cobre `client_secret_*.json`; guardar em `~/.config/consultor-adem/`).
+5. **Credencial nunca em arquivo versionado** — nem o JSON do cliente OAuth. O `.gitignore` já
+   bloqueia `client_secret*.json`; guardar em `~/.config/consultor-adem/` e o aviso de
+   `autenticar` seguem como segunda camada.
 6. **Uma escrita por vez e conferida:** simular antes (`gads.py` simula por padrão), aplicar com
    aval, ler de volta (`relatorio` ou a consulta do MCP) e mostrar o estado real.
 
@@ -95,7 +97,7 @@ Dois caminhos, complementares:
 
 | Caminho | Faz | Credencial | Quando |
 |---|---|---|---|
-| `scripts/google-ads/gads.py` (integração própria, biblioteca oficial `google-ads` 33.0.0, API v25) | lê **e escreve**: contas, relatório, campanha pausada, conversão, ativar, orçamento | `~/.config/consultor-adem/google-ads.yaml` | toda escrita; relatório em tabela |
+| `scripts/google-ads/gads.py` (integração própria, biblioteca oficial `google-ads` 33.0.0, API v25) | lê **e escreve**: contas, relatório, campanha pausada, conversão, pausar, ativar, orçamento | `~/.config/consultor-adem/google-ads.yaml` | toda escrita; relatório em tabela |
 | MCP oficial do Google Ads | **só lê**: `list_accessible_customers`, `search` (GAQL), `get_resource_metadata` | conforme o README do MCP | consulta livre de dados pelo agente |
 
 Criar a **conta** de anúncio pela API exige MCC, gasto acima de US$ 1.000 e não é permitido no
@@ -196,7 +198,15 @@ claude mcp add google-ads-mcp -e GOOGLE_PROJECT_ID=<projeto> -- \
 |---|---|---|---|
 | **Leitura** | `list_accessible_customers`, `search`, `get_resource_metadata` | `contas`, `relatorio` | livre, quando o consultor pedir |
 | **Escreve, sem gasto** | — | `criar-campanha` (nasce **PAUSADA**), `criar-conversao` — ambos simulam por padrão; `--aplicar` executa | simular livre; `--aplicar` com o aval do consultor ao plano da campanha / à conversão |
-| **GASTA / muda verba** | — | `ativar`, `orcamento` | **só pelo protocolo abaixo**; quem digita a confirmação é o consultor |
+| **Reduz gasto** | — | `pausar --campanha-id <id> \| --nome <nome>` — simula por padrão; `--aplicar` pede s/N em terminal interativo e, fora dele, pausa sem perguntar; sem checar teto | simular livre; `--aplicar` o agente pode rodar numa emergência (fora do terminal, sem s/N); no terminal do consultor, ele confirma |
+| **GASTA / muda verba** | — | `ativar`, `orcamento` — recusam se a soma das ativas com o pedido passar do teto | **só pelo protocolo abaixo**; quem digita a confirmação é o consultor |
+
+### Padrões (regra)
+
+- Conversões pela tag no site, contagem **uma por clique**: `site` = visita a página, `whatsapp` =
+  CONTACT, `formulario` = SUBMIT_LEAD_FORM.
+- Parceiros de pesquisa **desligados**, salvo `"parceiros_de_pesquisa": true` no JSON da campanha.
+- Grupo e anúncio nascem **ativos** sob a campanha **PAUSADA** — quem segura o gasto é a campanha.
 
 ### Campanha nova
 
@@ -214,29 +224,32 @@ Vale para `ativar` e `orcamento`.
 1. **Ler o teto** em `anuncios.teto_diario_brl`. Vazio → parar: "sem teto definido, não ativo nada;
    defina o teto pela skill `configuracao`".
 2. **Ler o estado:** `gads.py relatorio` (orçamento e status de cada campanha).
-3. **Conferir as pré-condições:** verificação de serviços financeiros concluída (Parte a, passo 5);
+3. **Somar as ativas:** orçamento diário de todas as campanhas ATIVAS (orçamento compartilhado
+   conta uma vez) + o orçamento pedido. Passou do teto → parar; `gads.py` recusa do mesmo jeito.
+4. **Conferir as pré-condições:** verificação de serviços financeiros concluída (Parte a, passo 5);
    peça aprovada na régua; conversão instalada, se o consultor a quer medindo desde o início.
-4. **Mostrar ao consultor, lado a lado:**
+5. **Mostrar ao consultor, lado a lado** (as quatro primeiras linhas são o quadro que `gads.py`
+   imprime antes de pedir o nome; orçamento compartilhado que já está na soma não entra de novo):
    ```
    Teto diário:              R$ <teto>
-   Orçamento atual:          R$ <x>/dia  (<campanha>)
-   Orçamento novo/ativado:   R$ <y>/dia
-   Outras campanhas ativas:  R$ <z>/dia
+   Soma atual das ativas:    R$ <z>/dia  (<n> campanhas)
+   Orçamento pedido:         R$ <y>/dia  (<campanha>)
+   Soma resultante:          R$ <z + y>/dia  (em `orcamento`, o valor atual da campanha ativa sai da soma)
    Peça passou na régua:     sim/não
    ```
    ⚠️ O Google pode gastar num dia acima do orçamento diário, compensando no mês (não conferido
    nas fontes desta skill) — dizer isso ao consultor ao mostrar o quadro.
-5. **Pedir o "sim"** do consultor para **esta** ação. Silêncio, "acho que sim", "pode ver" não são
+6. **Pedir o "sim"** do consultor para **esta** ação. Silêncio, "acho que sim", "pode ver" não são
    "sim".
-6. **O consultor roda o comando no terminal dele** — `gads.py` exige terminal interativo e o nome
-   exato da campanha digitado, e recusa orçamento acima do teto:
+7. **O consultor roda o comando no terminal dele** — `gads.py` exige terminal interativo e o nome
+   exato da campanha digitado, e recusa se a soma resultante passar do teto:
 
    ```bash
    python3 scripts/google-ads/gads.py ativar --campanha-id <id>
    python3 scripts/google-ads/gads.py orcamento --campanha-id <id> --novo-brl <valor>
    ```
 
-7. **Ler de volta** (`relatorio` ou `search` no MCP) e mostrar status e orçamento reais.
+8. **Ler de volta** (`relatorio` ou `search` no MCP) e mostrar status e orçamento reais.
 
 ### A peça passa pela régua
 
@@ -260,7 +273,7 @@ quem a julga — se foi o agente, apontar isso e pedir a revisão do consultor. 
 - Não cria conta, não faz login, não aceita termos nem cadastra pagamento — isso é do consultor.
 - Não ativa nem muda orçamento sem o "sim" da rodada; não digita a confirmação no lugar do
   consultor.
-- Não roda nada com orçamento com `teto_diario_brl` vazio, nem acima dele.
+- Não roda nada com orçamento com `teto_diario_brl` vazio, nem com a soma das ativas acima dele.
 - Não escolhe palavra-chave, local, lance, verba, peça, conversão principal nem categoria da
   verificação financeira.
 - Não afirma nível de acesso, elegibilidade ao Basic nem enquadramento na verificação financeira —

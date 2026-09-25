@@ -158,7 +158,7 @@ Verificado em campo, com indicados salvos e o vínculo conferido no pipeline.
    ```
    Busque pelo sobrenome e por um pedaço do telefone, não só pelo primeiro nome — um primeiro nome comum
    devolve homônimos que não têm nada a ver.
-3. **No `#modal-novo-lead`:** `#nome`, `#id_origem` = **7 (Indicação)**, e o campo
+3. **No `#modal-novo-lead`:** `#nome`, `#id_origem` = **7 (Indicação)** — conferir na sua unidade: o id interno pode variar —, e o campo
    **`#id_cliente_indicacao`** ("Clientes de indicação"), que é um select2 com busca por ajax.
    **Não use a caixa de busca do select2 por script:** em aba de segundo plano o atraso interno dele
    é estrangulado pelo Chrome e a busca não volta. Preencha com o `id` e o `text` que o endpoint

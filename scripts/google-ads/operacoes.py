@@ -1,6 +1,13 @@
 """
 Operações do Google Ads: leitura (contas, relatório), escrita sem gasto (campanha pausada,
-conversão) e escrita que libera gasto (ativar, orçamento — sempre com as travas de travas.py).
+conversão, pausar) e escrita que libera gasto (ativar, orçamento — sempre com as travas de
+travas.py, incluindo o teto somado das campanhas ativas).
+
+Padrões (regra, aprovados pelo consultor):
+- conversão medida pela tag no site, contagem "uma por clique"; tipo site = visita a página
+  (PAGE_VIEW), whatsapp = CONTACT, formulario = SUBMIT_LEAD_FORM;
+- parceiros de pesquisa desligados, salvo `"parceiros_de_pesquisa": true` no JSON da campanha;
+- grupo e anúncio nascem ATIVOS sob a campanha PAUSADA — quem segura o gasto é a campanha.
 """
 import json
 import os
@@ -23,7 +30,7 @@ PERIODOS = {
 
 CORRESPONDENCIA = {"exata": "EXACT", "frase": "PHRASE", "ampla": "BROAD"}
 
-# tipo pedido pelo consultor → categoria da ação de conversão (todas medidas pela tag no site).
+# Regra: tipo pedido → categoria da ação de conversão (todas medidas pela tag no site).
 CONVERSOES = {
     "formulario": "SUBMIT_LEAD_FORM",   # envio de formulário de contato/lead
     "whatsapp": "CONTACT",              # clique no botão/link de WhatsApp do site
@@ -54,17 +61,72 @@ def _tabela(cabecalho, linhas):
         print(fmt.format(*[str(x) for x in ln]))
 
 
+_CAMPOS_CAMPANHA = """
+        SELECT campaign.id, campaign.name, campaign.status, campaign.resource_name,
+               campaign.advertising_channel_type,
+               campaign_budget.resource_name, campaign_budget.amount_micros,
+               campaign_budget.explicitly_shared
+        FROM campaign"""
+
+
 def _campanha(client, cid, campanha_id):
     if not str(campanha_id).isdigit():
         sys.exit(f"ERRO: --campanha-id deve ser numérico; veio {campanha_id!r}.")
-    linhas = _consultar(client, cid, f"""
-        SELECT campaign.id, campaign.name, campaign.status, campaign.advertising_channel_type,
-               campaign_budget.resource_name, campaign_budget.amount_micros,
-               campaign_budget.explicitly_shared
-        FROM campaign WHERE campaign.id = {campanha_id}""")
+    linhas = _consultar(client, cid, f"{_CAMPOS_CAMPANHA} WHERE campaign.id = {campanha_id}")
     if not linhas:
         sys.exit(f"ERRO: campanha {campanha_id} não encontrada na conta {cid}.")
     return linhas[0]
+
+
+def _campanha_por_nome(client, cid, nome):
+    esc = nome.replace("\\", "\\\\").replace("'", "\\'")
+    linhas = _consultar(client, cid, f"""{_CAMPOS_CAMPANHA}
+        WHERE campaign.name = '{esc}' AND campaign.status != 'REMOVED'""")
+    if not linhas:
+        sys.exit(f"ERRO: nenhuma campanha com o nome exato {nome!r} na conta {cid}.")
+    if len(linhas) > 1:
+        ids = ", ".join(str(r.campaign.id) for r in linhas)
+        sys.exit(f"ERRO: {len(linhas)} campanhas com o nome {nome!r} (ids {ids}). "
+                 "Use --campanha-id.")
+    return linhas[0]
+
+
+def _ativas(client, cid):
+    """Orçamentos das campanhas ENABLED, um por orçamento (compartilhado conta uma vez).
+
+    Devolve (soma_brl, {chave_do_orcamento: brl}, n_campanhas_ativas).
+    """
+    linhas = _consultar(client, cid, """
+        SELECT campaign.id, campaign_budget.resource_name, campaign_budget.amount_micros
+        FROM campaign WHERE campaign.status = 'ENABLED'""")
+    orcs = {}
+    for r in linhas:
+        chave = r.campaign_budget.resource_name or f"campanha:{r.campaign.id}"
+        orcs[chave] = travas.de_micros(r.campaign_budget.amount_micros)
+    return sum(orcs.values()), orcs, len(linhas)
+
+
+def _quadro(client, cid, orc_rn, pedido, troca):
+    """Soma resultante das ativas com o orçamento `pedido`.
+
+    troca=True (orcamento): se o orçamento `orc_rn` já está na soma, o valor atual sai e o
+    pedido entra no lugar. troca=False (ativar/criar): se o orçamento já está na soma
+    (compartilhado com campanha ativa), nada entra de novo.
+    """
+    soma, orcs, n = _ativas(client, cid)
+    q = {"atual": soma, "pedido": pedido, "n_ativas": n, "descontado": 0.0, "nota": ""}
+    if orc_rn and orc_rn in orcs:
+        if troca:
+            q["descontado"] = orcs[orc_rn]
+            q["resultante"] = soma - orcs[orc_rn] + pedido
+            q["nota"] = "este orçamento já é usado por campanha ativa: o valor atual é trocado"
+        else:
+            q["resultante"] = soma
+            q["nota"] = ("orçamento compartilhado com campanha já ativa: já está na soma, "
+                         "não conta em dobro")
+    else:
+        q["resultante"] = soma + pedido
+    return q
 
 
 # ---------------------------------------------------------------- leitura
@@ -310,11 +372,15 @@ def criar_campanha(arquivo, aplicar):
     travas.exigir_brl(moeda)
 
     ops = _montar_operacoes(client, cid, p)
+    q = _quadro(client, cid, None, float(p["orcamento_diario_brl"]), troca=False)
     a = p["anuncio"]
     print(f"Conta {cid} — {nome_conta}")
     print(f"Campanha de Pesquisa: {p['nome']}  (nasce PAUSADA)")
-    print(f"Orçamento diário: {travas.brl(p['orcamento_diario_brl'])}  ·  teto: "
-          f"{travas.brl(teto)}")
+    print("Teto somado, se esta campanha fosse ativada hoje:")
+    print(travas.texto_quadro(q, teto))
+    if q["resultante"] > teto:
+        print("  AVISO: passaria do teto — `ativar` vai recusar enquanto a soma não couber. "
+              "Criar pausada não gasta.")
     print(f"Lance: {p['estrategia_lance']}  ·  locais: {p['geo_ids']}  ·  idiomas: "
           f"{p['idioma_ids']}  ·  parceiros de pesquisa: "
           f"{bool(p.get('parceiros_de_pesquisa', False))}")
@@ -403,14 +469,16 @@ def ativar(campanha_id):
     if r.campaign.status.name == "ENABLED":
         sys.exit(f"A campanha '{r.campaign.name}' já está ativa. Nada foi alterado.")
     travas.dentro_do_teto(atual, teto, "orçamento diário atual da campanha")
+    q = _quadro(client, cid, r.campaign_budget.resource_name, atual, troca=False)
+    travas.soma_dentro_do_teto(q, teto)
     resumo = (f"\nATIVAR CAMPANHA — a partir daqui ela GASTA\n"
               f"  conta:            {cid} — {nome_conta}\n"
               f"  campanha:         {r.campaign.name} (id {r.campaign.id})\n"
               f"  status:           {r.campaign.status.name} → ENABLED\n"
-              f"  teto (config):    {travas.brl(teto)} por dia\n"
               f"  orçamento diário: {travas.brl(atual)}"
               + ("  (compartilhado com outras campanhas)"
-                 if r.campaign_budget.explicitly_shared else ""))
+                 if r.campaign_budget.explicitly_shared else "")
+              + "\n" + travas.texto_quadro(q, teto))
     travas.confirmar_por_nome(r.campaign.name, resumo)
 
     from google.api_core import protobuf_helpers
@@ -433,15 +501,17 @@ def orcamento(campanha_id, novo_brl):
     travas.exigir_brl(moeda)
     r = _campanha(client, cid, campanha_id)
     atual = travas.de_micros(r.campaign_budget.amount_micros)
+    q = _quadro(client, cid, r.campaign_budget.resource_name, novo_brl, troca=True)
+    travas.soma_dentro_do_teto(q, teto)
     resumo = (f"\nMUDAR ORÇAMENTO DIÁRIO\n"
               f"  conta:          {cid} — {nome_conta}\n"
               f"  campanha:       {r.campaign.name} (id {r.campaign.id}, "
               f"{r.campaign.status.name})\n"
-              f"  teto (config):  {travas.brl(teto)} por dia\n"
               f"  atual:          {travas.brl(atual)}\n"
               f"  novo:           {travas.brl(novo_brl)}"
               + ("\n  ATENÇÃO: orçamento compartilhado — muda para todas as campanhas que o usam."
-                 if r.campaign_budget.explicitly_shared else ""))
+                 if r.campaign_budget.explicitly_shared else "")
+              + "\n" + travas.texto_quadro(q, teto))
     travas.confirmar_por_nome(r.campaign.name, resumo)
 
     from google.api_core import protobuf_helpers
@@ -453,3 +523,44 @@ def orcamento(campanha_id, novo_brl):
     client.get_service("CampaignBudgetService").mutate_campaign_budgets(
         customer_id=cid, operations=[op])
     print(f"ORÇAMENTO ALTERADO: {travas.brl(atual)} → {travas.brl(novo_brl)} por dia.")
+
+
+# ---------------------------------------------------------------- pausar (reduz gasto)
+
+def pausar(campanha_id, nome, aplicar):
+    cid = travas.customer_id()
+    client = auth.cliente()
+    _, nome_conta = _moeda(client, cid)
+    r = _campanha(client, cid, campanha_id) if campanha_id else _campanha_por_nome(client, cid, nome)
+    if r.campaign.status.name == "PAUSED":
+        sys.exit(f"A campanha '{r.campaign.name}' já está pausada. Nada foi alterado.")
+    if r.campaign.status.name == "REMOVED":
+        sys.exit(f"A campanha '{r.campaign.name}' foi removida. Nada foi alterado.")
+
+    from google.api_core import protobuf_helpers
+    op = client.get_type("CampaignOperation")
+    c = op.update
+    c.resource_name = r.campaign.resource_name or client.get_service(
+        "CampaignService").campaign_path(cid, r.campaign.id)
+    c.status = client.enums.CampaignStatusEnum.PAUSED
+    client.copy_from(op.update_mask, protobuf_helpers.field_mask(None, type(c).pb(c)))
+    req = client.get_type("MutateCampaignsRequest")
+    req.customer_id = cid
+    req.operations.append(op)
+    req.validate_only = not aplicar
+
+    resumo = (f"\nPAUSAR CAMPANHA — ela para de gastar\n"
+              f"  conta:            {cid} — {nome_conta}\n"
+              f"  campanha:         {r.campaign.name} (id {r.campaign.id})\n"
+              f"  status:           {r.campaign.status.name} → PAUSED\n"
+              f"  orçamento diário: "
+              f"{travas.brl(travas.de_micros(r.campaign_budget.amount_micros))}")
+    if not aplicar:
+        print(resumo)
+        client.get_service("CampaignService").mutate_campaigns(request=req)
+        print("\nSIMULAÇÃO OK: a API validou; nada foi alterado. Para pausar, rode de novo com "
+              "--aplicar.")
+        return
+    travas.confirmar_simples(resumo)
+    client.get_service("CampaignService").mutate_campaigns(request=req)
+    print(f"PAUSADA: {r.campaign.name}.")

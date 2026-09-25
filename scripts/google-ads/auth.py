@@ -99,7 +99,8 @@ def autenticar(client_secret, developer_token=None, login_customer_id=None):
     """Fluxo OAuth Desktop app → refresh token → ~/.config/consultor-adem/google-ads.yaml."""
     if _dentro_do_repo(client_secret):
         print("AVISO: o JSON do cliente OAuth está dentro do repositório. Mova-o para fora "
-              "(ex.: ~/.config/consultor-adem/) — o .gitignore não cobre client_secret_*.json.")
+              "(ex.: ~/.config/consultor-adem/). O .gitignore já bloqueia client_secret*.json; "
+              "este aviso é a segunda camada.")
     client_id, secret = _ler_client_secret(client_secret)
     if login_customer_id:
         login_customer_id = so_digitos(login_customer_id, "--login-customer-id")

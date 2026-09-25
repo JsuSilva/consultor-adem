@@ -43,14 +43,14 @@
 | 2.12 | Vínculo falso com a administradora | "consultor oficial da [administradora]", "funcionário", logo em posição institucional | 8.1 | LGPD art. 6º, VI; ⚠️ uso de marca depende do contrato (régua §8) |
 | 2.13 | Número de taxa, prazo ou crédito tirado de outro lugar que não `config/consultor.json` | "taxa de mercado", valor de concorrente | AGENTS.md, regra do ofício 3 | — |
 
-**"Sem juros" — quando pode.** Só acompanhado, no mesmo anúncio, da existência de **taxa de
-administração** e da **correção do crédito por índice** — os dois itens que a lista de "dado
-essencial" da régua (§7, Regra 7.5) põe ao lado da ausência de juros. ⚠️ Essa lista ainda é
-**proposta sem aval do consultor** (régua, lacuna 2); até o aval, tratar os dois itens como
-obrigatórios por precaução.
+**"Sem juros" — quando pode.** Só acompanhado, no **mesmo anúncio**, da **taxa de
+administração** e do **reajuste** (correção do crédito por índice) — os dois itens que a lista de
+"dado essencial" da régua (§7, Regra 7.5) põe ao lado da ausência de juros. Sem os dois no mesmo
+anúncio, "sem juros" não sai.
 
-**Comparação com concorrente.** ⚠️ Vedar comparação agressiva vem só do Código da ABAC (fonte
-secundária) e **não é regra vigente** — régua §7 e lacuna 11. Decisão do consultor.
+**Comparação com concorrente.** Comparação agressiva com concorrente é **vedada em anúncio**.
+Apoio: inciso de "lealdade e respeito" aos concorrentes do Código de Conduta da ABAC (fonte
+secundária, autorregulação setorial, sem força de lei — régua §7; `05-cdc...md` §3).
 
 ## 3. Anúncio com número
 
@@ -62,9 +62,9 @@ secundária) e **não é regra vigente** — régua §7 e lacuna 11. Decisão do
 4. O número sai de `config/consultor.json` (`produto.*`), com o `_fonte` preenchido. Campo `null`
    = o anúncio não leva número.
 5. Projeção precisa vir marcada como simulação (Regra 7.1, CDC art. 30).
-6. ⚠️ **Formato curto × Regra 3.1.** Título e texto de anúncio não comportam a tabela. Se basta
-   pôr a tabela na página de destino ou no formulário, com o anúncio remetendo a ela, **não tem
-   fonte** no repositório. Até decisão do consultor, a saída segura é **anúncio sem número**.
+6. **Anúncio curto com número é proibido** até nova decisão do consultor: a Regra 3.1 exige os
+   custos em tabela, e título e texto de anúncio não comportam a tabela. Número pode aparecer
+   **só na página de destino**, e só com a tabela completa da Regra 3.1 nela.
 
 ## 4. Como descrever o lance embutido
 
@@ -187,9 +187,11 @@ quem escreveu a peça (régua, "O que este documento é").
 
 **B — Custo e número** (régua §10 C)
 - [ ] "Sem juros", se usado, vem com taxa de administração e reajuste no mesmo anúncio (§2)
-- [ ] Anúncio com número: todos os itens da Regra 3.1, em tabela; ou anúncio sem número (§3)
+- [ ] Anúncio curto sem nenhum número (§3, item 6)
+- [ ] Número, se houver, só na página de destino e com a tabela completa da Regra 3.1 (§3)
 - [ ] Todo número sai de `config/consultor.json` com `_fonte`; lastro guardado antes de publicar (Regra 7.4)
 - [ ] Comparação com financiamento, se houver, com diferença estrutural e efeito da espera (4.1, 4.2)
+- [ ] Nenhuma comparação agressiva com concorrente (§2)
 
 **C — Uso do crédito e saída** (régua §10 D–E)
 - [ ] Quitação de financiamento só total e da mesma categoria (5.1)
@@ -220,12 +222,9 @@ quem escreveu a peça (régua, "O que este documento é").
 
 | # | Lacuna | Onde se fecha |
 |---|---|---|
-| 1 | Se a tabela da Regra 3.1 na página de destino supre anúncio curto com número | Decisão do consultor; eventual pesquisa |
-| 2 | Lista de "dado essencial" (base do uso de "sem juros") | Aval do consultor — régua, lacuna 2 |
-| 3 | Consentimento de contato cobre público de anúncio? Hash muda o enquadramento? | Decisão do consultor; pesquisa LGPD/ANPD |
-| 4 | Restrição de idade do Google para serviço financeiro no Brasil | Checagem na política do Google |
-| 5 | Categoria do consultor na verificação do Google | Administradora (§8, pergunta 5) |
-| 6 | Autorização do regulador exigida pela Meta para representante autônomo | Administradora (§8, pergunta 6) |
-| 7 | Aprovação prévia de peça e uso de marca | Contrato de representação (§8, perguntas 1–4) |
-| 8 | CONAR e jurisprudência de publicidade de consórcio | Pesquisa — `05-cdc...md` §4, itens 4–5 |
-| 9 | Comparação agressiva com concorrente | Decisão do consultor — régua, lacuna 11 |
+| 1 | Consentimento de contato cobre público de anúncio? Hash muda o enquadramento? | Decisão do consultor; pesquisa LGPD/ANPD |
+| 2 | Restrição de idade do Google para serviço financeiro no Brasil | Checagem na política do Google |
+| 3 | Categoria do consultor na verificação do Google | Administradora (§8, pergunta 5) |
+| 4 | Autorização do regulador exigida pela Meta para representante autônomo | Administradora (§8, pergunta 6) |
+| 5 | Aprovação prévia de peça e uso de marca | Contrato de representação (§8, perguntas 1–4) |
+| 6 | CONAR e jurisprudência de publicidade de consórcio | Pesquisa — `05-cdc...md` §4, itens 4–5 |

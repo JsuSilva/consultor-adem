@@ -6,7 +6,10 @@ gads.py — integração própria do consultor com o Google Ads (biblioteca ofic
 
 Leitura ............ contas, relatorio
 Escrita sem gasto .. criar-campanha (nasce PAUSADA; --simular é o padrão), criar-conversao
-Escrita com gasto .. ativar, orcamento (teto da config + nome da campanha digitado no terminal)
+Reduz gasto ........ pausar (--simular é o padrão; --aplicar pede s/N só em terminal
+                     interativo — fora dele, pausa direto)
+Escrita com gasto .. ativar, orcamento (soma das ativas ≤ teto da config + nome da campanha
+                     digitado no terminal)
 Credenciais ........ autenticar (grava em ~/.config/consultor-adem/google-ads.yaml, fora do Git)
 
 IDs vêm de config/consultor.json → anuncios.google (customer_id) e anuncios.teto_diario_brl.
@@ -82,10 +85,23 @@ def _parser():
                    help="só se o consultor pedir: grava o id em "
                         "anuncios.google.conversao_principal")
 
-    s = sub.add_parser("ativar", help="PAUSADA → ATIVA (gasta). Exige nome digitado no terminal")
+    s = sub.add_parser("ativar", help="PAUSADA → ATIVA (gasta; soma das ativas ≤ teto). "
+                                      "Exige nome digitado no terminal")
     s.add_argument("--campanha-id", required=True)
 
-    s = sub.add_parser("orcamento", help="muda o orçamento diário (≤ teto). Exige nome digitado")
+    s = sub.add_parser("pausar", help="ATIVA → PAUSADA (reduz gasto). --aplicar pede s/N "
+                                       "só em terminal interativo")
+    q = s.add_mutually_exclusive_group(required=True)
+    q.add_argument("--campanha-id", help="id numérico da campanha")
+    q.add_argument("--nome", help="nome exato da campanha")
+    m = s.add_mutually_exclusive_group()
+    m.add_argument("--simular", action="store_true", help="padrão: a API só valida, nada muda")
+    m.add_argument("--aplicar", action="store_true",
+                   help="pausa de fato: em terminal interativo pede s/N; fora dele "
+                        "(agente, pipe) pausa sem perguntar")
+
+    s = sub.add_parser("orcamento", help="muda o orçamento diário (soma das ativas ≤ teto). "
+                                         "Exige nome digitado")
     s.add_argument("--campanha-id", required=True)
     s.add_argument("--novo-brl", required=True, type=_brl, help="novo orçamento diário em R$")
     return p
@@ -104,6 +120,8 @@ def _executar(a):
         operacoes.criar_conversao(a.nome, a.tipo, a.aplicar, a.gravar_principal)
     elif a.cmd == "ativar":
         operacoes.ativar(a.campanha_id)
+    elif a.cmd == "pausar":
+        operacoes.pausar(a.campanha_id, a.nome, a.aplicar)
     elif a.cmd == "orcamento":
         operacoes.orcamento(a.campanha_id, a.novo_brl)
 

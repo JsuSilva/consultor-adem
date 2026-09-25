@@ -155,8 +155,9 @@ reproduzível não prioriza nada.
 | **Ciclo** | Em quanto tempo decide? | muitos meses | um a dois meses | dias |
 | **Ticket** | Cabe na meta de ticket do consultor? | bem abaixo da meta | na meta | bem acima da meta |
 
-As âncoras de **Universo, Ciclo e Ticket** dependem da praça e da meta de cada consultor: fixe-as em
-número antes de dar a primeira nota e use as mesmas para todas as teses — trocar a âncora entre uma
+As âncoras de **Universo, Ciclo e Ticket** dependem da praça e da meta de cada consultor: fixe-as
+como âncoras qualitativas, como as da tabela, antes de dar a primeira nota e use as mesmas para
+todas as teses — trocar a âncora entre uma
 tese e outra desfaz a comparação.
 
 **Aderência** mede o consultor, não o mercado: os outros cinco critérios medem o mercado; este mede

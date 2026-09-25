@@ -18,6 +18,7 @@ saida/*
 *.pem
 *.key
 credentials*.json
+client_secret*.json
 
 # Documentos brutos (defesa em profundidade)
 *.pdf

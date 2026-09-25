@@ -8,7 +8,8 @@ Conteúdo semente dos roteiros — sete roteiros, cada um em duas versões (com 
 
 Quem é o consultor sai de config/consultor.json: `dados(cfg)` troca {NOME} por consultor.nome,
 {NOME_CURTO} por consultor.nome_curto (ou o nome) e {CRED} pela primeira de
-consultor.credenciais. Os números do caso ficam entre colchetes: saem da conta do calculista,
+consultor.credenciais. Sem credencial declarada, a frase "sou …" é cortada da fala — não fica
+marcador no lugar. Os números do caso ficam entre colchetes: saem da conta do calculista,
 com os parâmetros de produto.linhas.*, nunca daqui.
 """
 
@@ -31,8 +32,8 @@ CONTA_PORQUE = (
  "O número que abre é a <b>diferença de custo do crédito</b>, não a parcela: não depende de prazo, de reajuste nem de índice, já traz a taxa aberta dentro dele e o cliente confere na calculadora enquanto você fala. A comparação está no <b>mesmo crédito dos dois lados</b> — o saldo financiado, com a entrada de bolso em ambos —, e é isso que torna a parcela comparável; por isso a parcela no prazo do banco vem antes da parcela no prazo do grupo. ⚠️ Taxa, fundo de reserva, seguro e prazo do grupo vêm de config/consultor.json → produto.linhas.auto, e a conta sai do calculista. Parâmetro ainda não confirmado com a administradora: “com os parâmetros que uso hoje”.")
 DESQ = ("“E vou te falar de saída: <b>se a conta disser financiamento, eu digo financiamento.</b> "
   "Já mandei cliente para o banco. Não vivo de vender cota, vivo de acertar a decisão.”")
-PEDIDO_15 = ("“Consegue me dar <b>15 minutos</b> para eu te mostrar a planilha? Tenho terça às 16h30 "
-  "ou quinta às 10h30. Qual fica melhor?”")
+PEDIDO_15 = ("“Consegue me dar <b>15 minutos</b> para eu te mostrar a planilha? Tenho [dia] às [hora] "
+  "ou [dia] às [hora]. Qual fica melhor?”")
 PEDIDO_PORQUE = "Duas opções, nunca três — e nunca “quando fica bom pra você?” antes de oferecer."
 OBJ_INTERESSE = obj("“No momento não tenho interesse.”",
   "“Entendo, [Nome]. Só para eu entender e não te incomodar à toa: é questão de <b>tempo</b> ou de "
@@ -211,7 +212,7 @@ ROTEIROS.append({
 CONTA_EXEMPLO = ("“Segue o caso que te falei: [o caso da tese que você usa, em cinco linhas], com a taxa "
   "de administração aberta. Se quiser, <b>troco os números pelos seus</b>.”")
 DESQ_BANCO = "“Esse mesmo comparativo já mandou cliente meu para o banco. Se for o seu caso, eu digo.”"
-PEDIDO_TROCA = ("“Vale 15 minutos para eu trocar os números pelos seus? Terça 16h30 ou quinta 10h30.”")
+PEDIDO_TROCA = ("“Vale 15 minutos para eu trocar os números pelos seus? [dia] às [hora] ou [dia] às [hora].”")
 OBJ_RADAR = obj("“Não tenho nada no radar agora.”",
   "“Perfeito. Te chamo daqui uns três meses só para saber se mudou — e se aparecer antes, me chama "
   "<b>antes</b> de assinar no banco.”")
@@ -381,7 +382,7 @@ CONTA_SOCIO_PORQUE = ("Escolha o exemplo pela carteira dele. Escritório com mui
   "conta de frota, não pela de aluguel. Mapeie o perfil de cada escritório antes de ligar.")
 PEDIDO_SOCIO = ("“Queria te mostrar a planilha, <b>ouvir onde ela está frágil</b>, e te propor uma coisa: "
   "você me passa um caso, sem me dizer quem é, e eu te devolvo o parecer pronto para você entregar. "
-  "Terça 16h30 ou quinta 10h30?”")
+  "[dia] às [hora] ou [dia] às [hora]?”")
 PEDIDO_SOCIO_PORQUE = ("Duas opções de horário, e sem “quando fica bom pra você?” antes — abrir e fechar a "
   "mesma pergunta soa inseguro e convida o “me manda um e-mail”.")
 OBJS_SOCIO = [
@@ -455,7 +456,7 @@ PONTE_CF = ("“Fiz uma conta que raramente alguém mostra: <b>quanto o aluguel 
 CONTA_CF = ("“São dois minutos: [valores do caso]. E a taxa de administração está dentro da conta — "
   "não é comparação maquiada.”")
 DESQ_CF = "“<b>Se a conta não fechar para o seu caso, eu digo.</b>”"
-PEDIDO_CF = "“Vale 15 minutos com os números de vocês dentro? Terça 16h30 ou quinta 10h30.”"
+PEDIDO_CF = "“Vale 15 minutos com os números de vocês dentro? [dia] às [hora] ou [dia] às [hora].”"
 OBJ_SEM_INT = obj("“Não tenho interesse.”",
   "“Entendo. Só para eu não te incomodar à toa: é questão de <b>tempo</b> ou de <b>recurso</b> hoje?” "
   "— e segue pelos dois braços do roteiro 01.")
@@ -520,13 +521,21 @@ def _troca(obj, trocas):
 
 
 def dados(cfg):
-    """A semente com o consultor dentro. Nome é obrigatório; sem credencial declarada, o lugar
-    dela fica marcado entre colchetes, como os outros campos a preencher."""
+    """A semente com o consultor dentro. Nome é obrigatório; sem credencial declarada, a frase
+    "sou {CRED}" sai da fala inteira — nada de marcador no lugar dela."""
     from config import exigir, valor
     nome = exigir(cfg, "consultor.nome")
     creds = valor(cfg, "consultor.credenciais") or []
-    return _troca(DADOS, {
-        "{NOME_CURTO}": valor(cfg, "consultor.nome_curto") or nome,
-        "{NOME}": nome,
-        "{CRED}": str(creds[0]) if creds else "[sua credencial]",
-    })
+    if creds:
+        trocas = {"{CRED}": str(creds[0])}
+    else:
+        trocas = {  # a ordem importa: as frases inteiras saem antes de sobrar {CRED} solto
+            ", sou {CRED}.": ".",
+            "Eu sou {CRED}. ": "",
+            "Quem prova que você é {CRED} é o passo 4": "Quem prova quem você é é o passo 4",
+        }
+    trocas.update({"{NOME_CURTO}": valor(cfg, "consultor.nome_curto") or nome, "{NOME}": nome})
+    saida = _troca(DADOS, trocas)
+    if "{CRED}" in repr(saida):
+        raise RuntimeError("roteiros_seed: sobrou {CRED} sem credencial — frase nova sem regra de corte")
+    return saida

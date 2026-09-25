@@ -173,95 +173,6 @@ probabilidade de contemplação, nem por implicatura**. Duas saídas, e a escolh
    fatos verificáveis do contrato.
 Crédito, parcela e reduzida **saem como estão**: são número de contrato, não previsão.
 
-### Sequência de prospecção — exemplo de um público (médicos investidores)
-
-Os atalhos são respostas rápidas do WhatsApp Business. A etapa de cada texto na cadência está em
-`conhecimento/maquina-de-vendas/05-cadencia-e-limites-do-whatsapp.md`.
-
-**Etapa 1 — WhatsApp.** Entrada, e depois **uma** das três aberturas, alternadas entre os leads.
-```
-Boa tarde, tudo bem? Me chamo {consultor.nome}, eu falo com Dr(a). [Nome]?
-```
-Abertura, alternativa 0 — *só vale se o consultor de fato tiver uma carteira de médicos
-investidores*:
-```
-Opa, [Nome]!
-
-Estou entrando em contato porque trabalho com uma estratégia usando o consórcio para investimento
-em imóveis, já tenho uma carteira de Médicos Investidores, gostaria de apresentar você também como
-funciona, consegue falar comigo hoje?
-```
-Abertura, alternativa 1:
-```
-Opa! Me chamo {consultor.nome}.
-
-Estou entrando em contato porque trabalho com uma estratégia usando o consórcio como ferramenta
-para investimento em imóveis na planta. Você hoje investe em imóveis?
-```
-Abertura, alternativa 2:
-```
-Opa! Me chamo {consultor.nome}.
-
-Estou entrando em contato porque trabalho com Investidores usando o consórcio como estratégia para
-construção de patrimônio imobiliário, gostaria de apresentar você como funciona, consegue falar
-comigo hoje?
-```
-
-**Etapa 2 — follow-up.** Atalho `followup`. A saudação segue a hora corrente.
-```
-Bom dia Dr(a). [Nome], tudo bem?
-Te mandei mensagem, e percebi que não respondeu. Imagino que seja porque não teve tempo.
-Podemos conversar hoje?
-```
-**O `[Nome]` só entra quando o nome está confirmado.** Lead de razão social institucional
-— "Clinica X", "Y Servicos Medicos" — não tem nome de pessoa conhecido: esse vai pelo caminho da
-secretária, não por este texto com um nome adivinhado.
-
-**Etapa 3 — ligação.** Mantém a estrutura do modelo — silêncios, manhã ou tarde, dois horários — e
-amarra a ligação à mensagem de WhatsApp que veio antes.
-```
-Olá, boa tarde! Com quem eu falo?
-[espera]
-Dr(a). [Nome]? Aqui é o {consultor.nome}, consultor da {administradora.nome}. Te mandei uma mensagem no WhatsApp esses dias.
-[fica em silêncio, espera a resposta]
-Eu trabalho com médicos que investem em imóveis, usando o consórcio como ferramenta para comprar imóvel na planta e construir patrimônio imobiliário.
-Queria te mostrar em 20 minutos como funciona. Fica melhor no seu consultório ou por vídeo?
-[fica em silêncio]
-De manhã ou de tarde?
-Tenho [dia] às 10h ou às 14h30, o que fica melhor?
-Maravilha, Dr(a). [Nome]. Agendado [dia] às [hora]. Qual seu e-mail pra eu mandar o convite?
-Até lá!
-```
-Se atender a secretária:
-```
-Eu falo com o(a) Dr(a). [Nome]? … Qual o melhor horário pra eu retornar?
-```
-Se pedir "manda pelo WhatsApp":
-```
-Mando sim. E já deixo reservado um horário de 20 minutos pra gente conversar: [dia] às [hora] fica bom?
-```
-
-**Etapa 4 — pega-ratão.** Atalho `fallowup5`. **Só sai com uma condição especial real do dia**,
-confirmada na administradora — sem ela, a etapa não sai.
-```
-Boa tarde [Nome], tudo bem? Estou com uma condição especial hoje, posso te apresentar aqui?
-```
-
-**Etapa 5 — novo follow-up.**
-```
-Oi [Nome] recebeu minha última oportunidade, o que achou?
-```
-
-**Etapa 6 — encerramento.** Atalho `follow-up2`. Cumpre a regra do SAIR: silêncio mantém o contato,
-SAIR remove.
-```
-Bom dia, tudo bem?
-Te mandei essa mensagem e percebi que não respondeu. Imagino que seja porque não teve tempo.
-Caso não me responda, vou colocar você numa lista de divulgação que faço através do número
-{consultor.telefone}, salve esse contato por favor.
-Caso não deseje continuar recebendo novidades e ofertas, basta responder SAIR
-```
-
 ## Saída esperada
 
 O roteiro no formato do canal · o próximo passo explícito · o bloco de origem dos números (linha e
@@ -275,7 +186,11 @@ carimbo ou não.
 - **Não gera número.** Conta de produto é do `calculista`; sem número calculado, o roteiro usa o
   gatilho e a pergunta — não inventa.
 - **Não inventa prova.** Credencial, carteira, tempo de casa e caso de cliente só entram se estiverem
-  em `consultor.credenciais` ou forem informados pelo consultor.
+  em `consultor.credenciais` ou forem informados pelo consultor. **Sem credencial em
+  `consultor.credenciais`, a frase "sou …" sai inteira** — nunca fica placeholder que possa chegar
+  literal ao cliente.
+- **Horário proposto ao cliente é `[dia] às [hora]`**, preenchido pelo consultor — nunca dia e hora
+  fixos no texto.
 - **Compliance se lê pela semântica, não pela palavra.** O que o documento de compliance veda
   (`conhecimento/regras-e-compliance/02-compliance-e-limites-do-discurso.md`, Regras 1.1 e 1.2) é
   **dizer que o consórcio é investimento** — chamar a cota de investimento, aplicação ou reserva que

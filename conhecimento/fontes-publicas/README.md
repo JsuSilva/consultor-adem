@@ -15,6 +15,7 @@ regra.
 | `06` LGPD — dado público | dado publicado pelo titular × pela empresa; "abordar como fornecedor" | antes de usar contato achado em site, CNPJ ou rede |
 | `07` Res. BCB 155/2021 | custo em % sobre o crédito; comparação com financiamento | antes de simulação ou comparativo com número |
 | `08` Seguro e perecimento | que seguro a norma exige; o que acontece com a dívida se o bem perece | ao falar de seguro ou de sinistro do bem |
+| `09` Cessão de cota e tributação do ganho | transferência da cota a terceiro (art. 13, Res. BCB 285/2023, STJ); IR do ganho na venda da cota por pessoa física | ao falar de venda ou compra de carta contemplada |
 
 ## Convenções
 
