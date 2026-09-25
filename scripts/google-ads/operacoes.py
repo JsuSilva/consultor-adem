@@ -451,7 +451,7 @@ def criar_conversao(nome, tipo, aplicar, gravar_principal):
     conv_id = rn.split("/")[-1]
     print(f"CRIADA: {rn}  (id {conv_id})")
     print("Próximo passo: instalar o evento dessa conversão no site junto com a tag do Google "
-          "(ver skills/anuncios-google/SKILL.md).")
+          "(ver .agents/skills/anuncios-google/SKILL.md).")
     if gravar_principal:
         _gravar_conversao_principal(conv_id)
 

@@ -96,7 +96,7 @@ o molde — só entram número, selo e créditos:
    Preencher na cópia cada `[[...]]` com o valor da referência.
 4. **Render.**
    ```bash
-   python3 skills/reproduzir-card/montar-card.py <molde> saida/cards/NN-card-<slug> [LxA]
+   python3 .agents/skills/reproduzir-card/montar-card.py <molde> saida/cards/NN-card-<slug> [LxA]
    ```
    `NN` é o próximo número livre em `saida/cards/`. Campo de identidade vazio na config para o
    script com aviso — é pergunta ao consultor, não valor a inventar. A exceção são cores e fontes

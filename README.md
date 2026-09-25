@@ -38,7 +38,7 @@ Os `.md` ao lado são as fontes em [Marp](https://marp.app/).
 
    Tudo vai para `config/consultor.json`, que **não sobe para o Git**.
 3. **Formule sua primeira tese** com [`conhecimento/teses/README.md`](./conhecimento/teses/README.md).
-4. **Monte seu caminho de prospecção** no agente [`prospector`](./agentes/prospector.md) — ele vem
+4. **Monte seu caminho de prospecção** no agente [`prospector`](./.agents/agents/prospector.md) — ele vem
    em branco de propósito: cada um acha o seu.
 
 Requisitos: Python 3.9+ para os scripts. Para exportar a aula: Node e `npx @marp-team/marp-cli`.
@@ -51,8 +51,8 @@ Requisitos: Python 3.9+ para os scripts. Para exportar a aula: Node e `npx @marp
 consultor-adem/
 ├── AGENTS.md          → as regras de trabalho do agente (valem em qualquer harness)
 ├── config/            → o modelo da configuração; a sua fica fora do Git
-├── skills/            → o que você pede ao agente, por tarefa
-├── agentes/           → especialistas que o agente aciona
+├── .agents/skills/    → o que você pede ao agente, por tarefa
+├── .agents/agents/    → especialistas que o agente aciona
 ├── conhecimento/      → regras e compliance, fontes públicas, teses, cadência, anúncios
 ├── governanca/        → decisions-log, BACKLOG e como os dois funcionam
 ├── scripts/           → geradores de peça e utilitários (leem a config)
@@ -61,7 +61,7 @@ consultor-adem/
 └── saida/             → fora do Git — peças geradas com seus dados
 ```
 
-### Skills — `skills/`
+### Skills — `.agents/skills/`
 
 | Skill | Quando usar |
 |---|---|
@@ -81,7 +81,7 @@ consultor-adem/
 
 Skills que mandam mensagem, escrevem no CRM ou produzem peça para cliente **não disparam sozinhas**.
 
-### Agentes — `agentes/`
+### Agentes — `.agents/agents/`
 
 | Agente | Papel |
 |---|---|

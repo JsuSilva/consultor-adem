@@ -2,7 +2,7 @@
 
 Integração própria de escrita com o Google Ads, pela biblioteca oficial `google-ads` (33.0.0,
 API v25). O MCP oficial do Google só lê; criar campanha, conversão, ativar e mudar orçamento passam
-por aqui. Guia do zero, acesso e travas: [`skills/anuncios-google/SKILL.md`](../../skills/anuncios-google/SKILL.md).
+por aqui. Guia do zero, acesso e travas: [`.agents/skills/anuncios-google/SKILL.md`](../../.agents/skills/anuncios-google/SKILL.md).
 
 ## Instalar
 

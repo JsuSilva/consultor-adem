@@ -2,7 +2,7 @@
 """Monta e renderiza um card: preenche a identidade do consultor, embute as fotos do molde e tira
 o PNG no Chrome headless.
 
-    python3 skills/reproduzir-card/montar-card.py molde.tpl.html saida/cards/NN-card-slug [1080x1350]
+    python3 .agents/skills/reproduzir-card/montar-card.py molde.tpl.html saida/cards/NN-card-slug [1080x1350]
 
 Grava <destino>.html (autocontido) e <destino>.png no dobro do quadro (2160×2700 no padrão).
 
@@ -22,7 +22,7 @@ Cada foto entra como __FOTO:caminho__, e o caminho aceita ~.
 """
 import base64, pathlib, re, subprocess, sys
 
-RAIZ = pathlib.Path(__file__).resolve().parents[2]
+RAIZ = pathlib.Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(RAIZ / "scripts"))
 from config import carregar, exigir, valor  # noqa: E402
 import design  # noqa: E402  — tema neutro e resolução das cores e fontes da config

@@ -57,12 +57,14 @@ Toda resposta vem em **bullets numerados**, nunca em texto corrido.
 | Pasta | O que tem |
 |---|---|
 | `config/` | a configuração do consultor (modelo versionado; o preenchido fica fora do Git) |
-| `agentes/` | subagentes — calculista, auditor, pesquisador, sentinela, prospector |
-| `skills/` | skills — configuração, diagnóstico, roteiro, follow-up, comparativo, CRM, WhatsApp, cards |
+| `.agents/agents/` | subagentes — calculista, auditor, pesquisador, sentinela, prospector |
+| `.agents/skills/` | skills — configuração, diagnóstico, roteiro, follow-up, comparativo, CRM, WhatsApp, cards |
 | `conhecimento/` | regras e compliance, fontes públicas, modelo de tese, cadência de WhatsApp |
 | `governanca/` | decisions-log, BACKLOG e como os dois funcionam |
 | `scripts/` | geradores de peça e utilitários; todos leem `scripts/config.py` |
 | `apresentacao/` | a aula de IA para consultores |
 | `dados/` · `saida/` | fora do Git — dado de cliente e peças geradas |
 
-`.claude/agents` e `.claude/skills` são atalhos para `agentes/` e `skills/`; o conteúdo é um só.
+Skills e subagentes ficam em `.agents/`, a pasta que o Antigravity e outros harnesses leem.
+`.claude/agents` e `.claude/skills` são atalhos para lá, para o Claude Code; o conteúdo é um só.
+No Windows, os atalhos chegam como arquivo de texto — sem efeito no Antigravity.

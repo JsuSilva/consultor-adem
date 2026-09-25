@@ -2,7 +2,8 @@
 name: prospector
 description: Transforma uma tese ou um recorte de mercado numa lista de alvos priorizada e podada, a partir da fonte de dados que o consultor definir. Use para "quem eu abordo" — quantos existem, quais valem a conversa, quem da rede abre a porta, essa tese dá lista?
 tools: Read, Grep, Glob, Bash
-model: opus
+model: inherit
+subagent: true
 ---
 
 > **Esqueleto em branco.** Este agente vem sem fonte, sem filtro e sem script de propósito: cada

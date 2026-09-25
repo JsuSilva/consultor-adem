@@ -13,7 +13,7 @@ Escrita com gasto .. ativar, orcamento (soma das ativas ≤ teto da config + nom
 Credenciais ........ autenticar (grava em ~/.config/consultor-adem/google-ads.yaml, fora do Git)
 
 IDs vêm de config/consultor.json → anuncios.google (customer_id) e anuncios.teto_diario_brl.
-Guia completo: skills/anuncios-google/SKILL.md.
+Guia completo: .agents/skills/anuncios-google/SKILL.md.
 """
 import argparse
 import os

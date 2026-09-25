@@ -93,8 +93,8 @@ conta continua vindo do `calculista`.
 
 | Modelo | Pergunta que responde | Gerador | Saída |
 |---|---|---|---|
-| Consórcio × financiamento na construção | em quanto tempo preciso vender para o financiamento seguir vantajoso | [`gerar-comparativo-construcao.py`](../../scripts/gerar-comparativo-construcao.py) | `saida/comparativo-construcao.html` |
-| Troca de financiamento pelo consórcio | vale quitar o financiamento com uma carta contemplada, e até que mês de contemplação | [`gerar-comparativo-troca-financiamento.py`](../../scripts/gerar-comparativo-troca-financiamento.py) | `saida/comparativo-troca-financiamento.html` (e `.png` com `--png`) |
+| Consórcio × financiamento na construção | em quanto tempo preciso vender para o financiamento seguir vantajoso | [`gerar-comparativo-construcao.py`](../../../scripts/gerar-comparativo-construcao.py) | `saida/comparativo-construcao.html` |
+| Troca de financiamento pelo consórcio | vale quitar o financiamento com uma carta contemplada, e até que mês de contemplação | [`gerar-comparativo-troca-financiamento.py`](../../../scripts/gerar-comparativo-troca-financiamento.py) | `saida/comparativo-troca-financiamento.html` (e `.png` com `--png`) |
 
 ## Compliance — o que nunca sai desta skill
 
