@@ -53,7 +53,7 @@ consultor-adem/
 ├── config/            → o modelo da configuração; a sua fica fora do Git
 ├── skills/            → o que você pede ao agente, por tarefa
 ├── agentes/           → especialistas que o agente aciona
-├── conhecimento/      → regras e compliance, fontes públicas, teses, cadência
+├── conhecimento/      → regras e compliance, fontes públicas, teses, cadência, anúncios
 ├── governanca/        → decisions-log, BACKLOG e como os dois funcionam
 ├── scripts/           → geradores de peça e utilitários (leem a config)
 ├── apresentacao/      → a aula de IA para consultores
@@ -71,9 +71,13 @@ consultor-adem/
 | `roteirista` | a fala — primeiro contato, retomada, objeção, pauta, pedido de indicação |
 | `follow-up` | o próximo toque de um lead parado (Quem · Impedimentos · Próximo passo) |
 | `comparativo-credito` | "compensa?" — consórcio × financiamento × capital próprio, com a conta aberta |
-| `ativacao-whatsapp` | rodada de ativação ativa no WhatsApp Web, com os limites de cadência |
+| `whatsapp-web` | rodada de ativação ativa no WhatsApp Web, com os limites de cadência |
 | `crm-apollo` | só para quem usa o CRM Apollo: importa leads, registra ação, lança proposta |
 | `reproduzir-card` | reproduz um card de venda com a sua identidade |
+| `anuncios-meta` | configura do zero e opera Facebook/Instagram Ads — portfólio, conta, pixel, acesso do agente, ativação com teto |
+| `anuncios-google` | configura do zero e opera Google Ads — conta, verificação financeira, conversões, integração de escrita |
+| `whatsapp-oficial` | WhatsApp Business oficial (Cloud API) pelo MCP da Meta — **beta, para teste** |
+| `auditoria-de-anuncios` | auditoria só de leitura das contas de anúncio, cruzada com as regras de anúncio de consórcio |
 
 Skills que mandam mensagem, escrevem no CRM ou produzem peça para cliente **não disparam sozinhas**.
 

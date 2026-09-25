@@ -171,7 +171,7 @@ def contatos_do_dia(dia):
     follow-up de lead antiga entram no CSV com `status = followup` e ficam de fora. Sem isso,
     todo dia com encaminhamento ou encerramento sairia como FALHA na comparação com o print
     (mais linhas no CSV do que cards no CRM). A regra de registro mora na skill
-    `ativacao-whatsapp`.
+    `whatsapp-web`.
     """
     if not ATIVACOES.exists():
         return 0

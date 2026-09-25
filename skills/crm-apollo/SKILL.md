@@ -32,7 +32,7 @@ Quando o consultor pede carga ou registro no CRM. Seis operações:
 6. **executar o contrato da skill `follow-up`** — o próximo passo de cada lead, no mecanismo certo
    (Passos, 8).
 
-Duas skills irmãs alimentam esta: a **`ativacao-whatsapp`** produz a fila e o log que viram
+Duas skills irmãs alimentam esta: a **`whatsapp-web`** produz a fila e o log que viram
 importação e registro de conversa; a **`follow-up`** decide o próximo passo e entrega o contrato de
 seis campos. **Esta skill é a única dona da mecânica do Apollo** — seletor, armadilha de modal e
 sequência de clique moram aqui e em lugar nenhum mais. Quem precisa escrever no CRM delega para cá,

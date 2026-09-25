@@ -1,6 +1,5 @@
 {
   "_comentario": "Modelo. A skill `configuracao` copia para config/consultor.json (fora do Git) e preenche com você. Campo null = ainda não informado; script que depender dele para com aviso, nunca inventa.",
-
   "consultor": {
     "nome": null,
     "nome_curto": null,
@@ -14,7 +13,6 @@
     "assinatura": null,
     "foto": null
   },
-
   "administradora": {
     "nome": null,
     "unidade": null,
@@ -23,7 +21,6 @@
       "url_unidade": null
     }
   },
-
   "identidade_visual": {
     "acento": null,
     "acento_brilho": null,
@@ -32,15 +29,49 @@
     "fonte_texto": null,
     "logo": null
   },
-
   "produto": {
     "_fonte": "documento e data de onde cada valor saiu — sem fonte, o número não entra",
     "linhas": {
-      "imovel":   {"taxa_administracao": null, "fundo_reserva": null, "prazo_meses": null, "indice_reajuste": null, "credito_min": null, "credito_max": null},
-      "auto":     {"taxa_administracao": null, "fundo_reserva": null, "prazo_meses": null, "indice_reajuste": null, "credito_min": null, "credito_max": null},
-      "pesados":  {"taxa_administracao": null, "fundo_reserva": null, "prazo_meses": null, "indice_reajuste": null, "credito_min": null, "credito_max": null},
-      "moto":     {"taxa_administracao": null, "fundo_reserva": null, "prazo_meses": null, "indice_reajuste": null, "credito_min": null, "credito_max": null},
-      "servicos": {"taxa_administracao": null, "fundo_reserva": null, "prazo_meses": null, "indice_reajuste": null, "credito_min": null, "credito_max": null}
+      "imovel": {
+        "taxa_administracao": null,
+        "fundo_reserva": null,
+        "prazo_meses": null,
+        "indice_reajuste": null,
+        "credito_min": null,
+        "credito_max": null
+      },
+      "auto": {
+        "taxa_administracao": null,
+        "fundo_reserva": null,
+        "prazo_meses": null,
+        "indice_reajuste": null,
+        "credito_min": null,
+        "credito_max": null
+      },
+      "pesados": {
+        "taxa_administracao": null,
+        "fundo_reserva": null,
+        "prazo_meses": null,
+        "indice_reajuste": null,
+        "credito_min": null,
+        "credito_max": null
+      },
+      "moto": {
+        "taxa_administracao": null,
+        "fundo_reserva": null,
+        "prazo_meses": null,
+        "indice_reajuste": null,
+        "credito_min": null,
+        "credito_max": null
+      },
+      "servicos": {
+        "taxa_administracao": null,
+        "fundo_reserva": null,
+        "prazo_meses": null,
+        "indice_reajuste": null,
+        "credito_min": null,
+        "credito_max": null
+      }
     },
     "seguro_mensal": null,
     "taxa_adesao": null,
@@ -49,15 +80,17 @@
       "embutido_maximo": null
     }
   },
-
   "comissao": {
     "_fonte": null,
     "faixas": [
-      {"nome": null, "percentual": null, "condicao": null}
+      {
+        "nome": null,
+        "percentual": null,
+        "condicao": null
+      }
     ],
     "parcelas": null
   },
-
   "mercado": {
     "_fonte": "taxa e data de consulta de cada valor",
     "juros_imobiliario_am": null,
@@ -65,11 +98,31 @@
     "juros_cdc_pesados_am": null,
     "juros_finame_am": null
   },
-
   "operacao": {
     "placar": {
       "grupo": null,
       "horario": null
+    }
+  },
+  "anuncios": {
+    "_comentario": "IDs das contas e o teto de verba. Credenciais (tokens, client secret, refresh token) NUNCA aqui: ficam em .env ou ~/.config/consultor-adem/, fora do Git.",
+    "teto_diario_brl": null,
+    "meta": {
+      "acesso": null,
+      "business_id": null,
+      "ad_account_id": null,
+      "pagina_id": null,
+      "instagram_id": null,
+      "pixel_id": null
+    },
+    "google": {
+      "customer_id": null,
+      "projeto_cloud": null,
+      "conversao_principal": null
+    },
+    "whatsapp_oficial": {
+      "waba_id": null,
+      "numero_id": null
     }
   }
 }

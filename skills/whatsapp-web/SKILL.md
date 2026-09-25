@@ -1,9 +1,9 @@
 ---
-name: ativacao-whatsapp
-description: Roda uma rodada de ativação ativa no WhatsApp Web pelo Claude in Chrome — fila da lista de leads, poda de lead problemático, checagem de histórico antes do disparo, envio com intervalo variável, contato salvo, conversa etiquetada na lista do segmento e linha no log. Invoque com /ativacao-whatsapp quando o consultor já tiver definido segmento, volume e abordagem; não dispara sozinha, porque manda mensagem a pessoa real.
+name: whatsapp-web
+description: Roda uma rodada de ativação ativa no WhatsApp Web pelo Claude in Chrome — fila da lista de leads, poda de lead problemático, checagem de histórico antes do disparo, envio com intervalo variável, contato salvo, conversa etiquetada na lista do segmento e linha no log. Invoque com /whatsapp-web quando o consultor já tiver definido segmento, volume e abordagem; não dispara sozinha, porque manda mensagem a pessoa real.
 ---
 
-# Skill — `ativacao-whatsapp`
+# Skill — `whatsapp-web`
 
 > A rodada de prospecção ativa, operada na mão pela sessão principal via Claude in Chrome
 > (`mcp__claude-in-chrome__*`, com `browser_batch` para encadear passos). É skill e não agente

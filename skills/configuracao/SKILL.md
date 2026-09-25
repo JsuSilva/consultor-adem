@@ -53,7 +53,13 @@ description: Personaliza esta cópia do repositório para o consultor — pergun
    `pesquisador` pode buscar depois, com fonte.
 8. **Operação (`operacao`).** Nome do grupo e horário do placar diário, se o consultor usa o
    `placar-dia.py`.
-9. **Fechamento.** Valide o JSON (`python3 -c "import json;json.load(open('config/consultor.json'))"`),
+9. **Anúncios (`anuncios`).** Só se o consultor anuncia. O teto diário de verba em R$ — as skills
+   de anúncio recusam qualquer orçamento acima dele e, mesmo abaixo, pedem confirmação a cada
+   ativação. Os ids das contas (Meta, Google, WhatsApp oficial) costumam ser preenchidos depois,
+   pelas skills `anuncios-meta`, `anuncios-google` e `whatsapp-oficial`. **Credencial nenhuma
+   entra aqui** — token, client secret e refresh token ficam em `.env` ou
+   `~/.config/consultor-adem/`.
+10. **Fechamento.** Valide o JSON (`python3 -c "import json;json.load(open('config/consultor.json'))"`),
    rode `git status` para confirmar que o arquivo não aparece e liste, em bullets, os campos que
    ficaram `null` e qual peça cada um trava.
 
