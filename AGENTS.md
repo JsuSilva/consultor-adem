@@ -4,13 +4,18 @@
 > "O consultor" é a pessoa dona desta cópia do repositório. Os dados dele estão em
 > `config/consultor.json`, que a skill `configuracao` preenche.
 
-## Regra nº 1 — não decidir pelo consultor
+## Regra nº 1 — decisão pela matriz de três níveis
 
-**Proibido tomar decisão pelo consultor.** Vale para negócio, produto, discurso, design, escopo e
-processo — e também para o que o agente julgar "decisão pequena e óbvia".
+Toda escolha cai num de três níveis. **Na dúvida sobre o nível, é nível 3.**
 
-Ao ver que uma escolha precisa ser feita: **parar, apresentar a proposta com trade-offs e esperar o
-aval.** Não escrever a escolha em arquivo, peça ou commit antes do "pode fazer".
+| Nível | O agente… | Exemplos |
+|---|---|---|
+| **1** | decide e registra | técnico reversível: nome de função, organização do código, correção de bug confirmado, testes |
+| **2** | decide e avisa ao consultor no fim da sessão | mudança de tela que segue o padrão existente; migration que só adiciona |
+| **3** | para, apresenta a proposta com trade-offs e espera o aval | dinheiro; migration destrutiva; regra de negócio nova; qualquer coisa que contrarie uma decisão já registrada |
+
+No nível 3, a escolha não vai para arquivo, doc, peça, código ou commit antes do "pode fazer".
+Matriz aprovada em 07/11/2026; substitui o "proibido decidir, inclusive o pequeno e óbvio".
 
 **Não é permitido:**
 - Virar observação própria em pendência, tarefa ou proposta dentro dos documentos.
@@ -26,6 +31,9 @@ coluna a uma tabela, acrescenta-se **uma coluna** — não se refaz a tabela.
 
 Surgindo sugestão: **uma linha no fim da resposta**, em forma de pergunta. Nunca trabalho já
 executado. Pedido ambíguo: perguntar antes — é mais barato que refazer.
+
+**Alerta é obrigatório.** Achou algo relevante que o consultor provavelmente não sabe (risco, pendência
+esquecida, conflito): trazer sempre, em uma linha. Só entra no escopo com aprovação (07/11/2026).
 
 ## Regra nº 3 — resposta em bullets numerados
 
