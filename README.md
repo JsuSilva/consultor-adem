@@ -2,7 +2,7 @@
 
 Um escritório de IA para **consultor de consórcio**: skills, agentes, scripts e base de regras que
 transformam um assistente de IA (Claude Code, Codex, Cursor ou outro que leia `AGENTS.md`) num
-parceiro de trabalho — da conversa com o lead à conta, do roteiro ao card, do follow-up ao CRM.
+parceiro de trabalho — da conversa com o lead ao cálculo, do roteiro ao card, do follow-up ao CRM.
 
 O repositório é **universal**: não traz nome, telefone, identidade visual nem número de nenhuma
 administradora. Cada consultor clona e **personaliza com a própria configuração**.
@@ -67,10 +67,10 @@ consultor-adem/
 |---|---|
 | `configuracao` | primeiro uso, ou quando um dado seu ou da administradora mudar |
 | `diagnostico-de-lead` | logo depois do primeiro contato: fato × interpretação, tese, desqualificadores, próximo passo |
-| `resumo-de-reuniao` | ao sair de uma conversa: resumo, compromissos, estágio, conta a pedir |
+| `resumo-de-reuniao` | ao sair de uma conversa: resumo, compromissos, estágio, cálculo a pedir |
 | `roteirista` | a fala — primeiro contato, retomada, objeção, pauta, pedido de indicação |
 | `follow-up` | o próximo toque de um lead parado (Quem · Impedimentos · Próximo passo) |
-| `comparativo-credito` | "compensa?" — consórcio × financiamento × capital próprio, com a conta aberta |
+| `comparativo-credito` | "compensa?" — consórcio × financiamento × capital próprio, com o cálculo aberto |
 | `whatsapp-web` | rodada de ativação ativa no WhatsApp Web, com os limites de cadência |
 | `crm-apollo` | só para quem usa o CRM Apollo: importa leads, registra ação, lança proposta |
 | `reproduzir-card` | reproduz um card de venda com a sua identidade |
@@ -85,8 +85,8 @@ Skills que mandam mensagem, escrevem no CRM ou produzem peça para cliente **nã
 
 | Agente | Papel |
 |---|---|
-| `calculista` | toda conta de produto: parcela, saldo, lance, Price/SAC/CET, break-even, comissão |
-| `auditor-financeiro` | confere a conta de uma peça pronta antes de ir a campo |
+| `calculista` | todo cálculo de produto: parcela, saldo, lance, Price/SAC/CET, break-even, comissão |
+| `auditor-financeiro` | confere o cálculo de uma peça pronta antes de ir a campo |
 | `pesquisador` | dono das fontes: lei, normativo do BC, dado de mercado com origem citável |
 | `sentinela` | vigia a coerência do repositório contra o decisions-log e o BACKLOG |
 | `prospector` | esqueleto em branco — o seu método de achar quem abordar |

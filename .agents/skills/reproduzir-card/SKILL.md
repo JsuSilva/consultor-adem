@@ -65,10 +65,23 @@ o molde — só entram número, selo e créditos:
 
 - `presets/grupo-em-andamento.md` — grupo com assembleias correndo (card 01).
 - `presets/grupo-novo.md` — grupo antes da primeira assembleia (card 02).
+- `presets/grupo-servicos.md` — grupo da linha de serviços, com prazo na etiqueta (card 22).
+- `presets/grupo-capital-construcao.md` — grupo com o destaque no uso do crédito para construir (card 34).
 - `presets/consorcio-imovel-permite.md` — lista de usos do consórcio de imóvel (card 05).
 - `presets/consorcio-veiculos-permite.md` — a mesma lista para a linha de veículos (card 17).
+- `presets/oportunidade.md` — oferta de um grupo com números, nas versões veículo e imóvel (cards 20 e 21).
+- `presets/oportunidade-desistencia.md` — a mesma oferta quando a cota vagou por desistência (card 23).
 - `presets/vencimento-boleto.md` — aviso de vencimento, nas versões imóveis e veículos (cards 06 e 07).
 - `presets/frase.md` — post de presença, só uma frase, sem oferta (card 08).
+- `presets/frase-viagem.md` — o mesmo post de presença na linha de serviços, com alusão a viagem (cards 24 a 32).
+- `presets/carta-parabens.md` — carta de pós-venda ao cliente que acabou de aderir (card 35).
+- `presets/cota-do-cliente.md` — os dados do plano contratado, para enviar junto com a carta (card 36).
+
+**Venda concluída.** Logo depois da adesão, as duas peças do cliente novo saem juntas, dos mesmos
+campos — nome, modalidade, crédito contratado, grupo e cota: a carta (card 35) e a cota (card 36),
+no mesmo formato 1080×1080 (`montar-card.py <cópia> dados/<slug> 1080x1080`, PNG em 2160×2160).
+Os arquivos saem com dado de cliente: a cópia preenchida e o PNG ficam em `dados/` ou no CRM,
+nunca no Git.
 
 ## As marcações do molde
 
@@ -89,9 +102,11 @@ o molde — só entram número, selo e créditos:
    família —
    `exemplos/01-card-grupo-em-andamento.tpl.html` (campanha, 4:5, tabela de ofertas),
    `exemplos/03-card-parabens-cliente.tpl.html` (campanha, 9:16, texto e chamada),
-   `exemplos/05-card-consorcio-permite.tpl.html` (campanha, fundo claro, lista de itens) ou
-   `exemplos/06-card-vencimento-imoveis.tpl.html` (campanha, quadrado, painel claro sobre foto)
-   ou `exemplos/08-card-frase.tpl.html` (site, 9:16, frase sem oferta):
+   `exemplos/05-card-consorcio-permite.tpl.html` (campanha, fundo claro, lista de itens),
+   `exemplos/18-card-consorcio-imoveis-dark.tpl.html` (a mesma lista em fundo escuro) ou
+   `exemplos/06-card-vencimento-imoveis.tpl.html` (campanha, quadrado, painel claro sobre foto),
+   `exemplos/08-card-frase.tpl.html` (site, 9:16, frase sem oferta) ou
+   `exemplos/20-card-oportunidade-auto.tpl.html` (campanha escuro, 9:16, oferta de grupo com foto no pé):
    mesmos tokens, gradientes, fontes e posicionamento absoluto; foto como `__FOTO:caminho__`.
    Preencher na cópia cada `[[...]]` com o valor da referência.
 4. **Render.**

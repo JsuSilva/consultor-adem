@@ -193,8 +193,8 @@ CORPO = """
 
 <div class="alerta">
   <p><b>Onde isto diverge do material de treinamento.</b> Os scripts do material abrem com “estou
-  trabalhando com consórcio”.__CRED_FRASE__ Aqui a abertura é a
-  conta do interlocutor — com número, não com teoria — e o fechamento é dizer <b>onde o consórcio
+  trabalhando com consórcio”.__CRED_FRASE__ Aqui a abertura é o
+  cálculo do interlocutor — com número, não com teoria — e o fechamento é dizer <b>onde o consórcio
   perde</b>. E o corte tributário <b>não</b> abre conversa com contador: para ele é trivial. Uma
   ressalva: “não tem juros” dito sozinho fica incompleto — existe taxa de administração, e para um
   contador omitir isso sai caro.</p>
@@ -203,7 +203,7 @@ CORPO = """
 <h2 id="sumario">Os sete roteiros</h2>
 
 <div class="alerta" style="border-left-color:var(--ink-3);margin-bottom:26px">
-  <p><b>Os oito passos são sempre os mesmos.</b> Abertura · a ponte · qualificação · a conta · o
+  <p><b>Os oito passos são sempre os mesmos.</b> Abertura · a ponte · qualificação · o cálculo · o
   desqualificador · o pedido · objeções · fechamento. Roteiro que não usa um passo <b>diz por que
   pulou</b>. E cada um tem <b>duas versões</b>: com indicação, quando alguém fez a ponte, e sem
   indicação, quando você chegou sozinho — só a abertura e a ponte mudam, o resto se mantém.</p>

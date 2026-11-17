@@ -46,7 +46,31 @@ Toda resposta vem em **bullets numerados**, nunca em texto corrido.
   as opções.
 - Sem relatório não pedido. Código, comando e diff entram como bloco.
 
-## Regras do ofício — valem em toda peça e toda conta
+## Regra nº 4 — a palavra é "cálculo", nunca "conta"
+
+Em português "conta" tem dois sentidos — **fatura** e **cálculo** — e numa peça de venda o leitor
+cai no errado. Vale em tudo o que se escreve aqui: página, deck, roteiro, documento, instrução de
+agente e skill.
+
+- "mostrar a conta" → **mostrar o cálculo**; "a conta fecha" → **o cálculo fecha**; "faz a conta" →
+  **faz o cálculo**.
+- Os outros sentidos ficam: *o aluguel paga as contas*, *quem conta com*, *levar em conta*.
+- O vício se reproduz a partir do próprio repositório: README, decisions-log ou instrução de agente
+  que diga "mostrar a conta" faz cada peça nova sair com o mesmo erro.
+
+## Regra nº 5 — arquivo consultado é arquivo arquivado
+
+Fonte que entra no trabalho **vai para o lugar certo do repositório no momento em que é
+consultada**, com nome que diga o que é. Não fica solta em `Downloads`, na pasta de outro projeto
+nem no diretório de trabalho da sessão.
+
+- O PDF, a planilha ou o print que lastreia um número vive **ao lado do documento que o cita**, com
+  o mesmo prefixo numérico — `conhecimento/fontes-publicas/10-….md` e `10-fonte-….pdf`.
+- `*.pdf` está no `.gitignore`: o arquivo é movido para o repositório, mas não versionado por padrão.
+  O que entra no git é o documento que o transcreve, com URL, data de acesso e sha256.
+- Fonte com dado de cliente ou lead vai para `dados/`, fora do Git.
+
+## Regras do ofício — valem em toda peça e todo cálculo
 
 1. **Consórcio não é investimento.** É planejamento de compra. A distinção é regulatória
    (Lei 11.795/2008, supervisão do Banco Central) — ver `conhecimento/regras-e-compliance/`.
@@ -54,7 +78,7 @@ Toda resposta vem em **bullets numerados**, nunca em texto corrido.
 3. **Nada de número inventado.** Taxa, prazo, fundo de reserva e comissão vêm de
    `config/consultor.json`, informados pelo consultor a partir de documento da administradora.
    Campo vazio é pergunta, não estimativa.
-4. **Mostrar a conta** em todo número: fórmula, substituição, resultado. Premissa não confirmada
+4. **Mostrar o cálculo** em todo número: fórmula, substituição, resultado. Premissa não confirmada
    leva ⚠️. Fonte e data em todo dado de mercado.
 5. **LGPD:** dado nominal de lead ou cliente fica em `dados/`, fora do Git. Templates sim, gente não.
 6. **Peça que vai a pessoa real** (mensagem, card, proposta) só sai com aval do consultor naquela

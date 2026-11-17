@@ -9,16 +9,16 @@ construção, para exportar como imagem.
 Duas regras:
 
 1. **O design vem do design.py.** Nenhuma cor escrita aqui.
-2. **O conteúdo vem da conta do `calculista`**: o lado do consórcio sai dos parâmetros da linha
+2. **O conteúdo vem do cálculo do `calculista`**: o lado do consórcio sai dos parâmetros da linha
    imóvel em config/consultor.json (taxa de administração, fundo de reserva, prazo e índice de
    reajuste, via scripts/config.py — campo vazio para o script com aviso); o lado do
    financiamento sai da taxa de juros `mercado.juros_imobiliario_am` (com a fonte em
    `mercado._fonte`) e dos parâmetros públicos da Caixa — TR, tarifa mensal, vistoria —,
    congelados no bloco CASO abaixo com fonte e data. A curva de custo é recalculada a cada
-   execução (ver `_financiamento`). Mudou a conta, muda aqui — nesta ordem, nunca ao contrário.
+   execução (ver `_financiamento`). Mudou o cálculo, muda aqui — nesta ordem, nunca ao contrário.
 
 Os textos que dependem do resultado (quem sai mais barato na conclusão, renda exigida) são
-condicionais: a peça nunca afirma o que a conta não sustenta.
+condicionais: a peça nunca afirma o que o cálculo não sustenta.
 
 O bloco CASO é o exemplo que acompanha o modelo (obra de 12 meses, crédito de R$ 250 mil, quitação
 na venda). Para outro caso, troque o bloco e os textos do corpo.
@@ -208,7 +208,7 @@ def grafico(larg=1000, alt=340):
     p.append(f'<text x="{ml+12}" y="{Y(CONSORCIO_PISO)-10:.1f}" class="lb">'
              f'CONSÓRCIO · {brl(CONSORCIO_PISO)} FIXOS</text>')
 
-    # curva do financiamento — âncoras da conta, prolongadas pelo custo mensal
+    # curva do financiamento — âncoras do cálculo, prolongadas pelo custo mensal
     pts = _pontos_curva()
     d = " ".join(("M" if i == 0 else "L") + f"{X(m):.1f} {Y(v):.1f}" for i, (m, v) in enumerate(pts))
     p.append(f'<path d="{d}" fill="none" stroke="var(--accent)" stroke-width="3" '
@@ -314,7 +314,7 @@ def main():
 
     travas = "".join(f"<li><b>{esc(t)}</b>{esc(d)}</li>" for t, d in TRAVAS)
 
-    # Textos que dependem do resultado da conta — nunca afirmar o que ela não sustenta.
+    # Textos que dependem do resultado do cálculo — nunca afirmar o que ele não sustenta.
     fin_mais_barato = CURVA_TODA[0] < CONSORCIO_PISO
     n = round(CRUZA_PISO)
     if not fin_mais_barato:
@@ -331,7 +331,7 @@ def main():
   em paralelo se a parcela couber no orçamento</b> — sem entrada, sem projeto, sem vistoria{renda} —
   e que o caixa desta venda pode acionar como lance, antes de a próxima obra chegar.""")
     else:
-        faixa = (f"""Nesta conta, <b>o financiamento custa mais que o consórcio mesmo com a venda na
+        faixa = (f"""Neste cálculo, <b>o financiamento custa mais que o consórcio mesmo com a venda na
   conclusão da obra</b>. Ainda assim, o crédito do consórcio só é liberado após a contemplação, sem
   data: ele não paga esta obra. Vale como <b>plano B que pode rodar em paralelo se a parcela couber
   no orçamento</b> — sem entrada, sem projeto, sem vistoria{renda} — e que o caixa desta venda pode
@@ -361,7 +361,7 @@ def main():
   <div class="kpi"><span class="v">{brl(CUSTO_MES)}</span>
     <span class="r">o que cada mês a mais até a venda acrescenta ao custo do crédito, depois que a
     obra termina: juros, tarifa e correção do saldo pela TR. A parcela desembolsada é de
-    {brl(PARCELA_FIN_1A)} — a amortização não entra na conta porque volta como saldo menor na
+    {brl(PARCELA_FIN_1A)} — a amortização não entra no cálculo porque volta como saldo menor na
     quitação</span></div>
   <div class="kpi"><span class="v">{brl(CURVA[0][1])}</span>
     <span class="r">custo do crédito se vender na conclusão — contra {brl(CONSORCIO_PISO)}
@@ -427,7 +427,7 @@ def main():
   administradora nem parecer da Caixa.</p>
   <p>Premissas do caso: obra de {OBRA_MESES} meses, quitação na venda, terreno próprio em
   garantia, cronograma de {OBRA_MESES} medições presumido. Projeções marcadas como tais — mudou a
-  premissa, muda a conta. Juros do financiamento de {pct(JUROS_AM*100)}% a.m. + TR:
+  premissa, muda o cálculo. Juros do financiamento de {pct(JUROS_AM*100)}% a.m. + TR:
   {esc(JUROS_FONTE)}. TR de {f"{TR_AM*100:.3f}".replace(".", ",")}% a.m. (Banco Central, SGS 226, 01/09/2026); tarifa
   mensal de {brl(TARIFA_MES)} e vistoria de {brl(VISTORIA)} por medição (tabela de tarifas Caixa,
   03/07/2026). Regras de enquadramento, tarifas e liberação por medição: caixa.gov.br e Cartilha

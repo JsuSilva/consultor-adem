@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Card — Oportunidade por desistência, imóvel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{card.fonte_titulo_url}}:wght@400;500;600;700;800;900&display=swap">
+<style>
+:root{--ink:#0F1419;--g3:{{cor.acento}};--g4:{{cor.acento_escuro}};
+  --ouro:linear-gradient(180deg,{{cor.acento_claro}} 0%,{{cor.acento_brilho}} 32%,{{cor.acento}} 62%,{{cor.acento_escuro}} 100%);
+  --ouro-chapa:linear-gradient(180deg,{{cor.acento_brilho}} 0%,{{cor.acento}} 48%,{{cor.acento_profundo}} 100%)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
+body{font-family:'{{identidade_visual.fonte_titulo}}',system-ui,sans-serif;color:#fff;position:relative}
+.abs{position:absolute}
+.fundo{inset:0;background:url(__FOTO:[[caminho da foto de fundo]]__) center/cover}
+.veu{inset:0;background:radial-gradient(85% 42% at 50% 4%,rgba({{cor.acento_escuro_rgb}},.30),transparent 62%),
+  linear-gradient(180deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.72) 38%,rgba(0,0,0,.55) 66%,rgba(0,0,0,.86) 100%)}
+/* chapas do título */
+.chapa{left:60px;top:96px;width:960px;height:152px;border-radius:18px;transform:skewX(-4deg);
+  background:var(--ouro-chapa);box-shadow:0 14px 34px rgba({{cor.acento_escuro_rgb}},.35)}
+.chapa-t{left:60px;top:96px;width:960px;height:152px;display:flex;align-items:center;justify-content:center;
+  font-size:92px;font-weight:900;letter-spacing:-.01em;color:var(--ink)}
+.sub{left:200px;top:262px;width:680px;height:76px;border-radius:14px;background:#0F1419;
+  border:2px solid rgba({{cor.acento_rgb}},.6);display:flex;align-items:center;justify-content:center;
+  font-size:34px;font-weight:800;letter-spacing:.06em;
+  background-clip:padding-box}
+.sub span{background:var(--ouro);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* painel */
+.painel{left:56px;top:368px;width:968px;height:912px;border-radius:32px;
+  background:linear-gradient(180deg,rgba(17,21,26,.94),rgba(6,7,9,.96));
+  border:2px solid rgba({{cor.acento_rgb}},.45);box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.credito{left:56px;top:418px;width:968px;display:flex;align-items:center;justify-content:center;gap:16px;
+  font-size:46px;font-weight:800;letter-spacing:.06em}
+.credito svg{width:40px;height:40px}
+.valor{left:56px;top:472px;width:968px;text-align:center;font-size:122px;font-weight:900;line-height:1;
+  letter-spacing:-.03em;padding-bottom:16px;
+  background:var(--ouro);-webkit-background-clip:text;background-clip:text;color:transparent}
+.valor small{font-size:.48em}
+.fio{left:180px;top:618px;width:720px;height:2px;background:linear-gradient(90deg,transparent,rgba({{cor.acento_rgb}},.8),transparent)}
+.linha{left:56px;width:968px;display:grid;grid-template-columns:1fr 1fr}
+.cel{display:flex;align-items:center;justify-content:center;gap:20px}
+.cel+.cel{border-left:2px solid rgba(255,255,255,.14)}
+.cel svg{width:70px;height:70px;flex:none}
+.cel .n{font-size:62px;font-weight:900;line-height:1}
+.cel .r{font-size:27px;font-weight:600;letter-spacing:.06em;color:#D1D5DB}
+.cel .r-cima{font-size:27px;font-weight:600;letter-spacing:.05em;color:#D1D5DB;margin-bottom:2px}
+.l1{top:648px;height:118px}
+/* destaque */
+.destaque{left:100px;top:792px;width:880px;height:282px;border-radius:26px;
+  background:linear-gradient(135deg,{{cor.acento_noite}} 0%,{{cor.acento_sombra}} 55%,{{cor.acento_noite}} 100%);
+  border:3px solid var(--g3);box-shadow:0 0 40px rgba({{cor.acento_escuro_rgb}},.35)}
+.destaque-in{left:100px;top:812px;width:880px;display:flex;align-items:center;justify-content:center;gap:28px}
+.por{font-size:42px;font-weight:800;letter-spacing:.04em}
+.por-v{font-size:124px;font-weight:900;line-height:1;letter-spacing:-.03em;padding-bottom:14px;
+  background:var(--ouro);-webkit-background-clip:text;background-clip:text;color:transparent}
+.por-v small{font-size:.5em}
+.regra{left:100px;top:968px;width:880px;text-align:center;font-size:29px;font-weight:600;line-height:1.3}
+/* segunda linha de dados */
+.l2{top:1110px;height:130px}
+.l2 .cel{align-items:flex-start;gap:18px}
+.l2 .bloco{text-align:left}
+.l2 .g{font-size:46px;font-weight:900;line-height:1.05;
+  background:var(--ouro);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* foto e rodapé */
+.foto{left:-20px;top:1286px;width:1120px;height:600px;background:url(__FOTO:[[caminho da foto do pé (veículo ou imóvel)]]__) center 62%/cover;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 7%,#000 88%,transparent 100%),linear-gradient(90deg,transparent 0%,#000 8%,#000 92%,transparent 100%);
+  -webkit-mask-composite:source-in;mask-composite:intersect}
+.sombra-pe{left:0;top:1740px;width:1080px;height:180px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.85) 58%,#000 100%)}
+.rod{left:60px;top:1806px;width:960px;display:flex;align-items:center;justify-content:space-between;white-space:nowrap}
+.rod .js{font-size:58px;font-weight:900;line-height:1;letter-spacing:-.02em;
+  background:var(--ouro);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rod .esq{display:flex;align-items:center;gap:18px}
+.rod .sep{width:1px;height:56px;background:rgba(255,255,255,.28)}
+.rod .nome{font-size:26px;font-weight:700;line-height:1.1}
+.rod .cargo{font-size:15px;font-weight:400;color:#9CA3AF}
+.rod .zap{display:flex;align-items:center;gap:14px;font-size:32px;font-weight:800}
+.rod .zap svg{width:40px;height:40px}
+</style></head>
+<body>
+<div class="abs fundo"></div><div class="abs veu"></div>
+
+<div class="abs chapa"></div>
+<div class="abs chapa-t">OPORTUNIDADE</div>
+<div class="abs sub"><span>POR DESISTÊNCIA · IMÓVEL</span></div>
+
+<div class="abs painel"></div>
+<div class="abs credito">
+  <svg viewBox="0 0 64 64" fill="none" stroke="{{cor.acento}}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="28" width="36" height="28" rx="5"/><path d="M22 28v-8a10 10 0 0 1 20 0v8"/><circle cx="32" cy="42" r="3.5"/></svg>
+  CRÉDITO
+</div>
+<div class="abs valor">[[crédito, reais]]<small>,[[centavos do crédito]]</small></div>
+<div class="abs fio"></div>
+
+<div class="abs linha l1">
+  <div class="cel">
+    <svg viewBox="0 0 64 64" fill="none" stroke="{{cor.acento}}" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="26" cy="22" r="9"/><path d="M8 52c0-9 8-16 18-16 3 0 6 .6 8 1.8"/><circle cx="46" cy="44" r="12"/><path d="M40 44l4 4 8-8"/></svg>
+    <div><div class="n">[[vagas]]</div><div class="r">VAGA DISPONÍVEL</div></div>
+  </div>
+  <div class="cel">
+    <svg viewBox="0 0 64 64" fill="none" stroke="{{cor.acento}}" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="32" cy="18" rx="18" ry="7"/><path d="M14 18v10c0 3.9 8 7 18 7s18-3.1 18-7V18"/><path d="M14 28v10c0 3.9 8 7 18 7s18-3.1 18-7V28"/><path d="M14 38v8c0 3.9 8 7 18 7s18-3.1 18-7v-8"/></svg>
+    <div><div class="r-cima">PARCELA DE</div><div class="n" style="font-size:52px">[[parcela cheia]]</div></div>
+  </div>
+</div>
+
+<div class="abs destaque"></div>
+<div class="abs destaque-in"><div class="por">POR</div><div class="por-v">[[parcela reduzida, reais]]<small>,[[centavos da reduzida]]</small></div></div>
+<div class="abs regra">[[condição da redução, 1ª linha]]<br>[[condição da redução, 2ª linha]]</div>
+
+<div class="abs linha l2">
+  <div class="cel">
+    <svg viewBox="0 0 64 64" fill="none" stroke="{{cor.acento}}" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="22" r="8"/><circle cx="44" cy="26" r="6"/><path d="M10 50c0-8 6-14 14-14s14 6 14 14"/><path d="M40 50c0-6 3-11 8-12 4 1 6 5 6 12"/></svg>
+    <div class="bloco"><div class="r-cima">CONTEMPLAÇÕES<br>POR MÊS NO GRUPO</div><div class="g">[[contemplações por mês]]</div></div>
+  </div>
+  <div class="cel">
+    <svg viewBox="0 0 64 64" fill="none" stroke="{{cor.acento}}" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10l16 16M14 18l16 16M18 14l16 16"/><path d="M29 29l18 18"/><path d="M8 58h28M12 50h20v8H12z"/></svg>
+    <div class="bloco"><div class="r-cima">DESSAS, POR<br>LANCE EMBUTIDO</div><div class="g">[[dessas, por lance embutido]]</div></div>
+  </div>
+</div>
+
+<div class="abs foto"></div>
+<div class="abs sombra-pe"></div>
+<div class="abs rod">
+  <div class="esq"><div class="js">{{card.monograma}}</div><div class="sep"></div><div><div class="nome">{{card.nome_caixa_alta}}</div><div class="cargo">{{consultor.cargo}}</div></div></div>
+  <div class="zap">
+    <svg viewBox="0 0 64 64"><circle cx="32" cy="31" r="25" fill="none" stroke="{{cor.acento}}" stroke-width="4.5"/><path d="M12 56l4-13" stroke="{{cor.acento}}" stroke-width="4.5" stroke-linecap="round"/><path fill="{{cor.acento}}" d="M24.5 19.5c1-.9 2.6-.8 3.3.3l2.6 4.3c.5.9.3 2-.4 2.7l-1.6 1.5c1.4 3.2 3.9 5.8 7.3 7.3l1.5-1.6c.7-.8 1.8-.9 2.7-.4l4.3 2.6c1.1.7 1.3 2.3.3 3.3l-2 2c-1.6 1.6-4 2.1-6.1 1.2-6.6-2.7-11.8-7.9-14.5-14.5-.9-2.1-.4-4.5 1.2-6.1z"/></svg>
+    {{consultor.telefone}}
+  </div>
+</div>
+</body></html>

@@ -54,7 +54,8 @@ Os caminhos abaixo são relativos à URL da unidade (`administradora.crm.url_uni
   período no topo (Início/Fim) que muda o que aparece — conferir antes de concluir que um card
   sumiu.
 - **Importação**: `app/views/clientes/importacao.php`.
-- **Leads**: `app/views/clientes/indexLeads.php`.
+- **Leads**: `app/views/clientes/indexLeads.php`. O filtro de data **esconde o cadastro do próprio dia**:
+  para o lead criado hoje aparecer, o "Fim" tem de ser um dia depois de hoje.
 
 ## A regra central do funil
 
@@ -112,6 +113,20 @@ Preencher o memo por JavaScript não revela o botão. O caminho que funciona:
 e redigitando o memo inteiro pelo teclado. Nesse caso o que grava é chamar `click()` por JavaScript
 no botão oculto. Confirme sempre pelo contador do card depois de recarregar: é a única prova.
 
+**Registro em lote.** Achar o card pelo telefone no pipeline filtrado no dia (o
+`.ligacoes[id_ligacoes]` cujo bloco contém o número), e para cada um: conferir o contador esperado,
+clicar em `.ligacoes`, preencher `#data_hora_log` e `#memo_log` por JS, `click()` em `#add_log`,
+esperar o swal de sucesso, fechar com `.swal2-confirm` e fechar o modal. Lotes de até 6 cards por
+chamada, para não passar dos 45 s da extensão. Em campo, um lote de 21 cards gravou assim, sem
+digitação de teclado, e o contador de todos foi a 1.
+
+**Resposta do lead também vai para o 📞 do card.** Sem isso o card só guarda a abertura e a
+cobrança, e quem respondeu só aparece na cadência. Um registro por resposta humana (resposta
+automática não conta), com a hora da mensagem dele e o que ele disse:
+`Lead respondeu por WhatsApp as HHhMM: "<texto>".` Conversa marcada como não lida **não se abre
+para isso** — usar a prévia e a hora que a lista de conversas mostra; se a prévia não bastar, fica
+pendente para o consultor.
+
 **Apagar um registro já gravado** (apagar registro exige pedido explícito do consultor, ver
 Limites). O próprio `#modal-log` lista os registros do card numa tabela;
 cada linha traz um `a.apagar_log` com o atributo **`id_apagar_log`** daquele log. Clicar abre a
@@ -140,6 +155,14 @@ digitar os dez primeiros dígitos em sequência rápida devolveu o DDD e o núme
 O número vindo do WhatsApp pode aparecer **sem o nono dígito** (`+55 DD NNNN-NNNN`). Antes de
 cadastrar, confirme abrindo `web.whatsapp.com/send?phone=55<11 dígitos>`: se cair no mesmo chat, o
 número com o 9 é o certo. Nada é enviado nessa checagem.
+
+**O mesmo defeito está gravado em cards antigos, e ele trava o Salvar do cadastro** (verificado em
+campo). Importação antiga entrou com o celular de dez dígitos; o formulário remascara para uma
+forma inválida — `(DD) 9NNN-NNNN` vira `(DD) 9NNNN-NNN` — e **recusa o Salvar sem dizer o porquê**,
+só com um ícone vermelho no campo. Quem for editar o nome de um card antigo esbarra nisso primeiro.
+O conserto é o mesmo caminho 2 acima: setar os 11 dígitos canônicos por JS e teclar `shift`. Em
+campo foram dezenas de cards assim, todos da mesma leva. A forma canônica vem de
+`scripts/telefone.py` — não invente a inserção do 9 na mão.
 
 #### Lead que chegou por indicação — ligar o indicado ao indicador
 
@@ -222,6 +245,17 @@ Google!"*. **É este o caminho de "tarefa para mim na agenda"** quando o próxim
 porque cria o compromisso sem mover o card de coluna. O `#agendar` do `#modal-log` também escreve na
 agenda Google, mas **move o card** — por isso é só para passo que envolve o cliente.
 
+**O evento que o `#agendar` cria nasce sem alerta** (verificado em campo). O CRM escreve o
+compromisso na agenda Google com o título `CRM Apollo - Lead: <nome>, cel: <telefone>`, a duração
+padrão e o memo no corpo — mas **sem nenhuma notificação**, então não toca nada na hora. O conserto
+é abrir o evento na agenda, *Adicionar notificação*, trocar o "10 minutos" por **0**, que o Google
+mostra como *Quando o evento começa*, e salvar.
+
+**Não crie um segundo evento na agenda para o mesmo agendamento.** Dia que termina com dois
+compromissos colados no mesmo horário é o sintoma: quando o passo já foi agendado no card, **o
+evento é o do CRM** — a sessão só confere se ele veio com alerta e corrige se não veio. Evento
+criado à mão fica para o que não tem card.
+
 **Reunião futura já move o card sem `#agendar`** (verificado em campo): lançar no botão de
 reunião (`[id_visitas_reunioes]`) com `#data_hora_log` no futuro e `#agendar` **desmarcado** leva o
 card para *Agendado* e **não cria evento na agenda Google**. Use esse caminho quando o próprio consultor
@@ -256,6 +290,12 @@ confirmação. O que grava:
 O ambiente **não tem openpyxl** — a planilha é montada com `zipfile` e inline strings. Para isso
 existe `scripts/crm-xlsx.py`.
 
+**Ler o resultado da importação.** O retorno vem como `Sucesso | Linhas | Repetidos | Erros`. Se
+`Sucesso` for menor que `Linhas` sem que `Repetidos` ou `Erros` expliquem a diferença, houve
+**descarte silencioso**: o importador tem uma **blacklist LGPD** e recusa o telefone que está nela
+sem acusar erro (`Erros: 0`). Já aconteceu em campo com um lead que voltou a ser recusado num teste
+isolado. Sempre que o cálculo não fechar, conferir na lista de Leads quem faltou.
+
 ### 7. Fechar o dia para o placar
 
 O placar diário **sai com o print do CRM anexado**, e sai marcado como **falha** quando a rodada
@@ -263,12 +303,53 @@ não fecha — é o aviso de que ficou algo pendente. O horário do placar está
 `operacao.placar.horario` na config: o print tem o dia inteiro para ser batido, mas tem de estar no
 lugar antes desse horário.
 
+**O toggle `Forçar filtro entre as datas` às vezes volta para `Não` depois do `Pesquisar`** — em
+campo já voltou, e já ficou em `Sim` por seis pesquisas seguidas. Conferir
+`#forcar_filtro.checked` antes de bater o print, ou o print sai com um recorte diferente do que se
+pediu. **Para ligar, clicar no rótulo "Não" visível ao lado** (`#forcar_filtro` é checkbox
+escondido): `click()` por JS nele e clique pelo `ref` do elemento não mudam o estado.
+
+**Como o filtro de data do pipeline decide** — regra única, de teste controlado em campo, que
+substitui as descrições parciais que circulavam antes:
+
+> O card entra no intervalo quando **a data de um log dele** cai no intervalo **ou** quando o
+> **cadastro foi alterado** no intervalo. A data em que o log foi *escrito* não conta.
+
+As três observações que fecham a regra, todas do mesmo CRM:
+
+| dia | o que foi feito | pipeline | o que isso prova |
+|---|---|---|---|
+| A | 21 logs em 17 cards, nenhum cadastro tocado | **17** | log entra, e conta card, não registro |
+| B | 45 logs escritos, **todos com data retroagida** | **0** | a data da escrita não conta |
+| C | 30 logs + **56 cadastros editados** | **73** | alteração de cadastro também entra |
+
+Duas consequências práticas:
+
+1. **Carga atrasada volta para o dia certo.** Basta pôr a data verdadeira em `#data_hora_log`
+   antes de adicionar. A crença anterior, de que carga atrasada ficava presa no dia da digitação,
+   **estava errada**.
+2. **Dia com limpeza de cadastro perde o print do pipeline.** Uma limpeza de 56 cadastros levou o
+   filtro de 20 cards para 81, e o número continua mudando sozinho conforme a carteira é editada.
+
+**Nesse caso o print certo é `Registros › Ligações`**, em `app/views/log/indexLog.php?tipo=L`,
+com `Início` e `Fim` na data. Ele lista registro a registro — número, nome, celular, assunto e
+hora — e não depende da data do cadastro. **Leia com cuidado antes de comparar com o placar:** ele
+traz todos os registros do dia, inclusive os toques em leads antigos. O número que bate com o
+placar é o de **leads criados no dia que têm ligação registrada no dia**, e é esse que vai para o
+`ligacoes_no_dia` do `placar-crm-<dia>.json`; a diferença explica-se na `observacao` do mesmo
+arquivo.
+
 Ao terminar a carga e os registros do dia:
 
 1. **Deixar o pipeline no filtro do dia** — `Início` e `Fim` na mesma data e, obrigatoriamente, o
    botão **"Forçar filtro entre as datas" em "Sim"**. Com ele em "Não" as datas não valem e a
    coluna mostra o período inteiro. Depois clicar em **Pesquisar**.
-2. **O print é da skill, e sai sem roubar o foco do consultor.** Capturar a
+2. **O print é da skill, e sai sem roubar o foco do consultor.** **Caminho preferido:** o
+   screenshot da própria extensão do Chrome, na aba de trabalho do pipeline — `computer` com
+   `action: screenshot` e `save_to_disk: true` —, convertido para PNG com
+   `sips -s format png <arquivo salvo> --out dados/placar-crm-AAAA-MM-DD.png`. Pega só a aba da
+   sessão, não a do consultor, e não traz o Chrome para a frente. Conferir na imagem que o filtro
+   mostra o dia e o "Forçar filtro" em "Sim". O caminho abaixo fica como alternativa. Capturar a
    tela inteira falha na prática: se ele estiver digitando em outro app, o `screencapture` pega a
    janela errada, e forçar o Chrome para a frente atrapalha quem está trabalhando. O caminho certo é
    **capturar a janela do Chrome pelo id**, que funciona com a janela atrás de tudo:
@@ -300,12 +381,12 @@ Ao terminar a carga e os registros do dia:
    igual à de ligações registradas no dia no print, comparando **os leads criados no dia**. Na prática isso quebra, porque o recorte do pipeline não
    é só de criação. **A comparação vale sobre os registros criados no dia**, não sobre os cards que
    o filtro mostra: conte quantas ações você lançou hoje e confronte com os ativos do dia. Card que
-   aparece no recorte por agendamento antigo **não entra na conta** — e, se aparecer, o certo é
+   aparece no recorte por agendamento antigo **não entra no cálculo** — e, se aparecer, o certo é
    abrir e conferir a data dos registros dele antes de concluir qualquer coisa.
-5. **Atenção ao dia de recuperação:** o filtro do pipeline agrupa pelo **dia em que o registro foi
-   feito**, não pela data digitada no memo. Num dia de recuperação, a coluna com o filtro do dia
-   mostrou a rodada somada à leva de dois dias anteriores, que só entrou no CRM naquele dia. Por
-   isso a contagem do JSON é a da rodada, não a da coluna.
+5. **Atenção ao dia de recuperação:** cadastro feito no dia entra no recorte do dia (regra acima),
+   qualquer que seja a data da conversa. Num dia de recuperação, a coluna com o filtro do dia
+   mostrou a rodada somada à leva de dois dias anteriores, que só foi cadastrada no CRM naquele dia.
+   Por isso a contagem do JSON é a da rodada, não a da coluna.
 6. **O "Forçar filtro entre as datas" não recorta só criação — pega agendamento e movimentação do
    dia** (verificado em campo). Um card criado semanas antes apareceu no recorte do dia porque
    tinha uma reunião gravada com data daquele dia. **Antes de concluir que a contagem não bate,
@@ -321,7 +402,7 @@ continuam saindo, porque vêm do CSV de ativações e do calendário.
 ### 8. Receber o contrato da skill `follow-up`
 
 A `follow-up` decide **o quê**; esta skill sabe **como escrever**. Ela entrega, por lead, seis campos
-— `{ lead, ação, data, dono, mecanismo, memo }` — e nada mais. É o mesmo padrão em que a `comparativo-credito` pede a conta ao `calculista`.
+— `{ lead, ação, data, dono, mecanismo, memo }` — e nada mais. É o mesmo padrão em que a `comparativo-credito` pede o cálculo ao `calculista`.
 
 **O `mecanismo` diz onde o passo é gravado, e são coisas diferentes:**
 
@@ -366,6 +447,18 @@ card diferente do último em que você escreveu, recarregue a página.** Confiar
 
 ## Mecânica de clique — o que evita retrabalho
 
+- **Emoji não se lê pelo screenshot — lê-se pelo caractere.** Em campo, a sessão leu 🏘️ como 🚙
+  duas vezes seguidas e afirmou ao consultor que a mensagem estava igual à original. No render
+  pequeno, casa com carro e foguete com alfinete são a mesma mancha colorida. O caractere de
+  verdade está no `alt` da imagem que o WhatsApp Web usa no lugar do emoji:
+  ```js
+  [...linha.querySelectorAll('img[alt]')].map(e => e.getAttribute('alt')).join(' ')
+  // → "🏘️ 💰 💳 ➡️ 📌"
+  ```
+  **Vale para qualquer conferência de texto enviado:** `innerText` do WhatsApp devolve a mensagem
+  **sem os emojis**, então comparar por `innerText` dá "igual" em duas mensagens que o destinatário
+  vê diferentes. Quem reconstrói o texto de memória troca o emoji — e emoji errado muda o assunto:
+  🚙 num fio sobre imóveis diz que a oferta é de veículo.
 - **Medir a posição do elemento com `javascript_tool` no instante anterior ao clique** e converter
   CSS → tela. **O fator não é constante: calcule-o na hora**, com `largura_do_frame_do_screenshot /
   window.innerWidth` — já apareceu 0,81667 (frame 1568) e 0,7875 (frame 1512) na mesma operação, e

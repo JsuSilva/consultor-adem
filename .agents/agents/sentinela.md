@@ -27,7 +27,7 @@ edição que troque número ou decisão.
    velho · valor vigente · D-0XX` e **os derivados que o valor arrasta** (uma taxa arrasta parcela e
    break-even). Depois varra com `grep -rn --include="*.md" --include="*.html"` e use `git log -S`
    para saber por onde entrou.
-2. **Contaminação entre linhas:** custo de uma linha usado em conta ou peça de outra. O dicionário
+2. **Contaminação entre linhas:** custo de uma linha usado em cálculo ou peça de outra. O dicionário
    canônico é **por linha**, não um número só; valor certo na linha errada é achado 🔴, não acerto.
 3. **Doc vivo que contradiz decisão vigente**, e **contradição interna**: cabeçalho já com o valor novo e
    corpo ainda calculando com o velho.
@@ -47,7 +47,7 @@ edição que troque número ou decisão.
 8. **Mecânica duplicada entre skills — o apodrecimento por cópia.** Procedimento operacional de um
    sistema externo — seletor de DOM, id de campo, armadilha de modal, sequência de clique, comando de
    captura, formato de payload — **mora numa skill só: a dona daquele sistema**. Quem precisa daquilo
-   delega, como a `comparativo-credito` pede a conta ao `calculista` e a `follow-up` pede o registro à
+   delega, como a `comparativo-credito` pede o cálculo ao `calculista` e a `follow-up` pede o registro à
    `crm-apollo`. **Cópia do mesmo procedimento em duas skills é achado 🔴 mesmo quando as duas cópias
    estão corretas hoje** — a que ninguém abre envelhece, e o erro sobrevive na cópia esquecida.
    **Como caçar:** `grep -rn` em `.agents/skills/` e `.agents/agents/` por id de campo (`#add_log`, `#celular`,

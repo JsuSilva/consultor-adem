@@ -82,7 +82,7 @@ situação e o que se recomenda no lugar do consórcio.*
 
 ### 5.3 Risco operacional — **checar calado**, não anunciar
 
-*O que mata o negócio por fora da conta — por exemplo, o cliente não passar na análise de crédito
+*O que mata o negócio por fora do cálculo — por exemplo, o cliente não passar na análise de crédito
 da contemplação. Diga o que se qualifica **antes** de investir ciclo no negócio.*
 
 - {{risco}} — {{como checar}}.
@@ -95,7 +95,7 @@ Um lead só conta quando tem **{{m}} dos {{n}} campos**:
 
 `{{campo}}` · `{{campo}}` · **`{{campo que qualifica}}`** · …
 
-*Marque em negrito os campos que qualificam — sem eles não dá para fazer a conta antes da reunião.*
+*Marque em negrito os campos que qualificam — sem eles não dá para fazer o cálculo antes da reunião.*
 
 ### Rota A — {{nome}} ({{faz sozinho · depende de terceiro}}, ~{{tempo}})
 

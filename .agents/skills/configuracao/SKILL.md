@@ -49,7 +49,7 @@ description: Personaliza esta cópia do repositório para o consultor — pergun
    de lance que a administradora oferece e o limite do lance embutido. **Fonte e data obrigatórias.**
 6. **Comissão (`comissao`).** As faixas (nome, percentual, condição para mudar de faixa) e em
    quantas parcelas é paga. Fonte obrigatória. Se o consultor não quiser registrar, deixe `null` —
-   o `calculista` só não fará a conta da carteira.
+   o `calculista` só não fará o cálculo da carteira.
 7. **Mercado (`mercado`).** Juros de referência do concorrente (financiamento imobiliário, CDC de
    veículo, CDC de pesados, Finame), ao mês, e o INCC acumulado em 12 meses (`incc_12m`, em
    fração), com fonte e data da consulta. Opcional — o

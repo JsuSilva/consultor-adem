@@ -29,7 +29,7 @@ Git.
 | `controles_deck.py` | Controles padrão de toda apresentação (marca, contador, bolinhas, visão geral, tela cheia, apresentador). `aplicar_marp(html)` ou `css()` + `html()` + `js()`. | `consultor.nome_curto` ou `consultor.nome`, `consultor.site` |
 | `telefone.py` | Forma canônica do telefone brasileiro (`canonico`, `suspeito`), regra única do repo. `python3 scripts/telefone.py <número>...` | — |
 
-## Contas
+## Cálculos
 
 | Script | O que faz | O que lê da config |
 |---|---|---|
@@ -41,7 +41,7 @@ Git.
 |---|---|---|
 | `gerar-deck-consorcio.py` | Deck "como funciona o consórcio", público geral, só mecanismo: `saida/consorcio-deck.html` (7 slides) e `saida/consorcio-completo-deck.html` (16). | `consultor.nome`, `consultor.vinculo`, `consultor.site`; `produto.linhas.*` (faixa de crédito e índice; rótulos das linhas na divisão da config), `produto._fonte` |
 | `gerar-comparativo-construcao.py` | Card consórcio × financiamento Caixa de construção: `saida/comparativo-construcao.html`. Caso no bloco CASO; a curva do financiamento é recalculada com a taxa da config (mostrada em % a.m. e no equivalente composto em % a.a.), e os textos que dependem do resultado são condicionais. | `consultor.nome`, `consultor.assinatura`; `produto.linhas.imovel.taxa_administracao`, `.fundo_reserva`, `.prazo_meses`, `.indice_reajuste`; `mercado.juros_imobiliario_am`, `mercado.incc_12m`, `mercado._fonte` |
-| `gerar-comparativo-troca-financiamento.py` | Card "vale trocar o financiamento pelo consórcio?", caso PF de veículo: `saida/comparativo-troca-financiamento.html` (`--png` gera a imagem). Casos nos blocos CASO e CONTA; a sugestão e a leitura do desembolso saem do resultado da conta. | `consultor.nome`, `consultor.assinatura`; `produto.linhas.auto.taxa_administracao`, `.fundo_reserva`, `.prazo_meses`, `.indice_reajuste` |
+| `gerar-comparativo-troca-financiamento.py` | Card "vale trocar o financiamento pelo consórcio?", caso PF de veículo: `saida/comparativo-troca-financiamento.html` (`--png` gera a imagem). Casos nos blocos CASO e CONTA; a sugestão e a leitura do desembolso saem do resultado do cálculo. | `consultor.nome`, `consultor.assinatura`; `produto.linhas.auto.taxa_administracao`, `.fundo_reserva`, `.prazo_meses`, `.indice_reajuste` |
 | `gerar-roteiros.py` (+ `roteiros_seed.py`) | Página dos sete roteiros de abordagem por temperatura, com modo de edição: `saida/roteiros.html`. Rodar de novo preserva o que foi editado na tela; a semente só entra quando a página não existe. Horário do pedido como `[dia] às [hora]`; sem credencial, a frase "sou …" sai da fala. | `consultor.nome`, `consultor.nome_curto`, `consultor.credenciais`, `administradora.nome` |
 
 ## Operação

@@ -8,23 +8,23 @@
 ## O que é uma tese
 
 Uma tese é a afirmação *"neste grupo de pessoas ou empresas, o consórcio é a melhor forma de
-comprar este bem — e aqui está a conta"*. Ela só existe quando tem as três partes:
+comprar este bem — e aqui está o cálculo"*. Ela só existe quando tem as três partes:
 
 1. **Um gatilho observável de fora.** Um fato que se verifica **antes** do contato, sem falar com
    ninguém: opera em imóvel alugado há anos, tem frota em ciclo de renovação, disputa licitação. Se
    só dá para saber perguntando, não é gatilho — é descoberta.
 2. **A aritmética feita antes do contato.** Os três caminhos — capital próprio, financiamento,
-   consórcio — comparados num caso-referência, com a conta aberta e os parâmetros nomeados. O
+   consórcio — comparados num caso-referência, com o cálculo aberto e os parâmetros nomeados. O
    consultor chega à primeira conversa sabendo a resposta provável.
 3. **O desqualificador obrigatório.** Onde o consórcio **perde** para aquele grupo. Tese sem "onde
    não vale" é folder com planilha — e é justamente a seção que faz um contador entregar a carteira
-   dele e um cliente acreditar na conta.
+   dele e um cliente acreditar no cálculo.
 
 ## Por que tese, e não persona
 
 Uma reunião que começa com "quero te apresentar o consórcio" é uma reunião de vendedor. Uma que
 começa com *"você paga aluguel neste ponto há anos, está num regime em que isso não abate nada do
-imposto — deixa eu te mostrar a conta dos três caminhos"* é uma reunião de consultor. **A diferença
+imposto — deixa eu te mostrar o cálculo dos três caminhos"* é uma reunião de consultor. **A diferença
 não é postura, é preparo aritmético.**
 
 A persona descreve **quem** a pessoa é — cargo, idade, renda, gosto. A tese descreve **em que
@@ -32,7 +32,7 @@ situação** ela está e **quanto essa situação custa**. Três diferenças pr�
 
 - **A persona não dá lista; a tese dá.** "Médico de 40 anos" é um perfil; "clínica em imóvel
   alugado, num regime em que o aluguel não deduz" é uma consulta que se roda em base pública.
-- **A persona não traz conta; a tese já chega com ela.** O gatilho é o que alimenta o `calculista`
+- **A persona não traz cálculo; a tese já chega com ela.** O gatilho é o que alimenta o `calculista`
   antes da primeira mensagem.
 - **A persona não sabe dizer não.** A tese tem desqualificador: sabe de antemão para quem o consórcio
   é a resposta errada — e dizer isso em voz alta é o que constrói credibilidade.
@@ -48,7 +48,7 @@ Toda tese tem exatamente estas seções — sem exceção. O modelo em branco es
 
 1. **O gatilho** — o fato observável que qualifica, identificável **antes** do contato.
 2. **A dor em uma frase** — dita na linguagem do cliente, não na do produto.
-3. **A aritmética** — os três caminhos comparados, com a conta aberta e os parâmetros nomeados.
+3. **A aritmética** — os três caminhos comparados, com o cálculo aberto e os parâmetros nomeados.
 4. **O corte tributário** — em que regime a tese ganha, em qual enfraquece.
 5. **⛔ Os desqualificadores** — **onde o consórcio perde.** Seção obrigatória, em partes que se
    usam em momentos opostos: **na lista** (checável antes do contato — poda antes de gastar tempo),
@@ -77,7 +77,7 @@ associação), e isso vai pesar na Listabilidade.
 Na linguagem de quem ouve, não do produto. O que dói raramente é o valor isolado; é a combinação —
 caixa que sai, patrimônio que não se forma, imposto que não reduz, dependência de um terceiro.
 
-### Passo 3 — Fazer a conta antes do contato
+### Passo 3 — Fazer o cálculo antes do contato
 
 1. Monte um **caso-referência** típico do gatilho: valor do bem, custo mensal da situação atual,
    linha do produto, prazo.
@@ -127,7 +127,7 @@ Três listas:
   - **existe linha subsidiada acessível** com custo abaixo da fronteira do passo 3;
   - **a capacidade de pagamento não é estável** pelo prazo integral;
   - **o ativo é de giro rápido** — bem que será revendido logo não justifica plano longo.
-- **Risco operacional — checar calado** — o que mata o negócio por fora da conta, como o cliente não
+- **Risco operacional — checar calado** — o que mata o negócio por fora do cálculo, como o cliente não
   passar na análise de crédito da contemplação.
 
 Se algum desqualificador se aplica, a recomendação para aquele cliente é **contrária** ao consórcio.
@@ -135,7 +135,7 @@ Se algum desqualificador se aplica, a recomendação para aquele cliente é **co
 ### Passo 6 — Desenhar a rota de lista
 
 1. Defina o **registro mínimo** de um lead: os campos, e quais deles qualificam (sem eles, não há
-   conta antes da reunião).
+   cálculo antes da reunião).
 2. Descreva a **Rota A** (o que o consultor faz sozinho, com fonte pública) e a **Rota B** (o que
    depende de intermediário), com o rendimento esperado de cada uma.
 3. Nomeie o **gargalo de dado** — o campo decisivo que não é público — e como contorná-lo.
@@ -151,7 +151,7 @@ reproduzível não prioriza nada.
 | **Universo** | Quantos existem na praça? | poucos, cabem numa lista curta | algumas centenas | milhares |
 | **Listabilidade** ⚡ | Monto uma lista de 100 sem falar com ninguém? | preciso conhecer alguém | dá para listar com trabalho | endereço/CNPJ/regime são públicos |
 | **Aderência** | Minha credencial e minha rede abrem *esta* porta? | sou um estranho ali | acesso indireto | falo como par, tenho rede natural |
-| **Força da aritmética** ⚡ | A conta é esmagadora ou apertada? | apertada, depende de premissa | vantagem clara | esmagadora, sobrevive a premissa ruim |
+| **Força da aritmética** ⚡ | O cálculo é esmagador ou apertado? | apertada, depende de premissa | vantagem clara | esmagadora, sobrevive a premissa ruim |
 | **Ciclo** | Em quanto tempo decide? | muitos meses | um a dois meses | dias |
 | **Ticket** | Cabe na meta de ticket do consultor? | bem abaixo da meta | na meta | bem acima da meta |
 
@@ -166,7 +166,7 @@ critério que faz a mesma tese valer mais para um consultor do que para outro.
 
 **⚡ Regra de veto:** *Listabilidade* e *Força da aritmética* são **eliminatórias**. Se qualquer uma
 das duas ficar **≤ 2**, a tese está fora — independentemente do total. Uma tese que não se consegue
-listar não se executa, e uma cuja conta é apertada não sobrevive à primeira objeção. Sem essa regra a
+listar não se executa, e uma cujo cálculo é apertado não sobrevive à primeira objeção. Sem essa regra a
 soma esconde o veto: uma tese com Listabilidade 1 ainda somaria o bastante para parecer aceitável.
 
 ### Passo 8 — Montar o ranking
@@ -179,7 +179,7 @@ soma esconde o veto: uma tese com Listabilidade 1 ainda somaria o bastante para 
 3. Tese vetada **não se apaga**: fica na prateleira com as **condições de reativação** escritas
    (ex.: a Listabilidade sobe quando um canal de contadores passar a entregar a lista). Cumpridas as
    condições, a nota se refaz; antes disso, não se reescreve.
-4. Mudou um parâmetro na config, refazem-se as contas das teses.
+4. Mudou um parâmetro na config, refazem-se os cálculos das teses.
 
 ## As teses do consultor
 
@@ -195,5 +195,5 @@ soma esconde o veto: uma tese com Listabilidade 1 ainda somaria o bastante para 
 - **Passa pelo filtro de compliance** antes de virar peça
   (`conhecimento/regras-e-compliance/02-compliance-e-limites-do-discurso.md`): não prometer
   contemplação, não chamar de investimento, taxa de administração sempre aberta.
-- **A conta é do cliente, não da venda.** Se a tese não fecha para aquele cliente, a resposta é "não
+- **O cálculo é do cliente, não da venda.** Se a tese não fecha para aquele cliente, a resposta é "não
   compre" — e é isso que sustenta a indicação.

@@ -1,11 +1,11 @@
 ---
 name: comparativo-credito
-description: Consórcio × financiamento × capital próprio aplicado, com a conta mostrada e os disclaimers obrigatórios: escolhe a comparação pela objeção do cliente, pede a conta ao calculista e monta a peça. Invoque com /comparativo-credito quando o cliente já entendeu o produto e pergunta "compensa?"; não dispara sozinha, porque produz peça que vai a campo.
+description: Consórcio × financiamento × capital próprio aplicado, com o cálculo mostrado e os disclaimers obrigatórios: escolhe a comparação pela objeção do cliente, pede o cálculo ao calculista e monta a peça. Invoque com /comparativo-credito quando o cliente já entendeu o produto e pergunta "compensa?"; não dispara sozinha, porque produz peça que vai a campo.
 ---
 
 # Skill — `comparativo-credito`
 
-> Consórcio × financiamento × capital próprio, com a conta mostrada e os disclaimers obrigatórios,
+> Consórcio × financiamento × capital próprio, com o cálculo mostrado e os disclaimers obrigatórios,
 > com a fronteira skill × `calculista` aplicada.
 > Sem dado de cliente aqui dentro — a skill recebe o dado no momento do uso.
 
@@ -23,11 +23,11 @@ montar proposta com crédito que o cliente não declarou caber no orçamento.
 |---|---|
 | Ler a objeção e escolher a comparação (break-even · tributário · acesso) | **skill** |
 | Reunir as entradas do cliente e **a linha** (auto × imóvel × pesados) | **skill** |
-| Rodar a conta: números, sensibilidade, bloco de premissas | **`calculista`** |
+| Rodar o cálculo: números, sensibilidade, bloco de premissas | **`calculista`** |
 | Montar a peça — o câmbio em uma frase, as tabelas juntas, a fronteira, os limites | **skill** |
 | Revisar a peça | ⚠️ nenhum agente revisa o discurso — carimbo obrigatório |
 
-**Aritmética zero na prosa** — nem por atalho, nem por ser "uma continha simples". Conta feita na
+**Aritmética zero na prosa** — nem por atalho, nem por ser "uma continha simples". Cálculo feito na
 conversa muda a cada rodada: o custo total chega a mudar três vezes na mesma sessão. O script é a
 única parte que não erra duas vezes igual, e é auditável depois.
 
@@ -48,7 +48,7 @@ compara com poupança chega dizendo "eu me viro" — e esse é o mais comum e o 
 **Do cliente:** valor do bem · parcela que cabe no orçamento · o que ele faz hoje (aluga? paga
 CDC? tem o capital?) · quanto tempo consegue esperar · caixa disponível para lance · regime
 tributário (se for PJ) · **a linha** — automóvel, imóvel ou pesados, porque custo, prazo e teto de
-embutido mudam e **a linha errada invalida a conta inteira**.
+embutido mudam e **a linha errada invalida o cálculo inteiro**.
 
 **Do produto:** nunca de memória, nunca da conversa. Os valores vivem em `config/consultor.json` —
 `produto.linhas.<linha>` (taxa de administração, fundo de reserva, prazo, índice de reajuste),
@@ -60,7 +60,7 @@ pergunta ao consultor, não estimativa.**
 
 1. **Ler a objeção antes de calcular.** Escolher a comparação pela tabela acima. Calcular as duas
    quando o cliente hesita entre dívida e capital próprio — a resposta costuma ser oposta em cada uma.
-2. **Pedir a conta ao agente `calculista`, com comparação, linha e entradas declaradas.** É ele quem
+2. **Pedir o cálculo ao agente `calculista`, com comparação, linha e entradas declaradas.** É ele quem
    roda, lendo os parâmetros da config; a saída vai para `saida/` (fora do Git). Se o parâmetro da
    linha pedida estiver vazio na config, o `calculista` recusa a linha e explica — não troca por
    outra.
@@ -80,7 +80,7 @@ Uma peça curta com, nesta ordem:
    régua declarado.
 4. **A fronteira**, explícita: até que mês a contemplação faz o negócio valer a pena.
 5. **Os limites declarados** que se aplicam ao caso: sempre, que todo mês de contemplação é
-   premissa, não previsão; quando o cliente investe melhor que a poupança, que a conta o subestima;
+   premissa, não previsão; quando o cliente investe melhor que a poupança, que o cálculo o subestima;
    quando o parâmetro da linha não vier de documento da administradora, que ele é premissa ⚠️.
 6. **O bloco de origem:** linha do produto e fonte do parâmetro (contrato × simulação × premissa ⚠️).
 
@@ -88,8 +88,8 @@ Uma peça curta com, nesta ordem:
 
 Dois cards de campo prontos, no mesmo design (`scripts/design.py`) e na mesma estrutura — destaques,
 gráfico da fronteira, tabela lado a lado, faixa de conclusão, ficha de custos e rodapé de premissas.
-Para um caso novo, copie o gerador mais próximo, troque o bloco de dados do caso e os textos; a
-conta continua vindo do `calculista`.
+Para um caso novo, copie o gerador mais próximo, troque o bloco de dados do caso e os textos; o
+cálculo continua vindo do `calculista`.
 
 | Modelo | Pergunta que responde | Gerador | Saída |
 |---|---|---|---|
@@ -104,10 +104,10 @@ conta continua vindo do `calculista`.
   pela Lei 11.795/2008 — e o contrato de adesão faz o próprio cliente declarar que não recebeu
   promessa de contemplação.
 - ❌ **Só a tabela favorável.** Mostrar o acesso escondendo a acumulação é a versão elegante da
-  mentira: o cliente que refaz a conta em casa não volta.
+  mentira: o cliente que refaz o cálculo em casa não volta.
 - ❌ **Antecipação sem ajuste de régua.** Se o cenário exige caixa para lance, esse caixa entra
   também do lado da poupança.
-- ❌ **Custo de uma linha na conta de outra** — nem "porque é o número real mais recente".
+- ❌ **Custo de uma linha no cálculo de outra** — nem "porque é o número real mais recente".
 - ✅ **Dizer que a poupança ganha quando ela ganha.** É o que sustenta a frase seguinte.
 
 ## Limites da própria skill
@@ -115,7 +115,7 @@ conta continua vindo do `calculista`.
 | # | Limite |
 |---|---|
 | S1 | Os parâmetros valem o que vale a fonte declarada na config (contrato, simulação ou afirmação do consultor). O que costuma faltar é o **reajuste**, que faz de todo custo um piso |
-| S2 | A comparação de acesso usa **poupança** como piso do capital próprio. Cliente com CDB/Tesouro precisa da taxa dele, senão a conta o subestima |
+| S2 | A comparação de acesso usa **poupança** como piso do capital próprio. Cliente com CDB/Tesouro precisa da taxa dele, senão o cálculo o subestima |
 | S3 | Nenhuma comparação monetiza o **valor de uso do bem** — a frase do câmbio fica em aberto |
 | S4 | Sem o histórico de **lance vencedor** do grupo, escolher entre modalidades de lance fixo é preferência, não cálculo |
-| S5 | A linha declarada na entrada é a linha da conta inteira — trocar de linha no meio é recomeçar do passo 2 |
+| S5 | A linha declarada na entrada é a linha do cálculo inteiro — trocar de linha no meio é recomeçar do passo 2 |

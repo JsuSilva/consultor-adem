@@ -29,3 +29,11 @@ cheia, parcela reduzida com o número de meses em que vale, e prazo.
 
 **A parcela cheia fica na peça**, na linha de condições: mostrar só a reduzida omitiria que ela sobe
 depois (Regra 7.5). Mesmo desenho do selo do card 05.
+
+## Versão dark
+
+Mesma peça em fundo escuro: molde `../exemplos/19-card-consorcio-veiculos-dark.tpl.html`, foto
+de chave de carro em fundo escuro — a de fundo claro brigaria com o preto. O que muda: fundo preto com
+clarão do acento, itens da lista em cartão escuro com borda no acento, título no degradê do acento
+sobre branco e faixa do rodapé escura com filete no acento. A pílula continua no acento com texto
+escuro, que é o ponto de maior contraste nas duas versões.

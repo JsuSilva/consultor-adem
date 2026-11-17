@@ -38,7 +38,7 @@ Da raiz do repositório: `python3 scripts/google-ads/gads.py <subcomando> --help
    (ENABLED) da conta com o orçamento pedido e recusam se a soma passar do teto. Orçamento
    compartilhado conta uma vez só: ativar campanha cujo orçamento já é usado por outra ativa não
    soma de novo; mudar orçamento que já está na soma troca o valor atual pelo novo.
-   `criar-campanha` mostra a mesma conta como aviso (criar pausada não gasta; quem recusa é o
+   `criar-campanha` mostra o mesmo cálculo como aviso (criar pausada não gasta; quem recusa é o
    `ativar`).
 4. `ativar` e `orcamento` mostram teto, soma atual das ativas, orçamento pedido e soma resultante,
    e exigem o **nome exato da campanha digitado num terminal interativo** — entrada por pipe é

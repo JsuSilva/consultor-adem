@@ -18,7 +18,7 @@ reunião, para definir o toque seguinte · quando o consultor pede "o que eu fa�
 
 **Esta skill decide o quê; a `crm-apollo` sabe como escrever.** Ela não abre modal, não conhece
 seletor do Apollo e não copia mecânica de lugar nenhum — entrega o contrato e a skill irmã executa.
-É o mesmo desenho da `comparativo-credito`, que escolhe a comparação e pede a conta ao `calculista`.
+É o mesmo desenho da `comparativo-credito`, que escolhe a comparação e pede o cálculo ao `calculista`.
 Cópia de mecânica entre skills é o que apodrece: a cópia que ninguém abre envelhece e o erro
 sobrevive nela.
 

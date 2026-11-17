@@ -6,7 +6,7 @@
 
 ## ⚡ Se só der tempo de oito
 
-Estas oito destravam as contas do `calculista`, o parecer e a meta do mês 1. **Se o dia render só
+Estas oito destravam os cálculos do `calculista`, o parecer e a meta do mês 1. **Se o dia render só
 isso, foi um bom dia.**
 
 `A-1` taxa de administração · `A-2` fundo de reserva · `A-5` índice de reajuste ·
@@ -138,8 +138,8 @@ Papel responde sozinho metade da lista, não depende de memória e não muda de 
 
 - [ ] Lançar as respostas em `config/consultor.json` (`produto.*`, `comissao.*`), **com documento e
   data de origem** — sem fonte, o número não entra
-- [ ] Refazer as contas e as teses que dependiam de valor que mudou
-- [ ] Se **A-9/A-10** mudarem a conta, revisitar a meta do mês 1
+- [ ] Refazer os cálculos e as teses que dependiam de valor que mudou
+- [ ] Se **A-9/A-10** mudarem o cálculo, revisitar a meta do mês 1
 - [ ] Se **D-3** for negativo, marcar como morta a tese que dependa de quitar financiamento — não só
   vetada
 - [ ] Se **E-1** for "eu escolho o grupo", isso vira **produto seu** — registrar em

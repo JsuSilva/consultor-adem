@@ -72,7 +72,7 @@ def ligacoes_do_print(dia):
 
     Regra: bater significa que a contagem de ativos no dia é igual à de ligações registradas
     no dia no print — comparando só os leads criados no dia. Registro atrasado de leva anterior
-    não entra na conta, senão todo dia de recuperação sairia como falha.
+    não entra no cálculo, senão todo dia de recuperação sairia como falha.
 
     O número é gravado pela rodada, junto com o print, em placar-crm-<dia>.json. O placar só
     compara — ele não abre o CRM.
@@ -130,37 +130,66 @@ def _data(bloco, campo):
     return dt.astimezone(TZ).date()
 
 
+# Prefixo com que o CRM Apollo nomeia o evento que ele mesmo escreve na agenda quando um passo
+# é agendado num card. Não é reunião: é lembrete de mensagem ou de ligação. Ver a skill
+# `crm-apollo`, seção "O evento que o `#agendar` cria nasce sem alerta".
+PREFIXO_LEMBRETE_CRM = "CRM Apollo - Lead:"
+
+
 def eventos_do_feed(raw):
     out = []
     for bloco in desdobra(raw).split("BEGIN:VEVENT")[1:]:
         uid = re.search(r"^UID:(.+)$", bloco, re.M)
         status = re.search(r"^STATUS:(.+)$", bloco, re.M)
+        resumo = re.search(r"^SUMMARY:(.*)$", bloco, re.M)
         out.append({
             "uid": uid.group(1).strip() if uid else "",
             "status": (status.group(1).strip().upper() if status else ""),
             "criado": _data(bloco, "CREATED"),
             "inicio": _data(bloco, "DTSTART"),
+            # O título entra só para separar lembrete de reunião. NUNCA é impresso — nem no
+            # e-mail, nem no log.
+            "lembrete_do_crm": (resumo.group(1).strip().startswith(PREFIXO_LEMBRETE_CRM)
+                                if resumo else False),
         })
     return out
 
 
 def retrato(eventos, hoje):
-    """UIDs dos eventos na janela à frente — serve para achar cancelamento no dia seguinte."""
+    """Eventos da janela à frente, como `uid -> data de início`.
+
+    Guarda a data, e não só o UID, por causa de um falso positivo: o retrato de ontem inclui o
+    que começava ontem, e hoje isso já saiu da janela. Comparando só UIDs, **toda reunião que
+    acontece era contada como sumida no dia seguinte**. Com a data guardada dá para exigir que
+    o evento ainda estivesse à frente hoje antes de chamá-lo de cancelado.
+    """
     limite = hoje + datetime.timedelta(days=JANELA_RETRATO)
-    return sorted(e["uid"] for e in eventos
-                  if e["inicio"] and hoje <= e["inicio"] <= limite and e["status"] != "CANCELLED")
+    return {e["uid"]: e["inicio"].isoformat() for e in eventos
+            if e["inicio"] and hoje <= e["inicio"] <= limite and e["status"] != "CANCELLED"}
 
 
-def cancelamentos(uids_hoje, hoje):
-    """Compara com o retrato de ontem, quando existir. Devolve quantos sumiram."""
+def cancelamentos(retrato_hoje, hoje):
+    """Compara com o retrato de ontem. Devolve quantos sumiram, ou None se não dá para julgar.
+
+    Só conta como sumido o evento que **ainda deveria estar à frente hoje** — ou seja, cujo
+    início guardado ontem é de hoje em diante. O que já aconteceu sai da janela por tempo, não
+    por cancelamento.
+
+    Retrato antigo, gravado como lista de UIDs, não tem data e por isso não permite esse
+    julgamento: devolve None em vez de acusar errado. Some sozinho no dia seguinte, quando o
+    retrato novo já estiver no formato com data.
+    """
     ontem = DADOS / f"calendario-retrato-{hoje - datetime.timedelta(days=1)}.json"
     if not ontem.exists():
         return None
     try:
-        antes = set(json.loads(ontem.read_text(encoding="utf-8")))
+        antes = json.loads(ontem.read_text(encoding="utf-8"))
     except Exception:
         return None
-    return len(antes - set(uids_hoje))
+    if not isinstance(antes, dict):
+        return None
+    ainda_a_frente = {uid for uid, ini in antes.items() if ini >= hoje.isoformat()}
+    return len(ainda_a_frente - set(retrato_hoje))
 
 
 # ── ativações ───────────────────────────────────────────────────────────────
@@ -274,7 +303,8 @@ def main():
     eventos = eventos_do_feed(baixa_ics(env["CALENDARIO_ICS_URL"]))
     vivos = [e for e in eventos if e["status"] != "CANCELLED"]
 
-    agendadas = sum(1 for e in vivos if e["criado"] == dia)
+    # Lembrete que o CRM escreve sozinho não é reunião agendada.
+    agendadas = sum(1 for e in vivos if e["criado"] == dia and not e["lembrete_do_crm"])
     realizadas = sum(1 for e in vivos if e["inicio"] == dia)
     contatos = contatos_do_dia(dia)
 

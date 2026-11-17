@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Card — Parabéns pelo passo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{card.fonte_titulo_url}}:wght@300;400;500;600;700;800;900&family={{card.fonte_texto_url}}:wght@300;400&display=swap">
+<style>
+:root{--g3:{{cor.acento}};--ouro:linear-gradient(90deg,{{cor.acento_claro}},{{cor.acento_brilho}} 40%,{{cor.acento}} 75%,{{cor.acento_escuro}})}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1080px;overflow:hidden;background:#000}
+body{font-family:'{{identidade_visual.fonte_titulo}}',system-ui,sans-serif;color:#fff;position:relative}
+.abs{position:absolute}
+.fundo{inset:0;background:radial-gradient(70% 60% at 14% 88%,rgba({{cor.acento_escuro_rgb}},.18),transparent 62%),
+  radial-gradient(60% 50% at 86% 10%,rgba({{cor.acento_escuro_rgb}},.14),transparent 60%),
+  linear-gradient(160deg,#0F1419 0%,#07080A 58%,#000 100%)}
+.curva{right:-120px;top:-150px;width:900px;height:900px}
+.marca{left:78px;top:70px;display:flex;align-items:center;gap:18px}
+.marca .js{font-size:56px;font-weight:900;line-height:1;letter-spacing:-.02em;
+  background:var(--ouro);-webkit-background-clip:text;background-clip:text;color:transparent}
+.marca .sep{width:1px;height:52px;background:rgba(255,255,255,.25)}
+.marca .nome{font-size:24px;font-weight:700;line-height:1.1}
+.marca .cargo{font-size:14px;font-weight:300;color:#9CA3AF}
+.saudacao{left:78px;top:190px;font-size:58px;font-weight:500;letter-spacing:-.01em;
+  background:var(--ouro);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:10px}
+.carta{left:78px;top:284px;width:520px;font-size:26px;font-weight:300;line-height:1.56;color:#E5E7EB}
+.carta p+p{margin-top:20px}
+.carta b{font-weight:500;color:#fff}
+.fio{left:78px;top:866px;width:72px;height:2px;background:var(--g3)}
+.assin{left:78px;top:902px}
+.assin .n{font-size:30px;font-weight:700;letter-spacing:.02em}
+.assin .c{font-size:16px;font-weight:300;letter-spacing:.16em;color:#9CA3AF;margin-top:4px}
+.assin .z{display:flex;align-items:center;gap:12px;margin-top:16px;font-size:26px;font-weight:700}
+.assin .z svg{width:34px;height:34px}
+.foto{right:76px;top:214px;width:400px;height:620px;border-radius:50%;overflow:hidden;
+  background:url(__FOTO:{{consultor.foto}}__) 50% 22%/cover;
+  box-shadow:0 0 0 2px rgba({{cor.acento_rgb}},.55),0 30px 60px rgba(0,0,0,.6)}
+.brilho-foto{right:56px;top:194px;width:440px;height:660px;border-radius:50%;
+  border:1px solid rgba({{cor.acento_rgb}},.22)}
+</style></head>
+<body>
+<div class="abs fundo"></div>
+<svg class="abs curva" viewBox="0 0 900 900" fill="none">
+  <path d="M900 60 C620 120 380 330 300 640 C262 790 250 860 246 900" stroke="rgba({{cor.acento_rgb}},.45)" stroke-width="1.6"/>
+  <path d="M900 150 C660 210 450 400 380 690 C348 820 340 870 338 900" stroke="rgba({{cor.acento_brilho_rgb}},.22)" stroke-width="1.2"/>
+</svg>
+
+<div class="abs marca"><div class="js">{{card.monograma}}</div><div class="sep"></div><div><div class="nome">{{card.nome_caixa_alta}}</div><div class="cargo">{{consultor.cargo}}</div></div></div>
+
+<div class="abs brilho-foto"></div>
+<div class="abs foto"></div>
+
+<div class="abs saudacao">Parabéns, [[nome do cliente]]!</div>
+<div class="abs carta">
+  <p>Você deu o <b>passo mais importante rumo ao seu sonho</b>. A decisão é o passo mais difícil e hoje ele ficou pra trás.</p>
+  <p>Daqui em diante o acompanhamento é comigo: aviso o que muda a cada assembleia e fico à disposição para o que precisar.</p>
+  <p>Salve meu número como o do seu consultor — é por aqui que chegam os resultados do seu grupo.</p>
+  <p>É uma honra caminhar com você até a realização desse plano.</p>
+</div>
+
+<div class="abs fio"></div>
+<div class="abs assin">
+  <div class="n">{{card.nome_caixa_alta}}</div>
+  <div class="c">{{card.cargo_caixa_alta}}</div>
+  <div class="z">
+    <svg viewBox="0 0 64 64"><circle cx="32" cy="31" r="25" fill="none" stroke="{{cor.acento}}" stroke-width="4.5"/><path d="M12 56l4-13" stroke="{{cor.acento}}" stroke-width="4.5" stroke-linecap="round"/><path fill="{{cor.acento}}" d="M24.5 19.5c1-.9 2.6-.8 3.3.3l2.6 4.3c.5.9.3 2-.4 2.7l-1.6 1.5c1.4 3.2 3.9 5.8 7.3 7.3l1.5-1.6c.7-.8 1.8-.9 2.7-.4l4.3 2.6c1.1.7 1.3 2.3.3 3.3l-2 2c-1.6 1.6-4 2.1-6.1 1.2-6.6-2.7-11.8-7.9-14.5-14.5-.9-2.1-.4-4.5 1.2-6.1z"/></svg>
+    {{consultor.telefone}}
+  </div>
+</div>
+</body></html>

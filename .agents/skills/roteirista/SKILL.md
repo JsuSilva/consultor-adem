@@ -34,7 +34,7 @@ e a prova; o método não muda.
 ## Passos — o método, que não muda por público
 
 1. Abrir pelo **fato observável**, nunca pelo produto.
-2. A dor **na linguagem de quem ouve** — uma conta, dois vocabulários: o sócio no Simples ouve
+2. A dor **na linguagem de quem ouve** — um cálculo, dois vocabulários: o sócio no Simples ouve
    *"você paga R$ 12 mil de aluguel e não deduz um centavo"*; a pessoa física ouve *"você paga
    aluguel há seis anos e a casa continua não sendo sua"*.
 3. **Um número, não uma tabela** — e o número veio do `calculista`, na linha certa.
@@ -46,6 +46,78 @@ e a prova; o método não muda.
 × pauta de 20 minutos · natureza da prova — dinheiro no bolso × dedutibilidade e balanço — e qual
 das credenciais do consultor pesa para aquele público · ciclo de decisão — sozinho, com o cônjuge,
 com o sócio, com o contador · o ticket, que muda o bem, não o argumento.
+
+## De que altura se fala — postura e subtexto
+
+O método acima diz **o que** entra na fala; esta seção diz **de que altura** ela é dita. A régua
+nasceu em campo, depois de um consultor recusar duas versões seguidas da mesma mensagem. Sem ela, a
+única régua de tom são os três textos de encerramento do Repertório, todos escritos para amaciar um
+não — e quem copia a postura deles para uma mensagem de posicionamento escreve um pedido de esmola.
+
+**A régua tem três estados, e dois deles estão errados:**
+
+1. **A esmola.** Condicional de permissão: *"deixo meu site para o caso de você e o [cargo] querer
+   em me conhecer"*. Na palavra do consultor que recusou: *"muito auto-estima baixa, cara, parece que
+   tá pedindo esmola"*. O vício é a frase torcer para que o outro tenha vontade. Da mesma família:
+   *"se um dia fizer sentido"*, *"caso tenha interesse"*, *"se puder dar uma olhada"*.
+2. **O confronto.** A alfinetada promovida a frase própria: *"Trabalho com quem está em crescimento
+   ou preparando expansão — é aí que eu entro"*. Anuncia o julgamento antes de ele ser percebido,
+   some a aceitação e sobra ataque. Na palavra dele: *"você assume tudo alfinetando diretamente, aí
+   passa um pouco do ponto da sutileza"*.
+3. **O ponto certo — aceitar alfinetando.** A alfinetada mora **dentro da frase gentil**, nunca numa
+   frase própria: *"Deixo o meu site para que você e o [cargo] conheçam o meu trabalho, e me chamem
+   quando estiverem em crescimento ou em expansão"*. A superfície é cortesia; a implicação de que
+   hoje não estão chega um segundo depois, e chega sozinha.
+
+**Por que o terceiro funciona, no desenho de quem criou a régua:** *"Precisa doer neles me
+dispensar, quero que eles respondam 'mas nós estamos em crescimento', e aí eu vire a mesa pra que
+agente marque nossa reunião"*. A frase planta uma condição que o interlocutor quer desmentir, e o
+desmentido é a abertura. Dizer o julgamento na cara não produz desmentido nenhum — produz silêncio.
+
+**O que isso proíbe, em qualquer fala:**
+
+- **Condicional de permissão.** Não se escreve para o caso de o outro querer; escreve-se para que
+  ele conheça.
+- **Agradecer por ser dispensado.** Agradece-se a resposta, não a recusa.
+- **Reforçar a alfinetada.** Se a frase do consultor já carrega a condição, qualquer linha somada em
+  cima estraga — corta-se o acréscimo, não a frase dele.
+- **Pedir que o outro queira.** Quem define o critério é o consultor; o critério aparece como
+  consequência, não como exigência.
+
+### Quando o SAIR entra, e quando não entra
+
+Na palavra do consultor que fixou a regra: *"o SAIR só entra quando houver um princípio de recusa,
+ele entra como necessidade de deixar claro, caso não tenha mantemos sem"*.
+
+**O gatilho é o princípio de recusa, não o tipo de mensagem.** Havendo recusa — mesmo gentil, mesmo
+"no momento não" —, o contato fica guardado e a saída precisa estar escrita: é o que a regra do SAIR
+(skill `follow-up`) protege. Sem recusa, o SAIR não entra, porque não há nada de que sair.
+
+**Os três casos de campo que fixaram a régua:**
+
+1. **Recusou → entra.** Quem respondeu "não, obrigado", "no momento não temos interesse" ou "não
+   tenho recursos agora" recebe o link **e** a linha do SAIR. Um deles respondeu SAIR sete minutos
+   depois: a régua funcionou, e o card foi para Removidos.
+2. **Está carregando o recado → não entra.** A secretária que se apresentou e **pediu** a mensagem
+   para adiantar ao médico recebeu o SAIR por engano, e o consultor mandou tirar: *"ela não precisava
+   da opção sair, você leu a conversa?"* A mensagem foi editada dentro dos 15 minutos. Oferecer saída
+   a quem está ajudando diz que a conversa acabou.
+3. **Nunca respondeu → não entra.** Primeiro contato sem resposta não tem recusa, logo não tem SAIR.
+
+**Erro a não repetir:** tratar o SAIR como item fixo de um modelo. Ele é consequência de uma leitura
+do fio — por isso a leitura vem antes, sempre, e por isso o *"você leu a conversa?"* é a pergunta
+certa quando ele aparece onde não devia.
+
+**A alfinetada também se calibra pelo fio.** A condição que provoca — *"me chame quando estiver em
+crescimento ou em expansão"* — pressupõe alguém que poderia estar e não está. Com quem acabou de
+dizer que vive de bolsa de residência, a mesma frase vira deboche; ali a porta do futuro é
+literal e sem custo: *"quando a residência virar consultório, me procure"*. Mesma função, mesma
+estrutura, dose diferente.
+
+**Como testar antes de enviar:** leia só a superfície. Se soar como cortesia e aceitação, passou o
+primeiro filtro. Leia de novo procurando o que a frase presume sobre o interlocutor. Se não presumir
+nada, é esmola. Se a presunção estiver escrita com todas as letras, é confronto. Ela tem de estar
+**implícita e inevitável**.
 
 ## Repertório — textos usados em campo
 
@@ -108,7 +180,7 @@ estratégia interessante para você.
 Quer que eu veja?
 ```
 
-**F2 · compromisso antes da conta.** Pede o "sim" condicional antes de gastar simulação.
+**F2 · compromisso antes do cálculo.** Pede o "sim" condicional antes de gastar simulação.
 ```
 {Nome}, lembrei da nossa conversa sobre o {objetivo}.
 
@@ -183,7 +255,7 @@ carimbo ou não.
 
 ## Limites
 
-- **Não gera número.** Conta de produto é do `calculista`; sem número calculado, o roteiro usa o
+- **Não gera número.** Cálculo de produto é do `calculista`; sem número calculado, o roteiro usa o
   gatilho e a pergunta — não inventa.
 - **Não inventa prova.** Credencial, carteira, tempo de casa e caso de cliente só entram se estiverem
   em `consultor.credenciais` ou forem informados pelo consultor. **Sem credencial em

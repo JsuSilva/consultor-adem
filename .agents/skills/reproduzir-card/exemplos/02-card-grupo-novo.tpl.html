@@ -82,7 +82,7 @@ body{font-family:'{{identidade_visual.fonte_titulo}}',system-ui,sans-serif;color
 .rod{left:62px;top:1188px;width:960px;height:86px;display:flex;align-items:center;white-space:nowrap}
 .rod .c1{font-size:25px;font-weight:600;line-height:1.1;padding-right:30px}
 .rod .c1 b{font-weight:800;font-style:italic;color:var(--g3)}
-.rod .sep{width:2px;height:66px;background:rgba(255,255,255,.4)}
+.rod .sep{width:2px;height:66px;background:rgba(255,255,255,.4);flex:none}
 .rod .c2{padding:0 28px}
 .rod .c2 .n{font-size:21px;font-weight:600;letter-spacing:.28em}
 .rod .c2 .t{font-size:13px;font-weight:500;letter-spacing:.14em;color:#E5E7EB;margin-top:2px}
@@ -148,4 +148,17 @@ body{font-family:'{{identidade_visual.fonte_titulo}}',system-ui,sans-serif;color
 <div class="abs regua"></div>
 <div class="abs pe">{{card.nome_caixa_alta}} &nbsp;|&nbsp; <b>{{card.site_caixa_alta}}</b></div>
 <div class="abs script"><div>Seu</div><div>sonho</div><div>mais perto</div></div>
+<script>
+// rodapé: telefone que encosta na letra cursiva encolhe o rodapé até sobrar vão; sem colisão, nada muda
+document.fonts.ready.then(()=>{
+  const rod=document.querySelector('.rod'), tel=rod.querySelector('.c3');
+  const t=tel.getBoundingClientRect(), ini=rod.getBoundingClientRect().left;
+  let limite=Infinity;
+  document.querySelectorAll('.script div').forEach(d=>{
+    const r=document.createRange(); r.selectNodeContents(d); const s=r.getBoundingClientRect();
+    if(s.left<t.right && s.top<t.bottom && s.bottom>t.top) limite=Math.min(limite,s.left-12);
+  });
+  if(limite<t.right){rod.style.transformOrigin='left center';rod.style.transform='scale('+((limite-ini)/(t.right-ini))+')';}
+});
+</script>
 </body></html>

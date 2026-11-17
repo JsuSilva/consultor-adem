@@ -115,6 +115,10 @@ document.fonts.ready.then(()=>{
   cargo.style.display='inline-block'; cargo.style.whiteSpace='nowrap';
   const n=cargo.textContent.length, falta=nome.getBoundingClientRect().width-cargo.getBoundingClientRect().width;
   const ls=falta/n; cargo.style.letterSpacing=ls+'px'; cargo.style.marginRight=(-ls)+'px';
+  // assinatura: telefone longo ou monograma largo encolhe o bloco até caber na margem direita
+  const assin=document.querySelector('.assin'); assin.style.width='max-content';
+  const limite=document.body.clientWidth-40, dir=assin.getBoundingClientRect().right;
+  if(dir>limite){assin.style.transformOrigin='left center';assin.style.transform='scale('+((limite-assin.offsetLeft)/(dir-assin.offsetLeft))+')';}
 });
 </script>
 <div class="abs condicoes">*Parcela e crédito do grupo [[número do grupo]] · sujeitos a reajuste anual</div>

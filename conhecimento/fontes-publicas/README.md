@@ -16,6 +16,7 @@ regra.
 | `07` Res. BCB 155/2021 | custo em % sobre o crédito; comparação com financiamento | antes de simulação ou comparativo com número |
 | `08` Seguro e perecimento | que seguro a norma exige; o que acontece com a dívida se o bem perece | ao falar de seguro ou de sinistro do bem |
 | `09` Cessão de cota e tributação do ganho | transferência da cota a terceiro (art. 13, Res. BCB 285/2023, STJ); IR do ganho na venda da cota por pessoa física | ao falar de venda ou compra de carta contemplada |
+| `10` Sobra de crédito na construção | destino do crédito que a obra não consome (art. 18, §3º, Res. BCB 285/2023); o que perguntar à administradora | ao falar de carta de imóvel usada para construção |
 
 ## Convenções
 

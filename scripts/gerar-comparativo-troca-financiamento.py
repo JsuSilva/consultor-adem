@@ -11,12 +11,12 @@ Modelo irmão do gerar-comparativo-construcao.py, e segue as mesmas duas regras:
 
 1. **O design vem do design.py**, e o CSS do card é o do comparativo da construção — importado de
    lá, não copiado. Nenhuma cor escrita aqui.
-2. **O conteúdo vem da conta**, para um caso PF de veículo: dois cenários de financiamento sobre
+2. **O conteúdo vem do cálculo**, para um caso PF de veículo: dois cenários de financiamento sobre
    R$ 79.000 liberados (24x a juros zero e 36x de R$ 3.000, IOF financiado), contra uma carta de
    veículo com lance embutido que quita o financiamento. Taxa de administração, fundo de reserva,
    prazo e índice da linha automóvel vêm de config/consultor.json (via scripts/config.py); as
-   condições de grupo usadas na conta e o resultado da conta do `calculista` vêm do bloco CONTA
-   abaixo. Campo vazio para o script com aviso. Mudou a conta, muda aqui — nesta ordem, nunca ao
+   condições de grupo usadas no cálculo e o resultado do cálculo do `calculista` vêm do bloco CONTA
+   abaixo. Campo vazio para o script com aviso. Mudou o cálculo, muda aqui — nesta ordem, nunca ao
    contrário.
 
 Para reutilizar em outro caso: troque os blocos CASO e CONTA e os textos do corpo; a estrutura (três
@@ -52,8 +52,8 @@ CDI_AA = ("13,90%", "Banco Central, 11/09/2026")        # desconto a valor prese
 INDICE_12M = ("3,98%", "Banco Central, 14/09/2026")     # variação do índice de reajuste da linha
 
 # ─────────────────────────────────────────────────────────────────────────────
-# CONTA — o que a conta do `calculista` usou e devolveu para este caso. Tudo depende das regras
-# e dos parâmetros da sua administradora: preencha com a conta refeita, nunca com estimativa.
+# CONTA — o que o cálculo do `calculista` usou e devolveu para este caso. Tudo depende das regras
+# e dos parâmetros da sua administradora: preencha com o cálculo refeito, nunca com estimativa.
 # ─────────────────────────────────────────────────────────────────────────────
 REDUCAO = None       # redução da parcela até a contemplação, em fração do fundo comum (ex.: 0.5)
 LANCE_PCT = None     # lance embutido do caso, em fração do total do plano, dentro do teto do grupo
@@ -67,7 +67,7 @@ NOM = None           # lista, mesmo tamanho de VP
 _faltam = [n for n in ("REDUCAO", "LANCE_PCT", "MATURACAO", "VP", "NOM") if globals()[n] is None]
 if _faltam:
     sys.exit("ERRO: bloco CONTA de scripts/gerar-comparativo-troca-financiamento.py sem "
-             + ", ".join(_faltam) + ".\nPeça a conta ao `calculista` com as condições do grupo da "
+             + ", ".join(_faltam) + ".\nPeça o cálculo ao `calculista` com as condições do grupo da "
              "sua administradora e preencha o bloco antes de gerar esta peça.")
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -99,7 +99,7 @@ EQUILIBRIO = next((m + v / (v - VP[m]) for m, v in enumerate(VP, 1)
                    if m < N_MESES and v > 0 >= VP[m]), float(ULTIMO_GANHO))
 # o desembolso nominal: negativo em todos os meses, em alguns, ou em nenhum
 NOM_NEGATIVOS = sum(1 for v in NOM if v < 0)
-# a sugestão sai da conta: o ganho a valor presente precisa alcançar a maturação declarada
+# a sugestão sai do cálculo: o ganho a valor presente precisa alcançar a maturação declarada
 TROCA_CABE = ULTIMO_GANHO >= MATURACAO
 
 def esc(s): return html.escape(str(s), quote=True)
@@ -198,7 +198,7 @@ CONS = [
 
 
 def faixa():
-    """Título e texto da sugestão, derivados da série — se a conta mudar, o texto muda."""
+    """Título e texto da sugestão, derivados da série — se o cálculo mudar, o texto muda."""
     if ULTIMO_GANHO == 0:
         ganho = "Em 36 meses <b>a troca não ganha em nenhum mês de contemplação</b>, nem trazendo os valores a hoje."
     else:
@@ -328,7 +328,7 @@ def main():
   com taxa integral, condição disponível só em alguns grupos; sobra de crédito abatida das últimas
   parcelas; seguro prestamista e eventual taxa de adesão não incluídos, e por isso o custo do consórcio é piso. Maturação do grupo estimada em {MATURACAO} meses pela experiência comercial, sem medição
   estatística. Valor presente a CDI bruto de {CDI_AA[0]} a.a., sem IR ({CDI_AA[1]}); reajuste pelo {INDICE} de
-  {INDICE_12M[0]} em 12 meses ({INDICE_12M[1]}). Mudou a premissa, muda a conta.</p>
+  {INDICE_12M[0]} em 12 meses ({INDICE_12M[1]}). Mudou a premissa, muda o cálculo.</p>
 </footer>
 
 </div></body></html>"""

@@ -27,3 +27,11 @@ Molde: `../exemplos/05-card-consorcio-permite.tpl.html` (campanha, fundo claro, 
 
 **Lastro do selo (Regra 7.4):** grupo, crédito, parcela e prazo de uma proposta real da
 administradora, informados pelo consultor — sem isso o selo não sai.
+
+## Versão dark
+
+Mesma peça em fundo escuro: molde `../exemplos/18-card-consorcio-imoveis-dark.tpl.html`, foto
+de chaves em fundo escuro — a de fundo claro brigaria com o preto. O que muda: fundo preto com
+clarão do acento, itens da lista em cartão escuro com borda no acento, título no degradê do acento
+sobre branco e faixa do rodapé escura com filete no acento. A pílula continua no acento com texto
+escuro, que é o ponto de maior contraste nas duas versões.

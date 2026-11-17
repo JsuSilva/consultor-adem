@@ -26,19 +26,19 @@ calcular qualquer coisa e antes de escrever qualquer roteiro.
    conferindo se a tese está viva: tese vetada ou bloqueada pela própria régua não recebe lead.
 3. Rodar os **desqualificadores** da tese — os checáveis na lista e os de reunião (§5 da tese).
 4. Identificar a **linha do produto** (automóvel × imóvel × pesados) e o **regime tributário** —
-   mudam a conta e o discurso, e a linha errada contamina a conta inteira: custo, prazo e teto de
+   mudam o cálculo e o discurso, e a linha errada contamina o cálculo inteiro: custo, prazo e teto de
    embutido são de cada linha.
 5. Estimar o ticket e **quem decide** — sozinho, cônjuge, sócio, contador.
 6. Nomear a **objeção provável**: dívida ("o banco me ofereceu X%") → break-even de tempo,
    consórcio × financiamento · capital próprio ("junto e compro à vista") → acumulação × acesso,
    consórcio × capital aplicado · regime ("não abato nada mesmo") → o corte tributário antes.
-7. Definir o próximo passo e **qual conta pedir ao `calculista`** — tipo de comparação, linha, entradas.
+7. Definir o próximo passo e **qual cálculo pedir ao `calculista`** — tipo de comparação, linha, entradas.
 
 ## Saída esperada
 
 Ficha curta **pseudonimizada por código** (`PAR-AAAA-NNN`): gatilho · tese · linha · regime ·
 desqualificadores checados e os por checar · ticket estimado · quem decide · objeção provável ·
-conta a pedir · próximo passo · estágio de pipeline sugerido.
+cálculo a pedir · próximo passo · estágio de pipeline sugerido.
 
 ## Limites
 
@@ -47,4 +47,4 @@ conta a pedir · próximo passo · estágio de pipeline sugerido.
 - Nome, CPF e telefone **não entram no Git**: ficam em `dados/` ou no CRM.
   ⚠️ MEI e empresário individual: o dado da "empresa" é dado pessoal — tratar como identificado
   desde o início.
-- Nenhuma conta de produto aqui — a conta é do `calculista`.
+- Nenhum cálculo de produto aqui — o cálculo é do `calculista`.

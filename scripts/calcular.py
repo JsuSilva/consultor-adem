@@ -36,7 +36,7 @@ def bisect(f, a, b):
 
 def parametros_da_linha(cfg, linha):
     """Parâmetros da linha. Linha sem chave aborta: zero silencioso foi como o fundo de uma linha
-    já entrou na conta de outra."""
+    já entrou no cálculo de outra."""
     linhas = valor(cfg, "produto.linhas", {})
     if linha not in linhas:
         sys.exit(f"ERRO: linha `{linha}` não existe em `produto.linhas` da config. "

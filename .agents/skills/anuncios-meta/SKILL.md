@@ -203,7 +203,7 @@ Vale para ativar campanha, conjunto ou anúncio, mudar orçamento e impulsionar 
 2. **Somar a verba diária** que ficará ativa na conta depois da ação: **todo** o orçamento já ativo
    na conta (ler com `ads_get_ad_entities`) **mais** o orçamento pedido. É essa soma — nunca o
    pedido sozinho — que se compara com o teto. **Orçamento vitalício** entra na soma como
-   total ÷ número de dias da veiculação. Mostrar a conta e avisar o consultor: dentro do vitalício,
+   total ÷ número de dias da veiculação. Mostrar o cálculo e avisar o consultor: dentro do vitalício,
    a Meta pode gastar mais num dia e menos em outro, então o gasto de um dia pode passar do valor
    médio que entrou na soma.
 3. **Mostrar ao consultor, lado a lado:**

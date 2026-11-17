@@ -168,6 +168,12 @@ sorteio, lance ou liberação do crédito.
 > oitenta) dias da contemplação, caso não utilizado, mediante quitação das obrigações com o grupo
 > e a administradora."
 
+> ⚠️ **Nota de correção (2026-11-16):** a citação acima **não é literal**. Conferida contra o texto
+> oficial do BCB em 2026-10-16, ela não bate na redação (o caput oficial abre com "Os recursos do
+> grupo de consórcio podem ser utilizados para atender exclusivamente as seguintes finalidades" e
+> vai até o inciso V); a substância usada aqui (inciso II, §1º, §2º) se mantém. Ver
+> `10-sobra-de-credito-em-construcao-imovel.md`, §7, item 1, e §R2.5.
+
 **O que isso responde.** Fecha, com resposta positiva e condicionada, a **pergunta D-3** do
 checklist de bolso (*"A carta pode ser usada para quitar financiamento existente?"*), no piso
 nacional:

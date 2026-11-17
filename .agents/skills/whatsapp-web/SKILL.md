@@ -1,6 +1,6 @@
 ---
 name: whatsapp-web
-description: Roda uma rodada de ativação ativa no WhatsApp Web pelo Claude in Chrome — fila da lista de leads, poda de lead problemático, checagem de histórico antes do disparo, envio com intervalo variável, contato salvo, conversa etiquetada na lista do segmento e linha no log. Invoque com /whatsapp-web quando o consultor já tiver definido segmento, volume e abordagem; não dispara sozinha, porque manda mensagem a pessoa real.
+description: Roda uma rodada de ativação ativa no WhatsApp Web pelo Claude in Chrome — fila da lista de leads, poda de lead problemático, checagem de histórico antes do disparo, envio com intervalo variável, contato salvo e linha no log. Invoque com /whatsapp-web quando o consultor já tiver definido segmento, volume e abordagem; não dispara sozinha, porque manda mensagem a pessoa real.
 ---
 
 # Skill — `whatsapp-web`
@@ -68,6 +68,12 @@ antes, sem descuidar do intervalo mínimo entre envios, para não levar penaliza
 
 ### 2. Antes de cada disparo — ler a conversa, não só conferir se ela existe
 
+**A conversa se abre pelo telefone, nunca pelo nome.** Caso de campo: dois cadastros com a **mesma
+razão social, o mesmo endereço e nomes quase iguais**, telefones diferentes. A sessão leu o fio da
+pessoa errada, viu um **SAIR** e quase deixou de fora da rodada quem devia receber. Nome parecido não
+é a mesma pessoa, e razão social igual não é a mesma pessoa: **o telefone é a chave**. Ao buscar pelo
+nome e voltar mais de um resultado, resolva pelo número antes de escrever qualquer coisa.
+
 Abrir o chat e **olhar a última mensagem antes de qualquer coisa**. O que se procura não é só "já
 falei com essa pessoa": é **se a abordagem planejada ainda faz sentido diante do que já foi dito**.
 
@@ -96,6 +102,23 @@ tivesse sido abordada dias antes. A leitura do chat já evitou disparos repetido
 **O `--pular` cobre o volume, não o julgamento:** `dados/telefones-trabalhados.txt` tira da fila
 quem já foi abordado, mas quem decide se a abordagem cabe naquele histórico é a leitura do chat,
 feita lead a lead.
+
+### 2.0 Conversa não lida não se abre — a resposta do cliente é do consultor
+
+> **Regra:** não ler conversa que esteja como não lida — quem dá continuidade à resposta do cliente
+> é o consultor, pessoalmente.
+
+**Abrir um fio marca a conversa como lida.** Em campo, a sessão reabriu fios de leads que tinham
+respondido — para salvar contato, etiquetar e ler a resposta —, não avisou e não remarcou como não
+lido. No dia seguinte o consultor encontrou pessoas que haviam respondido sem o sinal de não lida.
+
+- **Antes de abrir qualquer fio que já existe**, olhar a linha dele na lista de conversas. Com selo
+  de não lida, **não abrir**: nem para salvar contato, nem para etiquetar, nem para colher a entrada.
+- **O que se faz no lugar:** avisar o consultor de quem respondeu, com a hora que a lista mostra.
+  Contato salvo daquele lead fica pendente e é reportado como pendente.
+- **Fio novo, aberto pelo link de envio com a conversa vazia, não é o caso** — ali não há resposta.
+- **Se um fio com resposta for aberto por engano:** avisar na hora e marcar como não lido de volta.
+- Quem muda esta regra é o consultor.
 
 ### 2.1 Certeza do contexto — nenhuma mensagem sai sobre suposição
 
@@ -133,22 +156,86 @@ pronta da lista traga outra.
 Em lote de mídia pesada, **2 a 4 minutos**, com a rodada quebrada em dois blocos e uma pausa no
 meio.
 
-**Janela de horário:** a do doc de cadência, só em dia útil, sem feriado. Fora dela não se dispara,
-nem para fechar o número do dia.
+**Janela de horário:** a do doc de cadência, só em dia útil, sem feriado. Fora dela não se dispara
+**frio** — abertura e cobrança —, nem para fechar o número do dia. **Resposta dentro de conversa
+viva não tem janela:** lead que escreveu há pouco é respondido na hora, inclusive à noite. O que
+define "conversa viva" é a última mensagem ser dele e ser recente — não é o fio existir; fio parado
+há dias volta a ser disparo frio e obedece à janela. A saída fora da janela é registrada como tal
+na `obs` do `ativacoes.csv`, com a hora da mensagem do lead ao lado, para o motivo ficar auditável.
+A distinção protege em vez de afrouxar: o que a Meta pune é a razão entre conversas iniciadas e
+conversas respondidas — responder quem escreveu melhora essa razão; iniciar conversa fora de hora
+piora.
 
 **Nunca improvisar texto.** A abordagem é a aprovada pelo consultor, uma por segmento — a mensagem
 pronta de cada lead da lista, ou o texto que ele passou verbatim. Usar a da lista, não reescrever.
+
+**Disparar sempre por este bloco, nunca clicando no pixel do botão.** Em campo, o clique por
+coordenada falhou em **dois de cada três** envios — não é posição errada: a mesma coordenada
+funciona e falha alternadamente. O clique por JS no elemento resolveu, com `tentativas: 1` em
+treze envios seguidos. O bloco já traz a trava de contato e a prova de que saiu:
+
+```js
+const comp = () => (document.querySelector('#main footer [contenteditable="true"]')?.innerText || '').trim();
+const quem = document.querySelector('#main header')?.innerText.split('\n')[0] || '';
+if (/contador|contabilidade|escrit[óo]rio|suporte|atendimento|recep/i.test(quem)) throw new Error('ABORTA: o contato não é o lead — ' + quem);
+const antes = comp();
+if (!antes) throw new Error('ABORTA: composer vazio — número pode não estar no WhatsApp');
+const btn = document.querySelector('#main footer button[aria-label="Send"]');
+if (!btn) throw new Error('ABORTA: botão de enviar não encontrado');
+let ok = false;
+for (let i = 0; i < 4; i++) { btn.click(); await new Promise(r => setTimeout(r, 1200)); if (comp() === '') { ok = true; break; } }
+({ quem, enviado: ok, texto: antes.slice(0, 50) })
+```
+
+**As travas existem porque todas falharam em campo:**
+
+1. **`enviado: false` é mensagem perdida.** Em campo, dez mensagens foram dadas por enviadas e
+   ficaram como rascunho na conversa — aparecendo como "Draft:" na lateral, parecendo enviadas.
+2. **Composer vazio** quer dizer que o prefill não entrou, e quase sempre que o número não está no
+   WhatsApp — o próprio WhatsApp já confirmou: *"the number isn't on WhatsApp"*.
+3. **O nome salvo no contato diz de quem é o telefone, e muitas vezes não é o lead.** Dois casos de
+   campo: um contato salvo como contador de médico, que respondeu com menu de escritório, e outro
+   salvo como suporte de uma empresa, que estava na fila com nome de profissional. **A lista de
+   leads não sabe o nome que está salvo no WhatsApp — essa trava só existe no momento do disparo.**
+   O padrão cobre escritório, suporte, atendimento e recepção, e veio de rodadas com profissionais
+   liberais; em rodada cujo alvo é o próprio escritório, tire o termo correspondente do padrão.
+   Quando aparecer um caso novo, amplie aqui em vez de confiar no olho.
+4. **Perfil duvidoso pula e vai para o consultor.** Perfil sem nome com foto que não bate com o
+   lead — no caso de campo, foto de mulher no número de um "Dr." — não recebe a abertura: pular,
+   registrar o motivo e listar para o consultor no fechamento. Quem decide se envia é ele.
+
+**O botão de enviar muda de nome.** Já foi `span[data-icon="wds-ic-send-filled"]`; depois nenhum
+`data-icon` existia no rodapé e o que funcionou foi `button[aria-label="Send"]`. Se o bloco abortar
+com "botão não encontrado", listar os `aria-label` dos botões do `footer` antes de qualquer outra
+coisa.
+
+**Nenhum script pode passar de 45 segundos.** A extensão corta a execução em 45 s e devolve erro de
+tempo esgotado, **mas o script continua rodando na página** — em campo, uma espera de 56 s "falhou"
+e o envio saiu assim mesmo. Por isso a espera do intervalo é feita em pedaços de até 38 s, cada um
+numa chamada, e o envio só vai num bloco cuja espera restante já é curta. Depois de um tempo
+esgotado, **conferir o fio antes de repetir**: o envio pode já ter saído.
+
+**"WhatsApp is open in another window"** quer dizer que o consultor abriu o WhatsApp em outro
+lugar. Não clicar em *Use here* sem perguntar: isso derruba a sessão dele.
+
+**E confira a saudação antes de abrir a rodada.** A saudação entra **gravada em cada mensagem** da
+fila. Fila montada de manhã e disparada à tarde manda "bom dia" às 17h — já aconteceu, e foi preciso
+editar a mensagem já enviada. Regerar a fila ou reescrever o campo `msg` antes do primeiro disparo.
 
 ### 4. Depois de cada disparo
 
 1. **Salvar o contato** pelo cabeçalho do chat → Add → **nome da pessoa no campo "nome"; razão
    social + endereço no campo "sobrenome"** — é no próprio WhatsApp que o consultor vai saber com
    quem fala caso a pessoa responda.
-2. **Etiquetar a conversa** na lista do segmento — clique direito na linha da conversa → *Add to
-   list*, na lista com o nome do segmento e da abordagem (por exemplo, "Estética Abordagem 1").
-   **Antes do clique direito, isole a conversa pela busca.** A lista de conversas se reordena
-   sozinha a cada mensagem que chega — de qualquer contato, não só dos leads da rodada — e a linha
-   que estava na posição certa no screenshot já é outra no instante do clique. Já aconteceu de o
+2. **Abertura não leva etiqueta.** Quem só recebeu a abertura já está no log e no CRM; a lista do
+   WhatsApp repetia isso e esgotou o limite de listas. As listas passam a dizer **a próxima ação do
+   consultor dentro do WhatsApp**, não a origem do contato: *Responder* (conversa viva — a última
+   mensagem é do lead), *Agendar*, *Reunião marcada*, *Negociação*, *Cliente*, *Morno*,
+   *Indicação* e *Não chamar* (SAIR, recusa firme, número errado). A conversa entra numa lista
+   quando muda de ação, e sai da anterior.
+   Ao etiquetar, **isole a conversa pela busca antes do clique direito.** A lista de conversas se
+   reordena sozinha a cada mensagem que chega — de qualquer contato, não só dos leads da rodada — e
+   a linha que estava na posição certa no screenshot já é outra no instante do clique. Já aconteceu de o
    menu abrir sobre o vizinho. O caminho seguro: digitar o nome recém-salvo no campo *Search*,
    esperar o resultado único, e clicar com o botão direito nele — resultado de busca não se
    reordena. Depois limpar a busca no × antes do próximo lead.
@@ -173,6 +260,21 @@ pronta de cada lead da lista, ou o texto que ele passou verbatim. Usar a da list
      telefone nunca tenha aparecido no CSV.
    `sair` e `bloqueio` continuam como estão: já ficam fora da contagem pelo próprio status.
 
+### 4.1 O toque com link — abertura e estrutura
+
+- **A abertura é "Obrigado pela atenção".** Ela serve a quem respondeu, seja para dizer que vai
+  olhar, seja para recusar. **"Obrigado por ficar de olho" está proibida** — foi recusada em campo.
+- **A mensagem é sempre customizada.** Não existe texto padrão para o toque com link; o que se
+  repete é a estrutura de três partes:
+  1. **agradecimento curto** pela atenção;
+  2. **o link de rastreio** (`scripts/link-rastreio.py`), apresentado como a página para a pessoa
+     conhecer o trabalho — nunca como material comercial;
+  3. **um gancho tirado do que ela mesma disse**, ou do que o consultor falou no áudio para ela.
+- **O gancho é o que muda em cada uma**, e é ele que faz a mensagem não parecer disparo. Em campo:
+  para quem ficou de analisar, virou uma pergunta de qualificação; para quem recusou dizendo
+  "outra oportunidade", virou a oferta de estar à disposição quando fizer sentido.
+- **Sem número e sem pitch** neste toque.
+
 ### 5. Triagem de respostas
 
 - **Resposta automática não conta como resposta.** Só conta a resposta humana. Já apareceram em
@@ -189,15 +291,45 @@ pronta de cada lead da lista, ou o texto que ele passou verbatim. Usar a da list
 **Vídeo-bolinha (video note / PTV) não pode ser encaminhado pelo WhatsApp Web** — não existe
 "Forward" no menu da mensagem. Encaminhamento desse formato é manual, pelo celular.
 
+### 6. Fechar no CRM — a rodada não acaba antes disto
+
+> **Regra:** a rodada de ativação não termina sem o registro no CRM — fazer pela metade é o mesmo
+> que não fazer.
+
+O gatilho foi real: em dois dias seguidos a rodada foi executada, o log escrito, os contatos salvos
+e as conversas etiquetadas — e **nada entrou no CRM**. Os dois dias de placar saíram como FALHA e a
+carga virou dívida.
+
+**O que fecha a rodada, na ordem:**
+
+1. **Card para cada ativado** — por planilha, quando forem muitos, ou lead avulso. Para quem usa o
+   CRM Apollo, a mecânica é da skill **`crm-apollo`**, e é ela que se invoca aqui; o que muda é que
+   **chamá-la faz parte desta rodada**, não é um passo opcional que fica para depois. Quem usa outro
+   CRM faz a carga nele, na mesma rodada.
+2. **Registro da ação** em cada card, com o que foi dito.
+3. **Print do dia** com o filtro fechado na data, e o JSON da contagem — sem ele o placar do dia
+   sai marcado FALHA.
+4. Só então o fechamento curto da Saída esperada.
+
+**Se faltar tempo ou a sessão do CRM cair**, isso não vira silêncio: a rodada é reportada como
+**incompleta**, com o que ficou pendente escrito em `dados/crm-pendencias.md`, e o consultor decide
+se fecha depois ou no dia seguinte.
+
 ## Saída esperada
 
 Ao fim da rodada, um fechamento curto: **quantos ativados** · **quem foi pulado e por quê** (número
-indisponível, contato divergente, responsável pessoa jurídica) · **o caminho do log** em `dados/` ·
-e o **gancho para a carga no CRM**, que não é desta skill: é da skill irmã **`crm-apollo`**, para
-quem usa o CRM Apollo.
+indisponível, contato divergente, responsável pessoa jurídica, perfil duvidoso) · **o caminho do
+log** em `dados/` · e o **estado da carga no CRM**: feita, ou pendente com o que falta.
 
 ## Limites
 
+- **Não dar a rodada por encerrada sem o CRM** — carga, registro da ação e print são parte dela
+  (Passos, 6). Rodada pela metade conta como rodada não feita.
+- **Não dar a rodada por encerrada sem contato salvo** — feito na mesma rodada do disparo (Passos,
+  4), junto com log e CRM; não fica para depois. A abertura não leva etiqueta (Passos, 4). A única
+  exceção é o lead cuja conversa está como não lida (Passos, 2.0), que é reportado como pendente.
+- **Não abrir conversa que esteja como não lida** — a continuidade da resposta do cliente é do
+  consultor; a sessão só avisa quem respondeu (Passos, 2.0).
 - **Não enviar mensagem sobre suposição de contexto** — sem saber quem é o interlocutor,
   pergunta-se antes (Passos, 2.1).
 - **Não enviar texto que o consultor não aprovou** — a fala vai a pessoa real e não tem revisão de
@@ -206,6 +338,13 @@ quem usa o CRM Apollo.
 - **Teto diário de primeiros contatos: o do doc de cadência.** O agente **não sobe esse número por
   conta própria**: rampa de volume proposta pelo agente já terminou em conta restrita pela Meta.
   Volume só sobe com aval explícito do consultor e depois de aparecer resposta humana.
+  **Alerta de suspensão:** no caso de campo que originou esta régua, a conta foi **suspensa** — o
+  WhatsApp Web deslogou sozinho no meio de uma onda — depois de cerca de 200 mensagens em cinco dias
+  úteis, sem ter caído nos dias em que passou de 50. O teto adotado ali, como referência, foi **40
+  mensagens por dia e 200 em cinco dias**; dentro dele, até 30 por dia e 150 em cinco dias entre
+  aberturas frias e cobranças (15 primeiros contatos e 15 cobranças por dia). **As mensagens que o
+  consultor manda à mão entram na contagem** — o log da rodada não as vê, e o total real da conta é
+  maior que o do log. Não há limite publicado pela Meta.
 - **Só na janela de horário do doc de cadência, em dia útil.**
 - **Regra de parada do doc de cadência:** atingido o número de envios sem nenhuma resposta humana,
   a rodada para. Antes de continuar, a abordagem é revista com o consultor.

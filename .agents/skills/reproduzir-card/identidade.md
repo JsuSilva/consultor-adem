@@ -20,7 +20,8 @@ aviso. Exceção: cores e fontes de `identidade_visual` vazias caem no tema neut
 | `identidade_visual.fonte_titulo` | `'{{identidade_visual.fonte_titulo}}'` e o link do Google Fonts | títulos e, nos cards de campanha, o texto todo; vazia, a do neutro |
 | `identidade_visual.fonte_texto` | `'{{identidade_visual.fonte_texto}}'` e o link do Google Fonts | texto corrido do registro do site; vazia, a do neutro |
 | `identidade_visual.logo` | `{{card.monograma}}` | caminho do arquivo do logo (png, jpg, webp ou svg); preenchido, entra embutido no lugar do monograma, na altura da letra dele e com largura de até 1,5 vez essa altura (a do monograma de duas letras) |
-| `consultor.foto` | — | não entra nos moldes; ver a linha "Foto" abaixo |
+| `consultor.foto` | `__FOTO:{{consultor.foto}}__` | o retrato do consultor, só na carta de parabéns (card 35); nos outros cards a foto é de cena — ver a linha "Foto" abaixo |
+| `administradora.nome` | `{{administradora.nome}}` | só no card da cota (36), como dado do contrato em texto, nunca como logo |
 
 ## Os tons do acento
 

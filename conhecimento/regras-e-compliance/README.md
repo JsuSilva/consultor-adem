@@ -1,8 +1,8 @@
 # Regras e compliance
 
 > **Pergunta:** O que eu posso e o que **não** posso prometer? O que preciso descobrir na
-> administradora antes de fazer conta?
-> Sem limite de discurso não há roteiro, e sem os números reais da administradora não há conta.
+> administradora antes de fazer cálculo?
+> Sem limite de discurso não há roteiro, e sem os números reais da administradora não há cálculo.
 
 ## O que tem aqui
 
